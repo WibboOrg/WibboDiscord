@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "outDir": "dist",
+      "target": "es6",
+      "strict": false,
+      "removeComments": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "strictNullChecks": false
+    },
+    "include": [
+      "src/**/*"
+    ],
+    "paths": {
+      "@*": ["src/app/*"],
+    }
+  }
