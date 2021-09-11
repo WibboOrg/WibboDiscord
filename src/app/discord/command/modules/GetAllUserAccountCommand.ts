@@ -27,7 +27,7 @@ export class GetAllUserAccountCommand extends Command {
 
         if(!rows) { message.reply(`Aucun double compte trouvé`); }
 
-        let messageTxt = `Double compte de ${row.name}:\n`;
+        let messageTxt = `voici les double comptes de ${row.name}:\n`;
         messageTxt += '`';
         for (const row of rows)
         {

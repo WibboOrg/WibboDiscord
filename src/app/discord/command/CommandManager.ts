@@ -1,7 +1,7 @@
 import { Command } from './Command';
 
 import { Manager } from '../../common/Manager';
-import { Message } from 'discord.js';
+import { Message, Role } from 'discord.js';
 import { PingCommand } from './modules/PingCommand';
 import { UserInfoCommand } from './modules/UserInfoCommand';
 import { DisconnectCommand } from './modules/DisconnectCommand';
@@ -79,10 +79,12 @@ export class CommandManager extends Manager
 
         if(!command) return false;
 
-        if(message.channel.id !== '705254373202329631') return false;
+        //if(message.channel.id !== '705254373202329631') return false; //Salon 'cmd_staffs' dans le Discord Staffs De Wibbo
 
         // if(!command.hasPermissionsAndRoles(message.member)) return false;
 
+        if (message.guild.id !== '875812895584321576') return false;
+        
         parts.splice(0, 1);
 
         command.parse(message, parts);

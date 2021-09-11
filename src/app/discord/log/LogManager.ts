@@ -46,7 +46,6 @@ export class LogManager extends Manager
 		this._logs.push(new RegisterLog(10));
 		this._logs.push(new TradeLog(5));
 		this._logs.push(new LoginLog(5));
-		
-		//this._logs.push(new OnlineTimeStaffLog(60));
+		this._logs.push(new OnlineTimeStaffLog(60));
 	}
 }

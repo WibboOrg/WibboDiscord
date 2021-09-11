@@ -22,10 +22,10 @@ export class GetAvatarCommand extends Command {
 
         const embed = new RichEmbed()
             .setColor('#357EC7')
-            .setTitle(`${user.username} Avatar`)
+            .setTitle(`Avatar de ${user.username}`)
             .setImage(user.avatarURL)
             .setTimestamp()
-            .setFooter('Wibbo.org', 'https://cdn.discordapp.com/emojis/532140688167665664.png');
+            .setFooter('WIBBO.ORG', 'https://cdn.discordapp.com/emojis/532140688167665664.png');
 
         message.channel.send(embed);
     }

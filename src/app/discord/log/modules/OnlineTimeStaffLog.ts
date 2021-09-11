@@ -122,14 +122,14 @@ export class OnlineTimeStaffLog extends Log
             message += "\n";
         }
 
-        if (messageRank.hasOwnProperty(3)) 
-        {
-            message += "__**Assistants Staffs**__\n";
-            message += messageRank[3];
-            message += "\n";
-        }
+        // if (messageRank.hasOwnProperty(3)) 
+        // {
+        //     message += "__**Assistants Staffs**__\n";
+        //     message += messageRank[3];
+        //     message += "\n";
+        // }
 
-        if (message != "") App.discordBot.sendMessage(message, 'logs_connexion');
+        if (message != "") App.discordBot.sendMessage(message, 'logs_staffconnexion');
     }
 
     private getHMS(totalSeconds: number) 

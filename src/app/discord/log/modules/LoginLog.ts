@@ -49,7 +49,8 @@ export class LoginLog extends Log
         {
             const userIP = row.ip.substring(0, 6);
 
-            message += "**" + row.user.name + "** à " + this.getTime(row.date) + ": `" + row.userAgent + " (" + userIP + "...)`\n";
+            // message += "**" + row.user.name + "** à " + this.getTime(row.date) + ": `" + row.userAgent + " (" + userIP + "...)`\n";
+            message += "**" + row.user.name + "** à " + this.getTime(row.date) + "\n";
 
             this.lastId = row.id;
         }

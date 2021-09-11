@@ -30,12 +30,15 @@ export class IPStaffCommand extends Command
         {
             IPStaffDao.updateIPStaff(row.id, IP);
 
-            message.reply(`Mise à jour de l'IP (${IP}) de ${ username }`);
+            // message.reply(`Mise à jour de l'IP (${IP}) de ${ username }`);
+            message.reply(`La protection IP Staff de ${ username } vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
         }
 
         catch(e) 
         {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
+
+        message.delete();
     }
 }

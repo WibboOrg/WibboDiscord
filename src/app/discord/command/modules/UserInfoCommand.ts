@@ -33,15 +33,15 @@ export class UserInfoCommand extends Command
             .setTitle("Information sur " + row.name)
             .setURL("https://wibbo.org/profil/" + row.name)
             .addField("Id", row.id)
-            .addField("Mission", (row.motto) ? row.motto : 'Aucune')
-            .addField("Email", (row.mail) ? row.mail : 'Aucune')
-            .addField("Pays", (row.ipCountry) ? row.ipCountry : 'Aucune')
-            .addField("Status", row.online == 1 ? 'En ligne' : 'Hors ligne')
+            .addField("Mission", (row.motto) ? row.motto : 'Aucune mission')
+            .addField("Email", (row.mail) ? row.mail : 'Aucune email')
+            .addField("Pays", (row.ipCountry) ? row.ipCountry : 'Non localisé')
+            .addField("Statut", row.online == 1 ? 'En ligne' : 'Hors ligne')
             .addField("Crée le", moment.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm'))
             .setAuthor(row.name)
             .setThumbnail(`https://cdn.wibbo.me/habbo-imaging/avatarimage?figure=${ row.look }&action=wav&direction=3&head_direction=4&size=s`)
-            .setTimestamp()
-            .setFooter('Wibbo.org', 'https://cdn.discordapp.com/emojis/532140688167665664.png');
+            // .setTimestamp()
+            // .setFooter('Wibbo.org', 'https://cdn.discordapp.com/emojis/532140688167665664.png');
 
         message.channel.send(embed);
     }
