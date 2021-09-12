@@ -1,53 +1,47 @@
 import { App } from "../../App";
 import { TextChannel, MessageReaction, ReactionCollector } from "discord.js";
+import { Config } from "../../../Config";
 
 export default class AnimationService {
 
-	private _collector: ReactionCollector;
-	private _messageId: string;
-	
-    public async run()
-    {
-        const guild = App.discordBot.client.guilds.find(x => x.id == App.config.discord.staffGuildId);
+    private _collector: ReactionCollector;
+    private _messageId: string;
 
-		if(!guild) return;
+    public async run() {
+        const guild = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
 
-		const welcomeChannel = guild.channels.find(ch => ch.name === "bienvenue");
+        if (!guild) return;
 
-		if(!welcomeChannel) return;
+        const welcomeChannel = guild.channels.cache.find(ch => ch.name === "bienvenue");
 
-		if (!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'text')(welcomeChannel)) return;
+        if (!welcomeChannel) return;
 
-		const messages = await welcomeChannel.fetchMessages({ limit: 1 });
+        if (!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel)) return;
 
-		if(!messages) return;
+        const message = welcomeChannel.messages.cache.first();
 
-		const message = messages.first();
+        if (!message) return;
 
-		if(!message) return;
+        this._messageId = message.author.id;
 
-		this._messageId = message.author.id;
-
-		this._collector = message.createReactionCollector(r => true);
-		this._collector.on('collect', this.onReaction.bind(this));
+        this._collector = message.createReactionCollector();
+        this._collector.on('collect', this.onReaction.bind(this));
     }
 
-	public dispose(): void
-	{
-		this._collector.stop();
-		this._collector = null;
-	}
+    public dispose(): void {
+        this._collector.stop();
+        this._collector = null;
+    }
 
-	private onReaction(reaction: MessageReaction)
-	{
-		if (reaction.users.last().id === this._messageId) return;
+    private onReaction(reaction: MessageReaction) {
+        if (reaction.users.cache.last().id === this._messageId) return;
 
-		const member = App.discordBot.client.guilds.find(x => x.id == App.config.discord.communGuildId).members.find(x => x.id == reaction.users.last().id)
-				
-        if(!member) return;
-            
-        if(reaction.emoji.name == '') return;
-			
-		reaction.remove(member.id);
-	}
+        const member = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == reaction.users.cache.last().id)
+
+        if (!member) return;
+
+        if (reaction.emoji.name == '') return;
+
+        reaction.remove();
+    }
 }

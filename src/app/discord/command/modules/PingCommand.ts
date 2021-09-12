@@ -4,16 +4,14 @@ import { RolesString } from '../RolesString';
 
 export class PingCommand extends Command {
 
-    constructor()
-    {
+    constructor() {
         const permissions: PermissionResolvable[] = [];
         const roles: RolesString[] = ["everyone"];
 
         super(permissions, roles, "ping", "piping");
     }
 
-    public async parse(message: Message, parts: string[])
-    {
+    public async parse(message: Message, parts: string[]) {
         message.reply("Pong !");
     }
 }

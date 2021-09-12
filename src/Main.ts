@@ -1,10 +1,8 @@
 import { App } from './app/App';
-import { Config } from './config';
 import readline from 'readline';
 
-async function start()
-{
-    await App.bootstrap(Config);
+async function start() {
+    await App.bootstrap();
 
     await App.start();
 }
@@ -15,20 +13,16 @@ const in_ = readline.createInterface({ input: process.stdin, output: process.std
 
 setTimeout(prompt, 100);
 
-function prompt() 
-{
-    in_.question(">", async function (str: string) 
-    {
+function prompt() {
+    in_.question(">", async function(str: string) {
         await parseCommands(str);
 
         return prompt();
     });
 };
 
-async function parseCommands(str: string) 
-{
-    switch(str)
-    {
+async function parseCommands(str: string) {
+    switch (str) {
         case "reboot":
             await App.reboot();
             break;
@@ -44,7 +38,7 @@ async function parseCommands(str: string)
 
 process.on('SIGINT', async () => {
     await App.dispose();
-    
+
     process.exit(0)
 });
 

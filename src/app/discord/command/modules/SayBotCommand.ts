@@ -4,24 +4,22 @@ import { RolesString } from '../RolesString';
 
 export class SayBotCommand extends Command {
 
-    constructor()
-    {
+    constructor() {
         const permissions: PermissionResolvable[] = ["ADMINISTRATOR"];
         const roles: RolesString[] = [];
 
         super(permissions, roles, "say", "saybot");
     }
 
-    public async parse(message: Message, parts: string[])
-    {
+    public async parse(message: Message, parts: string[]) {
         const msgText = parts.join(' ');
 
         const msgChannel = message.channel;
 
-        if(!msgChannel) return;
+        if (!msgChannel) return;
 
-        if (!((msgChannel): msgChannel is TextChannel => msgChannel.type === 'text')(msgChannel)) return;
-        
+        if (!((msgChannel): msgChannel is TextChannel => msgChannel.type === 'GUILD_TEXT')(msgChannel)) return;
+
         msgChannel.send(msgText);
 
         message.delete();

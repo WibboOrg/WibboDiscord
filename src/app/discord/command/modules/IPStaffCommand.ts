@@ -4,18 +4,15 @@ import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import { IPStaffDao } from '../../../database/daos/IPStaffDao';
 
-export class IPStaffCommand extends Command 
-{
-    constructor() 
-    {
+export class IPStaffCommand extends Command {
+    constructor() {
         const permissions: PermissionResolvable[] = ["ADMINISTRATOR"];
         const roles: RolesString[] = ["Administrateur", "Gestion"];
 
         super(permissions, roles, "ipstaff");
     }
 
-    public async parse(message: Message, parts: string[]) 
-    {
+    public async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const username = parts[0];
@@ -24,18 +21,16 @@ export class IPStaffCommand extends Command
 
         const row = await UserDao.getUserIdByUsername(username);
 
-        if (!row) { message.reply(`L'utilisateur ${ username } n'existe pas !`); return; }
+        if (!row) { message.reply(`L'utilisateur ${username} n'existe pas !`); return; }
 
-        try 
-        {
+        try {
             IPStaffDao.updateIPStaff(row.id, IP);
 
             // message.reply(`Mise à jour de l'IP (${IP}) de ${ username }`);
-            message.reply(`La protection IP Staff de ${ username } vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+            message.reply(`La protection IP Staff de ${username} vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
         }
 
-        catch(e) 
-        {
+        catch (e) {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
 

@@ -16,21 +16,18 @@ import { IPStaffCommand } from './modules/IPStaffCommand';
 import { AutoGameCommand } from './modules/AutoGameCommand';
 import { YoutubeCommand } from './modules/YoutubeCommand';
 import { SetNicknameCommand } from './modules/SetNicknameCommand';
-import { Config } from '../../../Config.new';
+import { Config } from '../../../Config';
 
-export class CommandManager extends Manager
-{
+export class CommandManager extends Manager {
     private _commands: Command[];
 
-    constructor() 
-    {
+    constructor() {
         super("CommandManager");
 
         this._commands = [];
     }
 
-    public async onInit()
-    {
+    public async onInit() {
         this.registerCommand(new PingCommand());
         this.registerCommand(new UserInfoCommand());
         this.registerCommand(new DisconnectCommand());
@@ -47,43 +44,39 @@ export class CommandManager extends Manager
         this.registerCommand(new SetNicknameCommand());
     }
 
-    public async onDispose()
-    {
+    public async onDispose() {
         this._commands = [];
     }
 
-    private registerCommand(Command: Command)
-    {
+    private registerCommand(Command: Command) {
         this._commands.push(Command);
     }
 
-    private getCommand(nameOrAlias: string): Command
-    {
-        for(const command of this._commands) if(command.aliases.indexOf(nameOrAlias) !== -1) return command;
+    private getCommand(nameOrAlias: string): Command {
+        for (const command of this._commands) if (command.aliases.indexOf(nameOrAlias) !== -1) return command;
 
         return null;
     }
 
-    public onMessage(message: Message): boolean
-    {
-        if(!message) return false;
+    public onMessage(message: Message): boolean {
+        if (!message) return false;
 
-        if(!message.guild) return false;
+        if (!message.guild) return false;
 
-        if(!message.content.startsWith("!")) return false;
+        if (!message.content.startsWith("!")) return false;
 
         const parts = message.content.substring(1).split(' ');
 
-        if(!parts.length) return false;
+        if (!parts.length) return false;
 
         const command = this.getCommand(parts[0]);
 
-        if(!command) return false;
+        if (!command) return false;
 
-        if(Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
+        if (Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
 
-        if(Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member)) return false;
-        
+        if (Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member)) return false;
+
         parts.splice(0, 1);
 
         command.parse(message, parts);

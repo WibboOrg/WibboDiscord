@@ -1,17 +1,14 @@
 import { Manager } from "../../common/Manager";
 import Award from "./Award";
 
-export class RoleAwardManager extends Manager
-{
+export class RoleAwardManager extends Manager {
     private _awards: Award[] = [];
 
-    constructor() 
-    {
+    constructor() {
         super("RoleAwardManager");
     }
 
-    public async onInit()
-    {
+    public async onInit() {
         this._awards.push(new Award(1, "Novice"));
         this._awards.push(new Award(5, "Spécialiste"));
         this._awards.push(new Award(10, "Expert"));
@@ -19,18 +16,15 @@ export class RoleAwardManager extends Manager
         this._awards.push(new Award(20, "Maitre"));
     }
 
-    public async onDispose()
-    {
+    public async onDispose() {
         this._awards = [];
     }
 
-    public async getRoleAward(level: number)
-    {
+    public async getRoleAward(level: number) {
 
     }
 
-    public getLevelFromExp(exp: number) 
-    {
+    public getLevelFromExp(exp: number) {
         let level = 0;
 
         while (exp >= this.getLevelExp(level)) {
@@ -41,8 +35,7 @@ export class RoleAwardManager extends Manager
         return level;
     }
 
-    public getLevelProgress(exp: number) 
-    {
+    public getLevelProgress(exp: number) {
         let level = 0;
 
         while (exp >= this.getLevelExp(level)) {
@@ -53,8 +46,7 @@ export class RoleAwardManager extends Manager
         return exp;
     }
 
-    private getLevelExp(level: number): number
-    {
+    private getLevelExp(level: number): number {
         return 5 * (Math.pow(level, 2)) + 50 * level + 100;
     }
 }

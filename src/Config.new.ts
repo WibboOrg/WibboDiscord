@@ -13,7 +13,7 @@ export const Config =
         logger: 'file',
         debug: false
     },
-	discord: {
+    discord: {
         token: '',
         activity: '',
         defaultName: '',

@@ -3,33 +3,26 @@ import { App } from '../../../App';
 import { BoutiqueLogDao } from '../../../database/daos/BoutiqueLogDao';
 import { BoutiqueLogEntity } from '../../../database/entities/BoutiqueLogEntity';
 
-export class BoutiqueLog extends Log
-{
-    constructor(seconds: number) 
-    {
+export class BoutiqueLog extends Log {
+    constructor(seconds: number) {
         super(seconds);
     }
 
-    public async onInit()
-    {
+    public async onInit() {
         this.lastId = await BoutiqueLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose()
-    {
+    public async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun()
-    {
-        try
-        {
+    public async onRun() {
+        try {
             if (this.lastId == -1) this.lastId = await BoutiqueLogDao.getLastId();
 
-            else 
-            {
+            else {
                 const results = await BoutiqueLogDao.loadLastLog(this.lastId);
                 this.rawLogs(results);
             }
@@ -38,15 +31,13 @@ export class BoutiqueLog extends Log
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: BoutiqueLogEntity[]) 
-    {
-        if(!rows) return;
-        
+    private rawLogs(rows: BoutiqueLogEntity[]) {
+        if (!rows) return;
+
         if (!rows.length) return;
 
         let message = "";
-        for (const row of rows)
-        {
+        for (const row of rows) {
             message += "**" + row.user.name + "** à " + this.getTime(row.date) + ": `" + row.achat + "`\n";
 
             this.lastId = row.id;
