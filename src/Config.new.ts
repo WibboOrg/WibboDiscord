@@ -1,6 +1,4 @@
-import { ConfigOptions } from './app/common/interfaces/ConfigOptions';
-
-export const Config: ConfigOptions =
+export const Config =
 {
     database: {
         type: 'mariadb',
@@ -22,6 +20,7 @@ export const Config: ConfigOptions =
         type: 'WATCHING',
         staffGuildId: '',
         communGuildId: '',
+        commandSalonId: '',
         checkLog: true,
         activityOnlineUser: false
     },

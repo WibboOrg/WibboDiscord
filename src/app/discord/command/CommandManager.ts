@@ -16,6 +16,7 @@ import { IPStaffCommand } from './modules/IPStaffCommand';
 import { AutoGameCommand } from './modules/AutoGameCommand';
 import { YoutubeCommand } from './modules/YoutubeCommand';
 import { SetNicknameCommand } from './modules/SetNicknameCommand';
+import { Config } from '../../../Config.new';
 
 export class CommandManager extends Manager
 {
@@ -71,7 +72,7 @@ export class CommandManager extends Manager
 
         if(!message.content.startsWith("!")) return false;
 
-        const parts = message.content.substr(1).split(' ');
+        const parts = message.content.substring(1).split(' ');
 
         if(!parts.length) return false;
 
@@ -79,11 +80,9 @@ export class CommandManager extends Manager
 
         if(!command) return false;
 
-        //if(message.channel.id !== '705254373202329631') return false; //Salon 'cmd_staffs' dans le Discord Staffs De Wibbo
+        if(Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
 
-        // if(!command.hasPermissionsAndRoles(message.member)) return false;
-
-        if (message.guild.id !== '875812895584321576') return false;
+        if(Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member)) return false;
         
         parts.splice(0, 1);
 
