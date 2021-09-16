@@ -2,7 +2,6 @@ import { CmdLog } from './modules/CmdLog';
 import { ChatPubLog } from './modules/ChatPubLog';
 import { BoutiqueLog } from './modules/BoutiqueLog';
 import { StaffLog } from './modules/StaffLog';
-import { OnlineTimeStaffLog } from './modules/OnlineTimeStaffLog';
 import { ChatLog } from './modules/ChatLog';
 import { RegisterLog } from './modules/RegisterLog';
 import { TradeLog } from './modules/TradeLog';
@@ -41,6 +40,6 @@ export class LogManager extends Manager {
         this._logs.push(new RegisterLog(10));
         this._logs.push(new TradeLog(5));
         this._logs.push(new LoginLog(5));
-        this._logs.push(new OnlineTimeStaffLog(60));
+        // this._logs.push(new OnlineTimeStaffLog(60));
     }
 }

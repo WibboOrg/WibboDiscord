@@ -3,6 +3,7 @@ import { Command } from '../Command';
 import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import { IPStaffDao } from '../../../database/daos/IPStaffDao';
+import { App } from '../../../App';
 
 export class IPStaffCommand extends Command {
     constructor() {
@@ -26,14 +27,12 @@ export class IPStaffCommand extends Command {
         try {
             IPStaffDao.updateIPStaff(row.id, IP);
 
-            // message.reply(`Mise à jour de l'IP (${IP}) de ${ username }`);
-            message.reply(`La protection IP Staff de ${username} vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+            message.channel.send(`La protection IP Staff de ${username} vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+            message.delete();
         }
 
         catch (e) {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
-
-        message.delete();
     }
 }
