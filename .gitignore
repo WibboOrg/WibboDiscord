@@ -1,3 +1,5 @@
 node_modules
 dist
 src/Config.ts
+debug.log
+debug.log

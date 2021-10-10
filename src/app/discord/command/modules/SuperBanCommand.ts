@@ -32,6 +32,8 @@ export class SuperBanCommand extends Command {
 
             BanDao.insertBan(BanType.user, row.name, "Non respect de la Wibbo Attitude ainsi que des Conditions Générales d'Utilisations", timestamp, "DiscordBot");
 
+            UserDao.updateBan(username, true);
+
             message.reply(`L'utilisateur ${username} a été banni (Compte)`);
         }
 

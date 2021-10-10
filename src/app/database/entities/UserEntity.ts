@@ -27,6 +27,9 @@ export class UserEntity
     @Column({ name: 'online' })
     public online: number;
 
+    @Column({ name: 'is_banned' })
+    public isBanned: number;
+
     @Column({ name: 'ip_last' })
     public ipLast: string;
 

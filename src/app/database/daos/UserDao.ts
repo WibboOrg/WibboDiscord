@@ -89,4 +89,14 @@ export class UserDao
 
         return results;
     }
+
+    public static async updateBan(name: string, banned: boolean)
+    {
+        await getManager()
+        .createQueryBuilder()
+        .update(UserEntity)
+        .set({ isBanned: banned ? 1 : 0 })
+        .where({ name })
+        .execute();
+    }
 }

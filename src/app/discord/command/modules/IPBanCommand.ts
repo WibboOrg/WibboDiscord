@@ -33,6 +33,8 @@ export class IPBanCommand extends Command {
             BanDao.insertBan(BanType.ip, row.ipLast, "Non respect de la Wibbo Attitude ainsi que des Conditions Générales d'Utilisations", timestamp, "DiscordBot");
             BanDao.insertBan(BanType.user, row.name, "Non respect de la Wibbo Attitude ainsi que des Conditions Générales d'Utilisations", timestamp, "DiscordBot");
 
+            UserDao.updateBan(username, true);
+
             message.reply(`L'utilisateur ${username} a été banni (Compte + IP)`);
         }
 
