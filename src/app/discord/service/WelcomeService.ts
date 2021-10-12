@@ -4,8 +4,8 @@ import { Config } from "../../../Config";
 
 export default class WelcomeService {
 
-    public async run() {
-        const guild = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
+    async run() {
+        const guild = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
 
         if (!guild) return;
 
@@ -28,7 +28,7 @@ export default class WelcomeService {
 
             if (r.users.cache.last().id === message.author.id) return;
 
-            const member = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == r.users.cache.last().id)
+            const member = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == r.users.cache.last().id)
 
             if (!member) return;
 

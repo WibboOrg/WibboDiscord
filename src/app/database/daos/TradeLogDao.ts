@@ -3,7 +3,7 @@ import { TradeLogEntity } from "../entities/TradeLogEntity";
 
 export class TradeLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(TradeLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class TradeLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<TradeLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<TradeLogEntity[]>
     {
         const results = await getManager()
         .createQueryBuilder(TradeLogEntity, "logs_trade")

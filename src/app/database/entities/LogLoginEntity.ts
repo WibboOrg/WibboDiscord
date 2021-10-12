@@ -5,21 +5,21 @@ import { UserEntity } from './UserEntity';
 export class LogLoginEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'user_id' })
-    public userId: string;
+    userId: string;
     
     @Column({ name: 'date' })
-    public date: number;
+    date: number;
     
     @Column({ name: 'ip' })
-    public ip: string; 
+    ip: string; 
 
     @Column({ name: 'user_agent' })
-    public userAgent: string;
+    userAgent: string;
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'user_id' })
-    public user: UserEntity;
+    user: UserEntity;
 }

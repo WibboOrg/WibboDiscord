@@ -4,11 +4,11 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class DiscordUserEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: string;
+    id: string;
 
     @Column({ name: 'last_name', unique: true })
-    public name: string;
+    name: string;
 
     @Column({ name: 'experience', default: 0 })
-    public experience: number;
+    experience: number;
 }

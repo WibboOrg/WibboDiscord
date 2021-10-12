@@ -11,7 +11,7 @@ export class SayBotCommand extends Command {
         super(permissions, roles, "say", "saybot");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         const msgText = parts.join(' ');
 
         const msgChannel = message.channel;

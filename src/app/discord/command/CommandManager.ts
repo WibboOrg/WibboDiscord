@@ -19,7 +19,7 @@ import { SetNicknameCommand } from './modules/SetNicknameCommand';
 import { Config } from '../../../Config';
 
 export class CommandManager extends Manager {
-    private _commands: Command[];
+    _commands: Command[];
 
     constructor() {
         super("CommandManager");
@@ -27,7 +27,7 @@ export class CommandManager extends Manager {
         this._commands = [];
     }
 
-    public async onInit() {
+    async onInit() {
         this.registerCommand(new PingCommand());
         this.registerCommand(new UserInfoCommand());
         this.registerCommand(new DisconnectCommand());
@@ -44,21 +44,32 @@ export class CommandManager extends Manager {
         this.registerCommand(new SetNicknameCommand());
     }
 
-    public async onDispose() {
+    async onDispose() {
         this._commands = [];
     }
 
-    private registerCommand(Command: Command) {
+    registerCommand(Command: Command) {
         this._commands.push(Command);
     }
 
-    private getCommand(nameOrAlias: string): Command {
+    getCommand(nameOrAlias: string): Command {
         for (const command of this._commands) if (command.aliases.indexOf(nameOrAlias) !== -1) return command;
 
         return null;
     }
 
-    public onMessage(message: Message): boolean {
+    havePermissions(message: Message, command: Command): boolean
+    {
+        if (message.member.permissions.has('ADMINISTRATOR')) return true;
+
+        if (Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
+
+        if (Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member)) return false;
+
+        return true;
+    }
+
+    onMessage(message: Message): boolean {
         if (!message) return false;
 
         if (!message.guild) return false;
@@ -73,9 +84,7 @@ export class CommandManager extends Manager {
 
         if (!command) return false;
 
-        if (Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
-
-        if (Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member)) return false;
+        if (!this.havePermissions(message, command)) return false;
 
         parts.splice(0, 1);
 

@@ -3,7 +3,7 @@ import { StaffLogEntity } from "../entities/StaffLogEntity";
 
 export class StaffLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(StaffLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class StaffLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<StaffLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<StaffLogEntity[]>
     {
         const results = await getManager().find(StaffLogEntity, {
             where: { id: MoreThan(lastId) },

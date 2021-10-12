@@ -11,7 +11,7 @@ export class PingCommand extends Command {
         super(permissions, roles, "ping", "piping");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         message.reply("Pong !");
     }
 }

@@ -11,7 +11,7 @@ export class SetNicknameCommand extends Command {
         super(permissions, roles, "setnickname");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         parts.splice(0, 1);
 
         const username = parts.join(' ');

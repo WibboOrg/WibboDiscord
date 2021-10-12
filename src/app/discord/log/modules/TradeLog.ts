@@ -8,17 +8,17 @@ export class TradeLog extends Log {
         super(seconds);
     }
 
-    public async onInit() {
+    async onInit() {
         this.lastId = await TradeLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose() {
+    async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun() {
+    async onRun() {
         try {
             if (this.lastId == -1) this.lastId = await TradeLogDao.getLastId();
 
@@ -31,7 +31,7 @@ export class TradeLog extends Log {
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: TradeLogEntity[]) {
+    rawLogs(rows: TradeLogEntity[]) {
         if (!rows) return;
 
         if (!rows.length) return;
@@ -44,6 +44,6 @@ export class TradeLog extends Log {
             this.lastId = row.id;
         }
 
-        App.discordBot.sendMessage(message, 'logs_troc');
+        App.INSTANCE.discordBot.sendMessage(message, 'logs_troc');
     }
 }

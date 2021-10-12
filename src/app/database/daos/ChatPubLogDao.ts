@@ -3,7 +3,7 @@ import { ChatPubLogEntity } from "../entities/ChatPubLogEntity";
 
 export class ChatPubLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(ChatPubLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class ChatPubLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<ChatPubLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<ChatPubLogEntity[]>
     {
         const results = await getManager().find(ChatPubLogEntity, {
             where: { id: MoreThan(lastId) },

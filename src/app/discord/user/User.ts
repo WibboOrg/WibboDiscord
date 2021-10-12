@@ -3,8 +3,8 @@ import { DiscordUserEntity } from "../../database/entities/DiscordUserEntity";
 import { Message } from "discord.js";
 
 export class User extends Manager {
-    private _entity: DiscordUserEntity;
-    private _lastMessageTime: number;
+    _entity: DiscordUserEntity;
+    _lastMessageTime: number;
 
     constructor(entity: DiscordUserEntity) {
         super('User');
@@ -24,7 +24,7 @@ export class User extends Manager {
 
     }
 
-    public async onMessage(message: Message) {
+    async onMessage(message: Message) {
         const content = message.content;
 
         const timestamp = Math.floor(Date.now() / 1000);
@@ -40,15 +40,15 @@ export class User extends Manager {
         // await getManager().save(this._entity);
     }
 
-    public get id(): string {
+    get id(): string {
         return this._entity.id;
     }
 
-    public get name(): string {
+    get name(): string {
         return this._entity.name;
     }
 
-    public get experience(): number {
+    get experience(): number {
         return this._entity.experience;
     }
 }

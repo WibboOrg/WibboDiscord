@@ -3,7 +3,7 @@ import { DiscordUserEntity } from "../entities/DiscordUserEntity";
 
 export class DiscordUserDao
 {
-    public static async getUserById(id: string): Promise<DiscordUserEntity>
+    static async getUserById(id: string): Promise<DiscordUserEntity>
     {
         const result = await getManager().findOne(DiscordUserEntity, {
             select: ['id', 'name', 'experience'],
@@ -15,7 +15,7 @@ export class DiscordUserDao
         return result;
     }
 
-    public static async getUserByName(name: string): Promise<DiscordUserEntity>
+    static async getUserByName(name: string): Promise<DiscordUserEntity>
     {
         const result = await getManager().findOne(DiscordUserEntity, {
             where: { name }

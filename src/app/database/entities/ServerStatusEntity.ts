@@ -4,5 +4,5 @@ import { PrimaryColumn, Entity } from 'typeorm';
 export class ServerStatusEntity
 {
     @PrimaryColumn({ name: 'users_online' })
-    public usersOnline: number;
+    usersOnline: number;
 }

@@ -4,14 +4,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class StaffLogEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
     
     @Column({ name: 'pseudo' })
-    public pseudo: string;
+    pseudo: string;
 
     @Column({ name: 'action' })
-    public action: string;
+    action: string;
 
     @Column({ name: 'date' })
-    public date: number;
+    date: number;
 }

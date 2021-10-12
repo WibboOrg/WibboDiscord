@@ -11,7 +11,7 @@ import { Log } from './Log';
 import { Manager } from '../../common/Manager';
 
 export class LogManager extends Manager {
-    private _logs: Log[];
+    _logs: Log[];
 
     constructor() {
         super("logManager");
@@ -19,19 +19,19 @@ export class LogManager extends Manager {
         this._logs = [];
     }
 
-    public async onInit() {
+    async onInit() {
         await this.loadLogs();
 
         for (const log of this._logs) await log.init();
     }
 
-    public async onDispose() {
+    async onDispose() {
         for (const log of this._logs) await log.dispose();
 
         this._logs = [];
     }
 
-    private async loadLogs() {
+    async loadLogs() {
         this._logs.push(new CmdLog(5));
         this._logs.push(new ChatPubLog(10));
         this._logs.push(new BoutiqueLog(10));

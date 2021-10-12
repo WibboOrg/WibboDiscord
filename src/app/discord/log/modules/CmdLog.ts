@@ -8,17 +8,17 @@ export class CmdLog extends Log {
         super(seconds);
     }
 
-    public async onInit() {
+    async onInit() {
         this.lastId = await CmdLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose() {
+    async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun() {
+    async onRun() {
         try {
             if (this.lastId == -1) this.lastId = await CmdLogDao.getLastId();
 
@@ -31,7 +31,7 @@ export class CmdLog extends Log {
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: CmdLogEntity[]): void {
+    rawLogs(rows: CmdLogEntity[]): void {
         if (!rows) return;
 
         if (!rows.length) return;
@@ -48,8 +48,8 @@ export class CmdLog extends Log {
         }
 
         if (message !== "")
-            App.discordBot.sendMessage(message, 'logs_commands');
+            App.INSTANCE.discordBot.sendMessage(message, 'logs_commands');
         if (messageWibboGame !== "")
-            App.discordBot.sendMessage(messageWibboGame, 'logs_wibbogame');
+            App.INSTANCE.discordBot.sendMessage(messageWibboGame, 'logs_wibbogame');
     }
 }

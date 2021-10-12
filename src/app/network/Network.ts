@@ -3,7 +3,7 @@ import { Config } from '../../Config';
 import { App } from '../App';
 
 export class Network {
-    public static async sendMessage(commande: string, ...data: string[]) {
+    static async sendMessage(commande: string, ...data: string[]) {
         return new Promise(function(resolve, reject) {
 
             if (!Config.serverMus.enable) reject('MusSocket désactivé');
@@ -24,7 +24,7 @@ export class Network {
         });
     }
 
-    private static chr(codePt: number) {
+    static chr(codePt: number) {
         if (codePt <= 0xffff) return String.fromCharCode(codePt);
 
         codePt -= 0x10000;

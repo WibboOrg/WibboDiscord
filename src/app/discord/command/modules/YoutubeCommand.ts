@@ -11,7 +11,7 @@ export class YoutubeCommand extends Command {
         super(permissions, roles, "youtube");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const url = parts[0];

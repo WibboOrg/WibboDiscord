@@ -3,7 +3,7 @@ import { IPStaffEntity } from "../entities/IPStaffEntity";
 
 export class IPStaffDao
 {
-    public static async updateIPStaff(userId: number, newIP: string): Promise<void>
+    static async updateIPStaff(userId: number, newIP: string): Promise<void>
     {
         await getManager()
         .createQueryBuilder()

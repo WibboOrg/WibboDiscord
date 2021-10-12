@@ -3,7 +3,7 @@ import { BoutiqueLogEntity } from "../entities/BoutiqueLogEntity";
 
 export class BoutiqueLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(BoutiqueLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class BoutiqueLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<BoutiqueLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<BoutiqueLogEntity[]>
     {
         const results = await getManager()
         .createQueryBuilder(BoutiqueLogEntity, "boutique")

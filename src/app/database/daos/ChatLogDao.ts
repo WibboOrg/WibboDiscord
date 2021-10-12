@@ -3,7 +3,7 @@ import { ChatLogEntity } from "../entities/ChatLogEntity";
 
 export class ChatLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(ChatLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class ChatLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<ChatLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<ChatLogEntity[]>
     {
         const results = await getManager().createQueryBuilder(ChatLogEntity, "chatlog")
         .select(['chatlog.id', 'chatlog.userName', 'chatlog.message', 'chatlog.timestamp'])

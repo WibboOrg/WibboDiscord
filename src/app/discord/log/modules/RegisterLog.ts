@@ -8,17 +8,17 @@ export class RegisterLog extends Log {
         super(seconds);
     }
 
-    public async onInit() {
+    async onInit() {
         this.lastId = await UserDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose() {
+    async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun() {
+    async onRun() {
         try {
             if (this.lastId == -1) this.lastId = await UserDao.getLastId();
 
@@ -31,7 +31,7 @@ export class RegisterLog extends Log {
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: UserEntity[]): void {
+    rawLogs(rows: UserEntity[]): void {
         if (!rows) return;
 
         if (!rows.length) return;
@@ -48,7 +48,7 @@ export class RegisterLog extends Log {
             messageTxt += "**" + message.name + "** à " + this.getTime(message.date) + ": `" + message.action + "`\n";
         }
 
-        if (messageTxt.length) App.discordBot.sendMessage(messageTxt, 'logs_inscription');
+        if (messageTxt.length) App.INSTANCE.discordBot.sendMessage(messageTxt, 'logs_inscription');
     }
 }
 

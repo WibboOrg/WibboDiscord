@@ -5,7 +5,7 @@ import { getManager } from 'typeorm';
 import { DiscordUserEntity } from '../../database/entities/DiscordUserEntity';
 
 export class UserManager extends Manager {
-    private _users: User[];
+    _users: User[];
 
     constructor() {
         super('UserManager');
@@ -25,7 +25,7 @@ export class UserManager extends Manager {
         }
     }
 
-    public async registerUser(id: string): Promise<User> {
+    async registerUser(id: string): Promise<User> {
         const entity = new DiscordUserEntity();
 
         entity.id = id;
@@ -39,7 +39,7 @@ export class UserManager extends Manager {
         return user;
     }
 
-    public async getUserByClientId(id: string) {
+    async getUserByClientId(id: string) {
         let user = this.getUserById(id);
 
         if (user) return user;
@@ -55,7 +55,7 @@ export class UserManager extends Manager {
         return null;
     }
 
-    private async getOfflineUserById(id: string): Promise<User> {
+    async getOfflineUserById(id: string): Promise<User> {
         const entity = await DiscordUserDao.getUserById(id);
 
         if (!entity) return null;
@@ -67,11 +67,11 @@ export class UserManager extends Manager {
         return user;
     }
 
-    private getUserById(id: string): User {
+    getUserById(id: string): User {
         return this._users.find(u => u.id == id);
     }
 
-    public async addUser(user: User): Promise<void> {
+    async addUser(user: User): Promise<void> {
         if (!(user instanceof User)) return;
 
         await this.removeUser(user.id);
@@ -79,7 +79,7 @@ export class UserManager extends Manager {
         this._users.push(user);
     }
 
-    public async removeUser(id: string): Promise<void> {
+    async removeUser(id: string): Promise<void> {
         const user = this._users.find(u => u.id === id);
 
         if (!user) return;
@@ -90,7 +90,7 @@ export class UserManager extends Manager {
         this._users.splice(index, 1);
     }
 
-    public get users(): User[] {
+    get users(): User[] {
         return this._users;
     }
 }

@@ -4,28 +4,28 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class BanEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'bantype' })
-    public banType: BanType;
+    banType: BanType;
 
     @Column({ name: 'value' })
-    public value: string;
+    value: string;
 
     @Column({ name: 'reason' })
-    public reason: string;
+    reason: string;
 
     @Column({ name: 'expire'})
-    public expire: number;
+    expire: number;
 
     @Column({ name: 'added_by' })
-    public addedBy: string;
+    addedBy: string;
 
     @Column({ name: 'added_date' })
-    public addedDate: string;
+    addedDate: string;
 
     @Column({ name: 'appeal_state' })
-    public appealState: number;
+    appealState: number;
 }
 
 export enum BanType {

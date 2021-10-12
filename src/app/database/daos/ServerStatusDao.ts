@@ -3,7 +3,7 @@ import { ServerStatusEntity } from "../entities/ServerStatusEntity";
 
 export class ServerStatusDao
 {
-    public static async getUserOnline(): Promise<number>
+    static async getUserOnline(): Promise<number>
     {
         const result = await getManager().findOne(ServerStatusEntity);
 

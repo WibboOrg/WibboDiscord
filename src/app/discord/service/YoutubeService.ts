@@ -1,5 +1,5 @@
 export default class YoutubeService {
-    private _queue: Map<string, string>;
+    _queue: Map<string, string>;
 
 
 }

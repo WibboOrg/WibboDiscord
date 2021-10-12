@@ -9,12 +9,12 @@ import WelcomeService from './service/WelcomeService';
 import { Config } from '../../Config';
 
 export class DiscordBot extends Manager {
-    private _client: Client;
-    private _commandManager: CommandManager;
-    private _moderationManager: ModerationManager;
-    private _logManager: LogManager;
-    private _userManager: UserManager;
-    private _timerUpdateOnline: NodeJS.Timeout;
+    _client: Client;
+    _commandManager: CommandManager;
+    _moderationManager: ModerationManager;
+    _logManager: LogManager;
+    _userManager: UserManager;
+    _timerUpdateOnline: NodeJS.Timeout;
 
     constructor() {
         super("DiscordBot");
@@ -26,7 +26,7 @@ export class DiscordBot extends Manager {
         this._userManager = new UserManager();
     }
 
-    public async onInit() {
+    async onInit() {
         await this._commandManager.init();
         await this._moderationManager.init();
         if (Config.discord.checkLog) await this._logManager.init();
@@ -35,7 +35,7 @@ export class DiscordBot extends Manager {
         await this.loadClient();
     }
 
-    public async onDispose() {
+    async onDispose() {
         await this._commandManager.dispose();
         await this._moderationManager.dispose();
         await this._logManager.dispose();
@@ -46,7 +46,7 @@ export class DiscordBot extends Manager {
         clearInterval(this._timerUpdateOnline);
     }
 
-    private async loadClient() {
+    async loadClient() {
         const isConnected = await this._client.login(Config.discord.token);
 
         if (!isConnected) {
@@ -70,13 +70,13 @@ export class DiscordBot extends Manager {
         welcomeService.run();
     }
 
-    private async onUpdateActivity() {
+    async onUpdateActivity() {
         const onlineUser = await ServerStatusDao.getUserOnline();
 
         this._client.user.setActivity(`les ${onlineUser} Wibbo's en ligne!`, { type: "WATCHING" });
     }
 
-    private onBotMessageUpdate(oldMessage: Message, newMessage: Message) {
+    onBotMessageUpdate(oldMessage: Message, newMessage: Message) {
         if (newMessage.author.bot) return;
 
         if (!newMessage.guild) return;
@@ -84,15 +84,15 @@ export class DiscordBot extends Manager {
         if (this._moderationManager.onMessage(newMessage)) return;
     }
 
-    private onBotMemberAdd(member: GuildMember) {
+    onBotMemberAdd(member: GuildMember) {
         this.sendMessage(`${member.user} vient de faire son entrer! Il est le ${member.guild.memberCount}éme membre!`, "logs_welcome")
     }
 
-    private onBotMemberRemove(member: GuildMember) {
+    onBotMemberRemove(member: GuildMember) {
         this.sendMessage(`${member.user} vient de nous quitter. Nous sommes actuellement ${member.guild.memberCount} membre!`, "logs_welcome")
     }
 
-    private async onBotMessage(message: Message) {
+    async onBotMessage(message: Message) {
         if (message.author.bot) return;
 
         if (!message.guild) return;
@@ -108,7 +108,7 @@ export class DiscordBot extends Manager {
         await user.onMessage(message);
     }
 
-    public getGuildMemberFromCommuById(id: number): GuildMember {
+    getGuildMemberFromCommuById(id: number): GuildMember {
         const user = this._client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == id.toString());
 
         if (!user) return null;
@@ -116,7 +116,7 @@ export class DiscordBot extends Manager {
         return user;
     }
 
-    public sendMessage(message: string, channelName: string): void {
+    sendMessage(message: string, channelName: string): void {
         try {
             const guild = this._client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
 
@@ -134,7 +134,7 @@ export class DiscordBot extends Manager {
         }
     }
 
-    public get client(): Client {
+    get client(): Client {
         return this._client;
     }
 }

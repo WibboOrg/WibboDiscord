@@ -15,7 +15,7 @@ export class SuperBanCommand extends Command {
         super(permissions, roles, "superban");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const username = parts[0];

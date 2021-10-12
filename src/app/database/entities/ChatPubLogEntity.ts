@@ -4,17 +4,17 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class ChatPubLogEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'user_id' })
-    public userId: number;
+    userId: number;
 
     @Column({ name: 'user_name' })
-    public userName: string;
+    userName: string;
 
     @Column({ name: 'message' })
-    public message: string;
+    message: string;
 
     @Column({ name: 'timestamp' })
-    public timestamp: number;
+    timestamp: number;
 }

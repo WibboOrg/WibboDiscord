@@ -7,14 +7,14 @@ import { Config } from '../Config';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 export class App {
-    private static _timestampStarted: number;
-    private static _database: Connection;
+    timestampStarted: number;
+    database: Connection;
+    logger: Logger = new Logger('App');
+    discordBot: DiscordBot
 
-    private static _logger: Logger = new Logger('App');
+    static INSTANCE: App;
 
-    private static _discordBot: DiscordBot
-
-    public static async bootstrap() {
+    async bootstrap() {
         try {
             console.log(`__          _______ ____  ____   ____  `);
             console.log(`\\ \\        / /_   _|  _ \\|  _ \\ / __ \\ `);
@@ -25,69 +25,59 @@ export class App {
             console.log("v0.0.1 by JasonDhose#0001");
             console.log();
 
-            if (!Config) {
-                App._logger.error('Invalid Configuration');
+            if (!App.INSTANCE) App.INSTANCE = this;
 
-                return await App.dispose();
+            if (!Config) {
+                App.INSTANCE.logger.error('Invalid Configuration');
+
+                return await App.INSTANCE.dispose();
             }
 
             if (Config.database.entities) Config.database.entities.push(join(__dirname, '/database/entities/*Entity.*'));
 
-            App._timestampStarted = Date.now();
+            App.INSTANCE.timestampStarted = Date.now();
 
-            App._logger.log(`Starting WibboDiscord`);
+            App.INSTANCE.logger.log(`Starting WibboDiscord`);
 
-            App._database = await createConnection(Config.database as MysqlConnectionOptions);
-            App._discordBot = new DiscordBot();
+            App.INSTANCE.database = await createConnection(Config.database as MysqlConnectionOptions);
+            App.INSTANCE.discordBot = new DiscordBot();
         }
 
         catch (err) {
-            App._logger.error(err.message || err, err.stack);
+            App.INSTANCE.logger.error(err.message || err, err.stack);
 
-            await App.dispose();
+            await App.INSTANCE.dispose();
         }
     }
 
-    public static async start() {
+    async start() {
         try {
-            await App._discordBot.init();
+            await App.INSTANCE.discordBot.init();
 
-            App._logger.log(`Started in ${Date.now() - App._timestampStarted}ms`);
+            App.INSTANCE.logger.log(`Started in ${Date.now() - App.INSTANCE.timestampStarted}ms`);
         }
 
         catch (err) {
-            App._logger.error(err.message || err, err.stack);
+            App.INSTANCE.logger.error(err.message || err, err.stack);
 
-            await App.dispose();
+            await App.INSTANCE.dispose();
         }
     }
 
-    public static async dispose() {
-        if (App._discordBot) await App._discordBot.dispose();
+    async dispose() {
+        if (App.INSTANCE.discordBot) await App.INSTANCE.discordBot.dispose();
 
-        if (App._database && App._database.isConnected) await App._database.close();
+        if (App.INSTANCE.database && App.INSTANCE.database.isConnected) await App.INSTANCE.database.close();
     }
 
-    public static async reboot() {
+    async reboot() {
         try {
             await this.dispose();
             await this.bootstrap();
         }
 
         catch (err) {
-            App._logger.error(err.message || err, err.stack);
+            App.INSTANCE.logger.error(err.message || err, err.stack);
         }
-    }
-
-    public static get logger(): Logger {
-        return App._logger;
-    }
-
-    public static get database(): Connection {
-        return App._database;
-    }
-
-    public static get discordBot(): DiscordBot {
-        return App._discordBot;
     }
 }

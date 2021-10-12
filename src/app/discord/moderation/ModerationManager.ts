@@ -2,7 +2,7 @@ import { Message, MessageEmbed, Permissions } from "discord.js";
 import { Manager } from "../../common/Manager";
 
 export class ModerationManager extends Manager {
-    private _wordFilter: string[];
+    _wordFilter: string[];
 
     constructor() {
         super("ModerationManager");
@@ -10,15 +10,15 @@ export class ModerationManager extends Manager {
         this._wordFilter = [];
     }
 
-    public async onInit() {
+    async onInit() {
         this._wordFilter.push("badword");
     }
 
-    public async onDispose() {
+    async onDispose() {
         this._wordFilter = [];
     }
 
-    public onMessage(message: Message): boolean {
+    onMessage(message: Message): boolean {
         if (message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return false;
 
         const messageText = message.content;
@@ -38,7 +38,7 @@ export class ModerationManager extends Manager {
         return false;
     }
 
-    private hasBadWord(text: string): boolean {
+    hasBadWord(text: string): boolean {
         if (!text.length) return false;
 
         text = text.toLowerCase();

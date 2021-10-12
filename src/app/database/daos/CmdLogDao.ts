@@ -3,7 +3,7 @@ import { CmdLogEntity } from "../entities/CmdLogEntity";
 
 export class CmdLogDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(CmdLogEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class CmdLogDao
         return result.id;
     }
 
-    public static async loadLastLog(lastId: number): Promise<CmdLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<CmdLogEntity[]>
     {
         const results = await getManager().find(CmdLogEntity, {
             where: { id: MoreThan(lastId) },

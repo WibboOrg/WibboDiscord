@@ -2,9 +2,10 @@ import { App } from './app/App';
 import readline from 'readline';
 
 async function start() {
-    await App.bootstrap();
+    const app = new App();
 
-    await App.start();
+    await app.bootstrap();
+    await app.start();
 }
 
 start();
@@ -24,20 +25,20 @@ function prompt() {
 async function parseCommands(str: string) {
     switch (str) {
         case "reboot":
-            await App.reboot();
+            await App.INSTANCE.reboot();
             break;
         case "clear":
             process.stdout.write("\\033c");
             break;
         case "exit":
-            await App.dispose();
+            await App.INSTANCE.dispose();
             process.exit();
             break;
     }
 }
 
 process.on('SIGINT', async () => {
-    await App.dispose();
+    await App.INSTANCE.dispose();
 
     process.exit(0)
 });

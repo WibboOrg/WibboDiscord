@@ -5,24 +5,24 @@ import { UserEntity } from './UserEntity';
 export class BoutiqueLogEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'userid' })
-    public userId: number;
+    userId: number;
 
     @Column({ name: 'date' })
-    public date: number;
+    date: number;
 
     @Column({ name: 'prix' })
-    public prix: number;
+    prix: number;
 
     @Column({ name: 'achat'})
-    public achat: string;
+    achat: string;
 
     @Column({ name: 'type' })
-    public type: number;
+    type: number;
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'userid' })
-    public user: UserEntity;
+    user: UserEntity;
 }

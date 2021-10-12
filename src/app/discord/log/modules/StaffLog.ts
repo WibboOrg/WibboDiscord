@@ -8,17 +8,17 @@ export class StaffLog extends Log {
         super(seconds);
     }
 
-    public async onInit() {
+    async onInit() {
         this.lastId = await StaffLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose() {
+    async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun() {
+    async onRun() {
         try {
             if (this.lastId == -1) this.lastId = await StaffLogDao.getLastId();
 
@@ -32,7 +32,7 @@ export class StaffLog extends Log {
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: StaffLogEntity[]) {
+    rawLogs(rows: StaffLogEntity[]) {
         if (!rows) return;
 
         if (!rows.length) return;
@@ -44,6 +44,6 @@ export class StaffLog extends Log {
             this.lastId = row.id;
         }
 
-        App.discordBot.sendMessage(message, 'logs_administration');
+        App.INSTANCE.discordBot.sendMessage(message, 'logs_administration');
     }
 }

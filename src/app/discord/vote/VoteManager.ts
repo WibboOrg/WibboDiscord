@@ -1,7 +1,7 @@
 import { Manager } from "../../common/Manager";
 
 export class VoteManager extends Manager {
-    private _timerId: number;
+    _timerId: number;
 
     constructor() {
         super('VoteManager');

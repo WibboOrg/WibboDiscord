@@ -13,7 +13,7 @@ export class IPStaffCommand extends Command {
         super(permissions, roles, "ipstaff");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const username = parts[0];

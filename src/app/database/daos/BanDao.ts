@@ -3,7 +3,7 @@ import { BanEntity, BanType } from "../entities/BanEntity";
 
 export class BanDao
 {
-    public static async insertBan(type: BanType, value: string, reason: string, expire: number, addedBy: string)
+    static async insertBan(type: BanType, value: string, reason: string, expire: number, addedBy: string)
     {
         const entity = new BanEntity();
 
@@ -16,7 +16,7 @@ export class BanDao
         await getManager().save(entity);
     }
 
-    public static async expireBan(username: string, ip: string, expireTime: number)
+    static async expireBan(username: string, ip: string, expireTime: number)
     {
         await getManager()
         .createQueryBuilder()

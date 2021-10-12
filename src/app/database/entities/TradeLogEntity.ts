@@ -5,31 +5,31 @@ import { UserEntity } from './UserEntity';
 export class TradeLogEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'user_one_id' })
-    public userOneId: number;
+    userOneId: number;
 
     @Column({ name: 'user_two_id' })
-    public userTwoId: number;
+    userTwoId: number;
 
     @Column({ name: 'user_one_items' })
-    public userOneItems: string;
+    userOneItems: string;
 
     @Column({ name: 'user_two_items' })
-    public userTwoItems: string;
+    userTwoItems: string;
 
     @Column({ name: 'room_id' })
-    public roomId: number;
+    roomId: number;
 
     @Column({ name: 'time' })
-    public time: number;
+    time: number;
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'user_one_id' })
-    public userOne: UserEntity;
+    userOne: UserEntity;
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'user_two_id' })
-    public userTwo: UserEntity;
+    userTwo: UserEntity;
 }

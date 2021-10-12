@@ -8,17 +8,17 @@ export class ChatPubLog extends Log {
         super(seconds);
     }
 
-    public async onInit() {
+    async onInit() {
         this.lastId = await ChatPubLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    public async onDispose() {
+    async onDispose() {
         clearInterval(this.runInterval);
     }
 
-    public async onRun() {
+    async onRun() {
         try {
             if (this.lastId == -1) this.lastId = await ChatPubLogDao.getLastId();
 
@@ -31,7 +31,7 @@ export class ChatPubLog extends Log {
         catch (err) { console.log(err); }
     }
 
-    private rawLogs(rows: ChatPubLogEntity[]): void {
+    rawLogs(rows: ChatPubLogEntity[]): void {
         if (!rows) return;
 
         if (!rows.length) return;
@@ -43,6 +43,6 @@ export class ChatPubLog extends Log {
             this.lastId = row.id;
         }
 
-        App.discordBot.sendMessage(message, 'logs_pubs');
+        App.INSTANCE.discordBot.sendMessage(message, 'logs_pubs');
     }
 }

@@ -4,11 +4,11 @@ import { Config } from "../../../Config";
 
 export default class AnimationService {
 
-    private _collector: ReactionCollector;
-    private _messageId: string;
+    _collector: ReactionCollector;
+    _messageId: string;
 
-    public async run() {
-        const guild = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
+    async run() {
+        const guild = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
 
         if (!guild) return;
 
@@ -28,15 +28,15 @@ export default class AnimationService {
         this._collector.on('collect', this.onReaction.bind(this));
     }
 
-    public dispose(): void {
+    dispose(): void {
         this._collector.stop();
         this._collector = null;
     }
 
-    private onReaction(reaction: MessageReaction) {
+    onReaction(reaction: MessageReaction) {
         if (reaction.users.cache.last().id === this._messageId) return;
 
-        const member = App.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == reaction.users.cache.last().id)
+        const member = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == reaction.users.cache.last().id)
 
         if (!member) return;
 

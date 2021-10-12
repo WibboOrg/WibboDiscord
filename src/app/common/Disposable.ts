@@ -13,7 +13,7 @@ export abstract class Disposable {
         this._isDisposing = false;
     }
 
-    public async init(): Promise<void> {
+    async init(): Promise<void> {
         if (this._isLoaded || this._isLoading || this._isDisposing) return;
 
         this._isLoading = true;
@@ -25,7 +25,7 @@ export abstract class Disposable {
         this._isDisposed = false;
     }
 
-    public async dispose(): Promise<void> {
+    async dispose(): Promise<void> {
         if (this._isDisposed || this._isDisposing || this._isLoading) return;
 
         this._isDisposing = true;
@@ -41,19 +41,19 @@ export abstract class Disposable {
 
     protected abstract onDispose(): Promise<void>;
 
-    public get isLoaded(): boolean {
+    get isLoaded(): boolean {
         return this._isLoaded;
     }
 
-    public get isLoading(): boolean {
+    get isLoading(): boolean {
         return this._isLoading;
     }
 
-    public get isDisposed(): boolean {
+    get isDisposed(): boolean {
         return this._isDisposed;
     }
 
-    public get isDisposing(): boolean {
+    get isDisposing(): boolean {
         return this._isDisposing;
     }
 }

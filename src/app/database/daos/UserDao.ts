@@ -3,7 +3,7 @@ import { UserEntity } from "../entities/UserEntity";
 
 export class UserDao
 {
-    public static async getLastId(): Promise<number>
+    static async getLastId(): Promise<number>
     {
         const result = await getManager().findOne(UserEntity, {
             select: ['id'],
@@ -15,7 +15,7 @@ export class UserDao
         return result.id;
     }
 
-    public static async getUserById(id: number): Promise<UserEntity>
+    static async getUserById(id: number): Promise<UserEntity>
     {
         const result = await getManager().findOne(UserEntity, {
             where: { id }
@@ -26,7 +26,7 @@ export class UserDao
         return result;
     }
 
-    public static async getLastUsers(lastId: number): Promise<UserEntity[]>
+    static async getLastUsers(lastId: number): Promise<UserEntity[]>
     {
         const results = await getManager().find(UserEntity, {
             where: { id: MoreThan(lastId) },
@@ -39,7 +39,7 @@ export class UserDao
         return results;
     }
 
-    public static async getUserByName(userName: string): Promise<UserEntity>
+    static async getUserByName(userName: string): Promise<UserEntity>
     {
         const result = await getManager().findOne(UserEntity, {
             where: { name: userName }
@@ -50,7 +50,7 @@ export class UserDao
         return result;
     }
 
-    public static async getUserIPByName(userName: string): Promise<UserEntity>
+    static async getUserIPByName(userName: string): Promise<UserEntity>
     {
         const result = await getManager().findOne(UserEntity, {
             select: ['ipLast'],
@@ -62,7 +62,7 @@ export class UserDao
         return result;
     }
 
-    public static async getUserIdByUsername(userName: string): Promise<UserEntity>
+    static async getUserIdByUsername(userName: string): Promise<UserEntity>
     {
         const result = await getManager().findOne(UserEntity, {
             select: ['id'],
@@ -74,7 +74,7 @@ export class UserDao
         return result;
     }
 
-    public static async getAllUsersByIpOrMachineId(IP: string, MachineId: string): Promise<UserEntity[]>
+    static async getAllUsersByIpOrMachineId(IP: string, MachineId: string): Promise<UserEntity[]>
     {
         MachineId = (MachineId == '') ? 'empty' : MachineId;
         const results = await getManager().find(UserEntity, {
@@ -90,7 +90,7 @@ export class UserDao
         return results;
     }
 
-    public static async updateBan(name: string, banned: boolean)
+    static async updateBan(name: string, banned: boolean)
     {
         await getManager()
         .createQueryBuilder()

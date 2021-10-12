@@ -13,7 +13,7 @@ export class UserInfoCommand extends Command {
         super(permissions, roles, "userinfo", "infouser");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const usernameOrId = parts[0];
@@ -41,7 +41,7 @@ export class UserInfoCommand extends Command {
         message.channel.send({ embeds: [embed] });
     }
 
-    private isNumber(value: string | number): boolean {
+    isNumber(value: string | number): boolean {
         return ((value != null) &&
             (value !== '') &&
             !isNaN(Number(value.toString())));

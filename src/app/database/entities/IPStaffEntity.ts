@@ -4,14 +4,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class IPStaffEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'ip' })
-    public ip: string;
+    ip: string;
     
     @Column({ name: 'username' })
-    public name: string;
+    name: string;
     
     @Column({ name: 'hide' })
-    public hide: number;
+    hide: number;
 }

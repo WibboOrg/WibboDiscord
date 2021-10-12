@@ -11,7 +11,7 @@ export class GetAvatarCommand extends Command {
         super(permissions, roles, "getavatar");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         const user = message.mentions.users.first();
 
         if (!user) { message.reply("Veuillez mentionner un utilisateur."); return; }

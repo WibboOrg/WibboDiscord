@@ -4,23 +4,23 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class CmdLogEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
     
     @Column({ name: 'user_id' })
-    public userId: number;
+    userId: number;
 
     @Column({ name: 'user_name' })
-    public userName: string;
+    userName: string;
 
     @Column({ name: 'roomid' })
-    public roomId: number;
+    roomId: number;
 
     @Column({ name: 'command' })
-    public command: string;
+    command: string;
 
     @Column({ name: 'extra_data' })
-    public extraData: string;
+    extraData: string;
 
     @Column({ name: 'timestamp' })
-    public timestamp: number;
+    timestamp: number;
 }

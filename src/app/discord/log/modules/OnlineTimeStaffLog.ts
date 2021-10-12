@@ -11,8 +11,8 @@
 // }
 
 // export class online_timeStaffLog extends Log {
-//     private _staffs: Staffs[];
-//     private _dayReset: number;
+//     _staffs: Staffs[];
+//     _dayReset: number;
 
 //     constructor(seconds: number) {
 //         super(seconds);
@@ -27,17 +27,17 @@
 //         this.loadUsers();
 //     }
 
-//     public async onInit() {
+//     async onInit() {
 //         //this.lastId = await StaffLogDaos.getLastId();
 
 //         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
 //     }
 
-//     public async onDispose() {
+//     async onDispose() {
 //         clearInterval(this.runInterval);
 //     }
 
-//     private loadUsers() {
+//     loadUsers() {
 //         const file = path.join(__dirname, "../staffs.json");
 
 //         if (!fs.existsSync(file)) return;
@@ -45,7 +45,7 @@
 //         this._staffs = JSON.parse(fs.readFileSync(file, 'utf8'));
 //     }
 
-//     public async onRun() {
+//     async onRun() {
 //         try {
 //             const now = new Date();
 //             if (now.getDay() == this._dayReset || now.getHours() != 23) return;
@@ -59,7 +59,7 @@
 //         catch (err) { console.log(err); }
 //     }
 
-//     private raw(rows: any[]) {
+//     raw(rows: any[]) {
 //         if (!rows) return;
 
 //         if (!rows.length) return;
@@ -116,10 +116,10 @@
 //         //     message += "\n";
 //         // }
 
-//         if (message != "") App.discordBot.sendMessage(message, 'logs_staffconnexion');
+//         if (message != "") App.INSTANCE.discordBot.sendMessage(message, 'logs_staffconnexion');
 //     }
 
-//     private getHMS(totalSeconds: number) {
+//     getHMS(totalSeconds: number) {
 //         let hours = Math.floor(totalSeconds / 3600);
 //         totalSeconds %= 3600;
 //         let minutes = Math.floor(totalSeconds / 60);

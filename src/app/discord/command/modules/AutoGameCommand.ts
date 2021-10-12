@@ -11,7 +11,7 @@ export class AutoGameCommand extends Command {
         super(permissions, roles, "autogame");
     }
 
-    public async parse(message: Message, parts: string[]) {
+    async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
 
         const flag = parts[0] == 'true';

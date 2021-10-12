@@ -4,35 +4,35 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class UserEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
-    public id: number;
+    id: number;
 
     @Column({ name: 'username', unique: true })
-    public name: string;
+    name: string;
 
     @Column({ name: 'look' })
-    public look: string;
+    look: string;
 
     @Column({ name: 'mail' })
-    public mail: string;
+    mail: string;
 
     @Column({ name: 'motto' })
-    public motto: string;
+    motto: string;
 
     @Column({ name: 'account_created' })
-    public accountCreated: number;
+    accountCreated: number;
     
     @Column({ name: 'ipcountry' })
-    public ipCountry: string;
+    ipCountry: string;
 
     @Column({ name: 'online' })
-    public online: number;
+    online: number;
 
     @Column({ name: 'is_banned' })
-    public isBanned: number;
+    isBanned: number;
 
     @Column({ name: 'ip_last' })
-    public ipLast: string;
+    ipLast: string;
 
     @Column({ name: 'machine_id' })
-    public machineId: string;
+    machineId: string;
 }

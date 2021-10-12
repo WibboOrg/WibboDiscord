@@ -1,9 +1,9 @@
 import { Message, GuildMember, PermissionResolvable } from "discord.js";
 
 export abstract class Command {
-    private _permissions: PermissionResolvable[];
-    private _roles: string[];
-    private _aliases: string[];
+    _permissions: PermissionResolvable[];
+    _roles: string[];
+    _aliases: string[];
 
     constructor(permissions: PermissionResolvable[], roles: string[], ...nameOrAliases: string[]) {
         const aliases = [...nameOrAliases];
@@ -15,24 +15,24 @@ export abstract class Command {
         this._aliases = aliases;
     }
 
-    public get aliases(): string[] {
+    get aliases(): string[] {
         return this._aliases;
     }
 
-    public get roles(): string[] {
+    get roles(): string[] {
         return this._roles;
     }
 
-    public get permissions(): PermissionResolvable[] {
+    get permissions(): PermissionResolvable[] {
         return this._permissions;
     }
 
 
-    public hasPermissionsAndRoles(member: GuildMember): boolean {
+    hasPermissionsAndRoles(member: GuildMember): boolean {
         return member.permissions.has(this.permissions) || member.roles.cache.some(role => this.roles.includes(role.name));
     }
 
-    public async parse(message: Message, parts: string[]): Promise<void> {
+    async parse(message: Message, parts: string[]): Promise<void> {
 
     }
 }
