@@ -9,7 +9,7 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 export class App {
     timestampStarted: number;
     database: Connection;
-    logger: Logger = new Logger('App');
+    logger: Logger;
     discordBot: DiscordBot
 
     static INSTANCE: App;
@@ -26,6 +26,8 @@ export class App {
             console.log();
 
             if (!App.INSTANCE) App.INSTANCE = this;
+
+            this.logger = new Logger('App');
 
             if (!Config) {
                 App.INSTANCE.logger.error('Invalid Configuration');
