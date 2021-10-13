@@ -22,7 +22,7 @@ export class App {
             console.log(`  \\ \\/  \\/ /   | | |  _ <|  _ <| |  | |`);
             console.log(`   \\  /\\  /   _| |_| |_) | |_) | |__| |`);
             console.log(`    \\/  \\/   |_____|____/|____/ \\____/ `);
-            console.log("v0.0.1 by JasonDhose#0001");
+            console.log("v1.0.0 by JasonDhose#0001");
             console.log();
 
             if (!App.INSTANCE) App.INSTANCE = this;

@@ -41,7 +41,7 @@ export class DiscordBot extends Manager {
         await this.logManager.dispose();
         await this.userManager.dispose();
 
-        await this.client.destroy();
+        this.client.destroy();
 
         clearInterval(this.timerUpdateOnline);
     }

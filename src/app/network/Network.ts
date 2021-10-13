@@ -1,6 +1,5 @@
 import { Socket } from 'net';
 import { Config } from '../../Config';
-import { App } from '../App';
 
 export class Network {
     static async sendMessage(commande: string, ...data: string[]) {
