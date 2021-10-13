@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('chatlogs_pub')
-export class ChatPubLogEntity
-{
+export class ChatPubLogEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 

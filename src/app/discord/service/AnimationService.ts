@@ -3,9 +3,8 @@ import { TextChannel, MessageReaction, ReactionCollector } from "discord.js";
 import { Config } from "../../../Config";
 
 export default class AnimationService {
-
-    _collector: ReactionCollector;
-    _messageId: string;
+    collector: ReactionCollector;
+    messageId: string;
 
     async run() {
         const guild = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.staffGuildId);
@@ -22,19 +21,19 @@ export default class AnimationService {
 
         if (!message) return;
 
-        this._messageId = message.author.id;
+        this.messageId = message.author.id;
 
-        this._collector = message.createReactionCollector();
-        this._collector.on('collect', this.onReaction.bind(this));
+        this.collector = message.createReactionCollector();
+        this.collector.on('collect', this.onReaction.bind(this));
     }
 
     dispose(): void {
-        this._collector.stop();
-        this._collector = null;
+        this.collector.stop();
+        this.collector = null;
     }
 
     onReaction(reaction: MessageReaction) {
-        if (reaction.users.cache.last().id === this._messageId) return;
+        if (reaction.users.cache.last().id === this.messageId) return;
 
         const member = App.INSTANCE.discordBot.client.guilds.cache.find(x => x.id == Config.discord.communGuildId).members.cache.find(x => x.id == reaction.users.cache.last().id)
 

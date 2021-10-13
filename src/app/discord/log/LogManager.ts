@@ -11,35 +11,35 @@ import { Log } from './Log';
 import { Manager } from '../../common/Manager';
 
 export class LogManager extends Manager {
-    _logs: Log[];
+    logs: Log[];
 
     constructor() {
         super("logManager");
 
-        this._logs = [];
+        this.logs = [];
     }
 
     async onInit() {
         await this.loadLogs();
 
-        for (const log of this._logs) await log.init();
+        for (const log of this.logs) await log.init();
     }
 
     async onDispose() {
-        for (const log of this._logs) await log.dispose();
+        for (const log of this.logs) await log.dispose();
 
-        this._logs = [];
+        this.logs = [];
     }
 
     async loadLogs() {
-        this._logs.push(new CmdLog(5));
-        this._logs.push(new ChatPubLog(10));
-        this._logs.push(new BoutiqueLog(10));
-        this._logs.push(new StaffLog(10));
-        this._logs.push(new ChatLog(5));
-        this._logs.push(new RegisterLog(10));
-        this._logs.push(new TradeLog(5));
-        this._logs.push(new LoginLog(5));
-        // this._logs.push(new OnlineTimeStaffLog(60));
+        this.logs.push(new CmdLog(5));
+        this.logs.push(new ChatPubLog(10));
+        this.logs.push(new BoutiqueLog(10));
+        this.logs.push(new StaffLog(10));
+        this.logs.push(new ChatLog(5));
+        this.logs.push(new RegisterLog(10));
+        this.logs.push(new TradeLog(5));
+        this.logs.push(new LoginLog(5));
+        // this.logs.push(new OnlineTimeStaffLog(60));
     }
 }

@@ -3,15 +3,15 @@ import { DiscordUserEntity } from "../../database/entities/DiscordUserEntity";
 import { Message } from "discord.js";
 
 export class User extends Manager {
-    _entity: DiscordUserEntity;
-    _lastMessageTime: number;
+    entity: DiscordUserEntity;
+    lastMessageTime: number;
 
     constructor(entity: DiscordUserEntity) {
         super('User');
 
         if (!(entity instanceof DiscordUserEntity)) throw new Error('invalid_entity');
 
-        this._entity = entity;
+        this.entity = entity;
 
         this.logger.contextInstance = entity.name;
     }
@@ -29,26 +29,26 @@ export class User extends Manager {
 
         const timestamp = Math.floor(Date.now() / 1000);
 
-        if (this._lastMessageTime >= timestamp - 2) return;
+        if (this.lastMessageTime >= timestamp - 2) return;
 
-        this._lastMessageTime = timestamp;
+        this.lastMessageTime = timestamp;
 
         if (content.length <= 3) return;
 
-        this._entity.experience += 1;
+        this.entity.experience += 1;
 
-        // await getManager().save(this._entity);
+        // await getManager().save(this.entity);
     }
 
     get id(): string {
-        return this._entity.id;
+        return this.entity.id;
     }
 
     get name(): string {
-        return this._entity.name;
+        return this.entity.name;
     }
 
     get experience(): number {
-        return this._entity.experience;
+        return this.entity.experience;
     }
 }

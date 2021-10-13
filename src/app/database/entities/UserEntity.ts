@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
-export class UserEntity
-{
+export class UserEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
@@ -20,7 +19,7 @@ export class UserEntity
 
     @Column({ name: 'account_created' })
     accountCreated: number;
-    
+
     @Column({ name: 'ipcountry' })
     ipCountry: string;
 

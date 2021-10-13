@@ -2,8 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import { UserEntity } from './UserEntity';
 
 @Entity('logs_trade')
-export class TradeLogEntity
-{
+export class TradeLogEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 

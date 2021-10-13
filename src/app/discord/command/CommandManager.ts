@@ -19,12 +19,12 @@ import { SetNicknameCommand } from './modules/SetNicknameCommand';
 import { Config } from '../../../Config';
 
 export class CommandManager extends Manager {
-    _commands: Command[];
+    commands: Command[];
 
     constructor() {
         super("CommandManager");
 
-        this._commands = [];
+        this.commands = [];
     }
 
     async onInit() {
@@ -45,15 +45,15 @@ export class CommandManager extends Manager {
     }
 
     async onDispose() {
-        this._commands = [];
+        this.commands = [];
     }
 
     registerCommand(Command: Command) {
-        this._commands.push(Command);
+        this.commands.push(Command);
     }
 
     getCommand(nameOrAlias: string): Command {
-        for (const command of this._commands) if (command.aliases.indexOf(nameOrAlias) !== -1) return command;
+        for (const command of this.commands) if (command.aliases.indexOf(nameOrAlias) !== -1) return command;
 
         return null;
     }

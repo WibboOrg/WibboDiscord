@@ -5,7 +5,7 @@ export abstract class Log extends Disposable {
     protected lastId: number;
     protected runInterval?: NodeJS.Timeout;
 
-    _isRunning: boolean;
+    isRunning: boolean;
 
     constructor(seconds: number) {
         super();
@@ -13,16 +13,16 @@ export abstract class Log extends Disposable {
         this.seconds = seconds;
         this.lastId = -1;
         this.runInterval = undefined;
-        this._isRunning = false;
+        this.isRunning = false;
     }
 
     async run(): Promise<void> {
-        if (!this._isRunning) {
-            this._isRunning = true;
+        if (!this.isRunning) {
+            this.isRunning = true;
 
             await this.onRun();
 
-            this._isRunning = false;
+            this.isRunning = false;
         }
     }
 

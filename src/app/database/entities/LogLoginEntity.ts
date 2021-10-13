@@ -2,19 +2,18 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { UserEntity } from './UserEntity';
 
 @Entity('logs_login')
-export class LogLoginEntity
-{
+export class LogLoginEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
     @Column({ name: 'user_id' })
     userId: string;
-    
+
     @Column({ name: 'date' })
     date: number;
-    
+
     @Column({ name: 'ip' })
-    ip: string; 
+    ip: string;
 
     @Column({ name: 'user_agent' })
     userAgent: string;

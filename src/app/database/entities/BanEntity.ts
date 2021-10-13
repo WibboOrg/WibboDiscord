@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('bans')
-export class BanEntity
-{
+export class BanEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
@@ -15,7 +14,7 @@ export class BanEntity
     @Column({ name: 'reason' })
     reason: string;
 
-    @Column({ name: 'expire'})
+    @Column({ name: 'expire' })
     expire: number;
 
     @Column({ name: 'added_by' })
@@ -32,4 +31,4 @@ export enum BanType {
     user = 'user',
     ip = 'ip',
     machine = 'machine'
-  }
+}

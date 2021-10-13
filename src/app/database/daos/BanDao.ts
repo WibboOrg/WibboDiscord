@@ -1,10 +1,8 @@
 import { getManager, Raw } from "typeorm";
 import { BanEntity, BanType } from "../entities/BanEntity";
 
-export class BanDao
-{
-    static async insertBan(type: BanType, value: string, reason: string, expire: number, addedBy: string)
-    {
+export class BanDao {
+    static async insertBan(type: BanType, value: string, reason: string, expire: number, addedBy: string) {
         const entity = new BanEntity();
 
         entity.banType = type;
@@ -16,14 +14,13 @@ export class BanDao
         await getManager().save(entity);
     }
 
-    static async expireBan(username: string, ip: string, expireTime: number)
-    {
+    static async expireBan(username: string, ip: string, expireTime: number) {
         await getManager()
-        .createQueryBuilder()
-        .update(BanEntity)
-        .set({ expire: expireTime })
-        .where("banType = :typeuser AND value = :valueuser", { typeuser: BanType.user, valueuser: username })
-        .orWhere("banType = :typeip AND value = :valueip", { typeip: BanType.ip, valueip: ip })
-        .execute();
+            .createQueryBuilder()
+            .update(BanEntity)
+            .set({ expire: expireTime })
+            .where("banType = :typeuser AND value = :valueuser", { typeuser: BanType.user, valueuser: username })
+            .orWhere("banType = :typeip AND value = :valueip", { typeip: BanType.ip, valueip: ip })
+            .execute();
     }
 }

@@ -2,20 +2,20 @@ import { Message, MessageEmbed, Permissions } from "discord.js";
 import { Manager } from "../../common/Manager";
 
 export class ModerationManager extends Manager {
-    _wordFilter: string[];
+    wordFilter: string[];
 
     constructor() {
         super("ModerationManager");
 
-        this._wordFilter = [];
+        this.wordFilter = [];
     }
 
     async onInit() {
-        this._wordFilter.push("badword");
+        this.wordFilter.push("badword");
     }
 
     async onDispose() {
-        this._wordFilter = [];
+        this.wordFilter = [];
     }
 
     onMessage(message: Message): boolean {
@@ -43,7 +43,7 @@ export class ModerationManager extends Manager {
 
         text = text.toLowerCase();
 
-        for (const word of this._wordFilter) if (text.indexOf(word) !== -1) return true;
+        for (const word of this.wordFilter) if (text.indexOf(word) !== -1) return true;
 
         return false;
     }

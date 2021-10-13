@@ -1,11 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('cmdlogs')
-export class CmdLogEntity
-{
+export class CmdLogEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
-    
+
     @Column({ name: 'user_id' })
     userId: number;
 

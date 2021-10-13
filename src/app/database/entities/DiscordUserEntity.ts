@@ -1,8 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('discord_users')
-export class DiscordUserEntity
-{
+export class DiscordUserEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: string;
 

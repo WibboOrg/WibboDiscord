@@ -5,19 +5,19 @@ import { getManager } from 'typeorm';
 import { DiscordUserEntity } from '../../database/entities/DiscordUserEntity';
 
 export class UserManager extends Manager {
-    _users: User[];
+    users: User[];
 
     constructor() {
         super('UserManager');
 
-        this._users = [];
+        this.users = [];
     }
 
     protected async onInit(): Promise<void> { }
 
     protected async onDispose(): Promise<void> {
-        while (this._users.length > 0) {
-            const user = this._users.shift();
+        while (this.users.length > 0) {
+            const user = this.users.shift();
 
             if (!user) continue;
 
@@ -68,7 +68,7 @@ export class UserManager extends Manager {
     }
 
     getUserById(id: string): User {
-        return this._users.find(u => u.id == id);
+        return this.users.find(u => u.id == id);
     }
 
     async addUser(user: User): Promise<void> {
@@ -76,21 +76,17 @@ export class UserManager extends Manager {
 
         await this.removeUser(user.id);
 
-        this._users.push(user);
+        this.users.push(user);
     }
 
     async removeUser(id: string): Promise<void> {
-        const user = this._users.find(u => u.id === id);
+        const user = this.users.find(u => u.id === id);
 
         if (!user) return;
 
         await user.dispose();
 
-        const index = this._users.findIndex(u => u.id === id);
-        this._users.splice(index, 1);
-    }
-
-    get users(): User[] {
-        return this._users;
+        const index = this.users.findIndex(u => u.id === id);
+        this.users.splice(index, 1);
     }
 }

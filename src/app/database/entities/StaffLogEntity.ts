@@ -1,11 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('cms_stafflog')
-export class StaffLogEntity
-{
+export class StaffLogEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
-    
+
     @Column({ name: 'pseudo' })
     pseudo: string;
 

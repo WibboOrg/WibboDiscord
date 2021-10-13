@@ -2,8 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import { UserEntity } from './UserEntity';
 
 @Entity('cms_boutique_logs')
-export class BoutiqueLogEntity
-{
+export class BoutiqueLogEntity {
     @PrimaryGeneratedColumn({ name: 'id' })
     id: number;
 
@@ -16,7 +15,7 @@ export class BoutiqueLogEntity
     @Column({ name: 'prix' })
     prix: number;
 
-    @Column({ name: 'achat'})
+    @Column({ name: 'achat' })
     achat: string;
 
     @Column({ name: 'type' })

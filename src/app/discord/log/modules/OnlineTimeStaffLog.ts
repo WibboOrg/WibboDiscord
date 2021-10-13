@@ -11,18 +11,18 @@
 // }
 
 // export class online_timeStaffLog extends Log {
-//     _staffs: Staffs[];
-//     _dayReset: number;
+//     staffs: Staffs[];
+//     dayReset: number;
 
 //     constructor(seconds: number) {
 //         super(seconds);
 
-//         this._dayReset = 0;
+//         this.dayReset = 0;
 
 //         const now = new Date();
-//         if (now.getHours() == 23) this._dayReset = now.getDay();
+//         if (now.getHours() == 23) this.dayReset = now.getDay();
 
-//         this._staffs = [];
+//         this.staffs = [];
 
 //         this.loadUsers();
 //     }
@@ -42,15 +42,15 @@
 
 //         if (!fs.existsSync(file)) return;
 
-//         this._staffs = JSON.parse(fs.readFileSync(file, 'utf8'));
+//         this.staffs = JSON.parse(fs.readFileSync(file, 'utf8'));
 //     }
 
 //     async onRun() {
 //         try {
 //             const now = new Date();
-//             if (now.getDay() == this._dayReset || now.getHours() != 23) return;
+//             if (now.getDay() == this.dayReset || now.getHours() != 23) return;
 
-//             this._dayReset = now.getDay();
+//             this.dayReset = now.getDay();
 
 //             const results = await getManager().query('SELECT users.username, users.id, cms_page_staff.rank, user_stats.online_time FROM cms_page_staff INNER JOIN users ON(cms_page_staff.userid = users.id) INNER JOIN user_stats ON(cms_page_staff.userid = user_stats.id)');
 //             this.raw(results);
@@ -67,12 +67,12 @@
 //         let message = "";
 //         let messageRank: string[] = [];
 
-//         let users = JSON.parse(JSON.stringify(this._staffs)) as Staffs[];
-//         this._staffs = [];
+//         let users = JSON.parse(JSON.stringify(this.staffs)) as Staffs[];
+//         this.staffs = [];
 
 //         for (const row of rows) {
 //             if (!users.hasOwnProperty(row.id)) {
-//                 this._staffs[row.id] = {
+//                 this.staffs[row.id] = {
 //                     online_time: row.online_time,
 //                     dayInatif: 0
 //                 };
@@ -95,13 +95,13 @@
 //                 messageRank[row.rank] += "**" + row.username + "**: `Inatif depuis " + users[row.id].dayInatif + " jours`\n";
 //             }
 
-//             this._staffs[row.id] = {
+//             this.staffs[row.id] = {
 //                 online_time: row.online_time,
 //                 dayInatif: users[row.id].dayInatif
 //             };
 //         }
 
-//         fs.writeFileSync(path.join(__dirname, '../staffs.json'), JSON.stringify(this._staffs));
+//         fs.writeFileSync(path.join(__dirname, '../staffs.json'), JSON.stringify(this.staffs));
 
 //         if (messageRank.hasOwnProperty(6)) {
 //             message += "__**Staffs**__\n";
