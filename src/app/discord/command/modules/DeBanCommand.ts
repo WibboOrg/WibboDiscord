@@ -22,7 +22,6 @@ export class DeBanCommand extends Command {
 
         if (!row) { message.reply(`L'utilisateur ${username} n'existe pas !`); return; }
 
-        const date = new Date();
         const timestamp = moment().unix();
 
         try {

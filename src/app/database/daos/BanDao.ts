@@ -1,5 +1,6 @@
 import { getManager, Raw } from "typeorm";
 import { BanEntity, BanType } from "../entities/BanEntity";
+import moment from 'moment';
 
 export class BanDao {
     static async insertBan(type: BanType, value: string, reason: string, expire: number, addedBy: string) {
@@ -9,6 +10,7 @@ export class BanDao {
         entity.value = value;
         entity.reason = reason;
         entity.expire = expire;
+        entity.addedDate = moment().unix();
         entity.addedBy = addedBy;
 
         await getManager().save(entity);

@@ -74,9 +74,9 @@ export class CommandManager extends Manager {
 
         if (!message.guild) return false;
 
-        if (!message.content.startsWith("!")) return false;
+        if (!message.content.startsWith(Config.discord.prefixCmd)) return false;
 
-        const parts = message.content.substring(1).split(' ');
+        const parts = message.content.substring(Config.discord.prefixCmd.length).split(' ');
 
         if (!parts.length) return false;
 

@@ -21,7 +21,7 @@ export class BanEntity {
     addedBy: string;
 
     @Column({ name: 'added_date' })
-    addedDate: string;
+    addedDate: number;
 
     @Column({ name: 'appeal_state' })
     appealState: number;
