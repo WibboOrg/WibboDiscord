@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, GuildMember, ActivityType, Intents } from 'discord.js';
+import { Client, TextChannel, Message, GuildMember, Intents } from 'discord.js';
 import { CommandManager } from './command/CommandManager';
 import { ModerationManager } from './moderation/ModerationManager';
 import { LogManager } from './log/LogManager';
@@ -14,12 +14,12 @@ export class DiscordBot extends Manager {
     moderationManager: ModerationManager;
     logManager: LogManager;
     userManager: UserManager;
-    timerUpdateOnline: NodeJS.Timeout;
+    timerUpdateOnline: NodeJS.Timer;
 
     constructor() {
         super("DiscordBot");
 
-        this.client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+        this.client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
         this.commandManager = new CommandManager();
         this.moderationManager = new ModerationManager();
         this.logManager = new LogManager();
@@ -54,7 +54,9 @@ export class DiscordBot extends Manager {
             return;
         }
 
-        for (const guild of this.client.guilds.cache.values()) this.logger.log(`[Guild] ${guild.name} (${guild.id})`);
+        for (const guild of this.client.guilds.cache.values()) {
+            this.logger.log(`[Guild] ID: ${guild.id})`);
+        }
 
         this.client.on('messageCreate', this.onBotMessage.bind(this));
         this.client.on('messageUpdate', this.onBotMessageUpdate.bind(this));
@@ -62,7 +64,7 @@ export class DiscordBot extends Manager {
         this.client.on('guildMemberRemove', this.onBotMemberRemove.bind(this));
         this.client.on('error', console.error);
 
-        this.client.user.setActivity(Config.discord.activity, { type: Config.discord.type as ActivityType });
+        this.client.user.setActivity(Config.discord.activity, { type: Config.discord.type });
 
         if (Config.discord.activityOnlineUser) this.timerUpdateOnline = setInterval(() => this.onUpdateActivity(), 10 * 1000);
 
@@ -101,11 +103,11 @@ export class DiscordBot extends Manager {
 
         if (this.commandManager.onMessage(message)) return;
 
-        const user = await this.userManager.getUserByClientId(message.author.id);
+        // const user = await this.userManager.getUserByClientId(message.author.id);
 
-        if (!user) return;
+        // if (!user) return;
 
-        await user.onMessage(message);
+        // await user.onMessage(message);
     }
 
     getGuildMemberFromCommuById(id: number): GuildMember {

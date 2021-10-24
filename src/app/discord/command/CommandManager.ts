@@ -14,7 +14,6 @@ import { DeBanCommand } from './modules/DeBanCommand';
 import { UserAlertCommand } from './modules/UserAlertCommand';
 import { IPStaffCommand } from './modules/IPStaffCommand';
 import { AutoGameCommand } from './modules/AutoGameCommand';
-import { YoutubeCommand } from './modules/YoutubeCommand';
 import { SetNicknameCommand } from './modules/SetNicknameCommand';
 import { Config } from '../../../Config';
 
@@ -40,7 +39,6 @@ export class CommandManager extends Manager {
         this.registerCommand(new UserAlertCommand());
         this.registerCommand(new IPStaffCommand());
         this.registerCommand(new AutoGameCommand());
-        this.registerCommand(new YoutubeCommand());
         this.registerCommand(new SetNicknameCommand());
     }
 

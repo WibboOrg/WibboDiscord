@@ -1,4 +1,4 @@
-import { Message, PermissionResolvable } from 'discord.js';
+import { Message, PermissionResolvable, TextChannel } from 'discord.js';
 import { Command } from '../Command';
 import { RolesString } from '../RolesString';
 

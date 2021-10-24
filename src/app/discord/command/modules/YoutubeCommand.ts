@@ -1,7 +1,9 @@
-import { Message, PermissionResolvable } from 'discord.js';
+import { Message, MessageEmbed, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
 import { RolesString } from '../RolesString';
 import ytdl from 'ytdl-core';
+import { Player } from 'discord-player';
+import { App } from '../../../App';
 
 export class YoutubeCommand extends Command {
     constructor() {
@@ -16,39 +18,34 @@ export class YoutubeCommand extends Command {
 
         const url = parts[0];
 
-        // try {
-        //     if (!ytdl.validateURL(url)) throw new Error('Vous devez fourni une vidéo correct')
+        try {
+            if (!ytdl.validateURL(url)) throw new Error('Vous devez fourni une vidéo correct')
 
-        //     const info = await ytdl.getInfo(url);
+            const info = await ytdl.getInfo(url);
 
-        //     if (!info) throw new Error('La vidéo Youtube n\'existe pas')
+            if (!info) throw new Error('La vidéo Youtube n\'existe pas')
 
-        //     const voiceChannel = message.member.voice.channel;
-        //     if (!voiceChannel) throw new Error('Vous devez rejoindre un channel vocal')
+            const voiceChannel = message.member.voice.channel;
+            if (!voiceChannel) throw new Error('Vous devez rejoindre un channel vocal')
 
-        //     const connection = await voiceChannel.;
-        //     const stream = ytdl.downloadFromInfo(info, { filter: 'audioonly' });
+            const player = new Player(App.INSTANCE.discordBot.client);
 
-        //     const dispatcher = connection.playStream(stream, { seek: 0, volume: 1 });
-        //     dispatcher.on("end", end => { voiceChannel.leave(); });
+            const embed = new MessageEmbed()
+                .setColor('#357EC7')
+                .setTitle(info.videoDetails.title)
+                .setURL(info.videoDetails.video_url)
+                .addField("Catégorie", info.videoDetails.category)
+                .addField("Description", info.videoDetails.description.substring(0, 50) + '...')
+                .addField("Temps en secondes", info.videoDetails.lengthSeconds)
+                .setAuthor(info.videoDetails.author.name)
+                .setThumbnail(info.videoDetails.thumbnails[0].url)
+                .setTimestamp()
 
-        //     const embed = new RichEmbed()
-        //         .setColor('#357EC7')
-        //         .setTitle(info.videoDetails.title)
-        //         .setURL(info.videoDetails.video_url)
-        //         .addField("Catégorie", info.videoDetails.category)
-        //         .addField("Description", info.videoDetails.description.substring(0, 50) + '...')
-        //         .addField("Temps en secondes", info.videoDetails.lengthSeconds)
-        //         .setAuthor(info.videoDetails.author.name)
-        //         .setThumbnail(info.videoDetails.thumbnails[0].url)
-        //         .setTimestamp()
-        //         .setFooter('Wibbo.org', 'https://cdn.discordapp.com/emojis/532140688167665664.png');
+            message.channel.send({ embeds: [embed] });
+        }
 
-        //     message.channel.send(embed);
-        // }
-
-        // catch (e) {
-        //     message.reply(`Une erreur s'est produite: ${e}`);
-        // }
+        catch (e) {
+            message.reply(`Une erreur s'est produite: ${e}`);
+        }
     }
 }

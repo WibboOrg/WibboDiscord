@@ -3,7 +3,7 @@ import { Disposable } from "../../common/Disposable";
 export abstract class Log extends Disposable {
     protected seconds: number;
     protected lastId: number;
-    protected runInterval?: NodeJS.Timeout;
+    protected runInterval?: NodeJS.Timer;
 
     isRunning: boolean;
 
