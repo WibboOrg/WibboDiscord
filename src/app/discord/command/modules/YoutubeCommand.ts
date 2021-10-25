@@ -45,18 +45,6 @@ export class YoutubeCommand extends Command {
 
             conn.rejoin();
 
-            const audioPlayer = createAudioPlayer();
-
-            const audioResource = createAudioResource(ytdl(url,{
-                o: '-',
-                q: '',
-                f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
-                r: '100K',
-            },
-                { stdio: ['ignore', 'pipe', 'ignore'] }));
-
-            audioPlayer.play(audioResource);
-
             await entersState(conn, VoiceConnectionStatus.Ready, 10000);
 
             const embed = new MessageEmbed()

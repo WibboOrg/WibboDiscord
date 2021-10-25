@@ -60,7 +60,6 @@ export class CommandManager extends Manager {
 
     havePermissions(message: Message, command: Command): boolean
     {
-        return true;
         if (message.member.permissions.has('ADMINISTRATOR')) return true;
 
         if (Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId) return false;
