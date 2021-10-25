@@ -1,9 +1,10 @@
 import { Message, MessageEmbed, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
 import { RolesString } from '../RolesString';
-import ytdl from 'ytdl-core';
+// import ytdl from 'ytdl-core';
+import ytdl from "discord-ytdl-core";
 import { Player } from 'discord-player';
-import { App } from '../../../App';
+import { createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, entersState, generateDependencyReport, joinVoiceChannel, StreamType, VoiceConnectionStatus } from '@discordjs/voice';
 
 export class YoutubeCommand extends Command {
     constructor() {
@@ -15,6 +16,8 @@ export class YoutubeCommand extends Command {
 
     async parse(message: Message, parts: string[]) {
         if (!parts.length) return;
+
+        console.log(generateDependencyReport());
 
         const url = parts[0];
 
@@ -28,7 +31,33 @@ export class YoutubeCommand extends Command {
             const voiceChannel = message.member.voice.channel;
             if (!voiceChannel) throw new Error('Vous devez rejoindre un channel vocal')
 
-            const player = new Player(App.INSTANCE.discordBot.client);
+            let conn = joinVoiceChannel({
+                guildId: voiceChannel.guild.id,
+                channelId: voiceChannel.id,
+                adapterCreator: voiceChannel.guild.voiceAdapterCreator as unknown as DiscordGatewayAdapterCreator,
+            });
+
+            try {
+                conn = await entersState(conn, VoiceConnectionStatus.Ready, 20000);
+            } catch (err) {
+                conn.destroy();
+            }
+
+            conn.rejoin();
+
+            const audioPlayer = createAudioPlayer();
+
+            const audioResource = createAudioResource(ytdl(url,{
+                o: '-',
+                q: '',
+                f: 'bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio',
+                r: '100K',
+            },
+                { stdio: ['ignore', 'pipe', 'ignore'] }));
+
+            audioPlayer.play(audioResource);
+
+            await entersState(conn, VoiceConnectionStatus.Ready, 10000);
 
             const embed = new MessageEmbed()
                 .setColor('#357EC7')
