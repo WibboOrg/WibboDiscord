@@ -1,9 +1,7 @@
 import { Message, MessageEmbed, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
 import { RolesString } from '../RolesString';
-// import ytdl from 'ytdl-core';
 import ytdl from "discord-ytdl-core";
-import { Player } from 'discord-player';
 import { createAudioPlayer, createAudioResource, DiscordGatewayAdapterCreator, entersState, generateDependencyReport, joinVoiceChannel, StreamType, VoiceConnectionStatus } from '@discordjs/voice';
 
 export class YoutubeCommand extends Command {

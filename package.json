@@ -8,7 +8,6 @@
     "@discordjs/voice": "^0.6.0",
     "@types/mysql": "^2.15.17",
     "cli-color": "^2.0.0",
-    "discord-player": "^5.1.0",
     "discord-ytdl-core": "^5.0.4",
     "discord.js": "^13.2.0",
     "ffmpeg-static": "^4.4.0",
@@ -32,7 +31,8 @@
     "devjs": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/Main.js\"",
     "dev": "ts-node-dev --respawn --transpile-only src/Main.ts",
     "start": "node ./dist/Main.js",
-    "build": "tsc"
+    "build": "tsc",
+    "webpack": "webpack"
   },
   "author": "",
   "license": "ISC"
