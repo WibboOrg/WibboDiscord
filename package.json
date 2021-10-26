@@ -31,8 +31,7 @@
     "devjs": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/Main.js\"",
     "dev": "ts-node-dev --respawn --transpile-only src/Main.ts",
     "start": "node ./dist/Main.js",
-    "build": "tsc",
-    "webpack": "webpack"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC"

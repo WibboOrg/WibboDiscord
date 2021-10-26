@@ -16,7 +16,7 @@ import { IPStaffCommand } from './modules/IPStaffCommand';
 import { AutoGameCommand } from './modules/AutoGameCommand';
 import { SetNicknameCommand } from './modules/SetNicknameCommand';
 import { Config } from '../../../Config';
-import { YoutubeCommand } from './modules/YoutubeCommand';
+// import { YoutubeCommand } from './modules/YoutubeCommand';
 
 export class CommandManager extends Manager {
     commands: Command[];
@@ -41,7 +41,7 @@ export class CommandManager extends Manager {
         this.registerCommand(new IPStaffCommand());
         this.registerCommand(new AutoGameCommand());
         this.registerCommand(new SetNicknameCommand());
-        this.registerCommand(new YoutubeCommand());
+        // this.registerCommand(new YoutubeCommand());
     }
 
     async onDispose() {
