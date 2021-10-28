@@ -5,7 +5,7 @@ import { UserDao } from '../../../database/daos/UserDao';
 import { Network } from '../../../network/Network';
 import { BanDao } from '../../../database/daos/BanDao';
 import { BanType } from '../../../database/entities/BanEntity';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Config } from '../../../../Config';
 
 export class IPBanCommand extends Command {
@@ -27,7 +27,7 @@ export class IPBanCommand extends Command {
 
         if (!row) { message.reply(`L'utilisateur ${username} n'existe pas !`); return; }
 
-        const timestamp = moment().add(2, 'year').unix();
+        const timestamp = dayjs().add(2, 'year').unix();
 
         try {
             if (Config.serverMus.enable) await Network.sendMessage('signout', row.id.toString());

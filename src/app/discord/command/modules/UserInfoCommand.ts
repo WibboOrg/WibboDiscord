@@ -2,7 +2,7 @@ import { Message, PermissionResolvable, MessageEmbed } from 'discord.js';
 import { Command } from '../Command';
 import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { UserEntity } from '../../../database/entities/UserEntity';
 
 export class UserInfoCommand extends Command {
@@ -34,7 +34,7 @@ export class UserInfoCommand extends Command {
             .addField("Email", (row.mail) ? row.mail : 'Aucune email')
             .addField("Pays", (row.ipCountry) ? row.ipCountry : 'Non localisé')
             .addField("Statut", row.online == 1 ? 'En ligne' : 'Hors ligne')
-            .addField("Crée le", moment.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm'))
+            .addField("Crée le", dayjs.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm'))
             .setAuthor(row.name)
             .setThumbnail(`https://cdn.wibbo.me/habbo-imaging/avatarimage?figure=${row.look}&action=wav&direction=3&head_direction=4&size=s`);
 
