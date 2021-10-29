@@ -5,16 +5,19 @@ import { UserDao } from '../../../database/daos/UserDao';
 import { IPStaffDao } from '../../../database/daos/IPStaffDao';
 import { App } from '../../../App';
 
-export class IPStaffCommand extends Command {
-    constructor() {
-        const permissions: PermissionResolvable[] = ["ADMINISTRATOR"];
-        const roles: RolesString[] = ["Administrateur", "Gestion"];
+export class IPStaffCommand extends Command
+{
+    constructor()
+    {
+        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
+        const roles: RolesString[] = ['Administrateur', 'Gestion'];
 
-        super(permissions, roles, "ipstaff");
+        super(permissions, roles, 'ipstaff');
     }
 
-    async parse(message: Message, parts: string[]) {
-        if (!parts.length) return;
+    async parse(message: Message, parts: string[])
+    {
+        if(!parts.length) return;
 
         const username = parts[0];
 
@@ -22,16 +25,23 @@ export class IPStaffCommand extends Command {
 
         const row = await UserDao.getUserIdByUsername(username);
 
-        if (!row) { message.reply(`L'utilisateur ${username} n'existe pas !`); return; }
-
-        try {
-            IPStaffDao.updateIPStaff(row.id, IP);
-
-            message.channel.send(`La protection IP Staff de ${username} vient d'être mis à jour`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
-            message.delete();
+        if(!row)
+        {
+            message.reply(`L'utilisateur ${username} n'existe pas !`);
+            return;
         }
 
-        catch (e) {
+        try
+        {
+            IPStaffDao.updateIPStaff(row.id, IP);
+
+            message.channel.send(
+                `La protection IP Staff de ${username} vient d'être mis à jour`
+            ); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+            message.delete();
+        }
+        catch (e)
+        {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
     }

@@ -10,28 +10,33 @@ import { LoginLog } from './modules/LoginLog';
 import { Log } from './Log';
 import { Manager } from '../../common/Manager';
 
-export class LogManager extends Manager {
+export class LogManager extends Manager
+{
     logs: Log[];
 
-    constructor() {
-        super("logManager");
+    constructor()
+    {
+        super('logManager');
 
         this.logs = [];
     }
 
-    async onInit() {
+    async onInit()
+    {
         await this.loadLogs();
 
-        for (const log of this.logs) await log.init();
+        for(const log of this.logs) await log.init();
     }
 
-    async onDispose() {
-        for (const log of this.logs) await log.dispose();
+    async onDispose()
+    {
+        for(const log of this.logs) await log.dispose();
 
         this.logs = [];
     }
 
-    async loadLogs() {
+    async loadLogs()
+    {
         this.logs.push(new CmdLog(5));
         this.logs.push(new ChatPubLog(10));
         this.logs.push(new BoutiqueLog(10));
@@ -40,6 +45,6 @@ export class LogManager extends Manager {
         this.logs.push(new RegisterLog(10));
         this.logs.push(new TradeLog(5));
         this.logs.push(new LoginLog(5));
-        // this.logs.push(new OnlineTimeStaffLog(60));
+    // this.logs.push(new OnlineTimeStaffLog(60));
     }
 }

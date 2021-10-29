@@ -1,18 +1,21 @@
 import { Socket } from 'net';
 import { Config } from '../../Config';
 
-export class Network {
-    static async sendMessage(commande: string, ...data: string[]) {
-        return new Promise(function(resolve, reject) {
-
-            if (!Config.serverMus.enable) reject('MusSocket désactivé');
+export class Network
+{
+    static async sendMessage(commande: string, ...data: string[])
+    {
+        return new Promise(function (resolve, reject)
+        {
+            if(!Config.serverMus.enable) reject('MusSocket désactivé');
 
             const message = `${commande}${Network.chr(1)}${data.join(Network.chr(1))}`;
 
             const client = new Socket();
             client.connect(Config.serverMus.port, Config.serverMus.ip);
 
-            client.on('connect', () => {
+            client.on('connect', () =>
+            {
                 client.write(message);
                 client.destroy();
 
@@ -23,8 +26,9 @@ export class Network {
         });
     }
 
-    static chr(codePt: number) {
-        if (codePt <= 0xffff) return String.fromCharCode(codePt);
+    static chr(codePt: number)
+    {
+        if(codePt <= 0xffff) return String.fromCharCode(codePt);
 
         codePt -= 0x10000;
         return String.fromCharCode(

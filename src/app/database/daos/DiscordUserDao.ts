@@ -1,24 +1,27 @@
-import { getManager } from "typeorm";
-import { DiscordUserEntity } from "../entities/DiscordUserEntity";
+import { getManager } from 'typeorm';
+import { DiscordUserEntity } from '../entities/DiscordUserEntity';
 
-export class DiscordUserDao {
-    static async getUserById(id: string): Promise<DiscordUserEntity> {
+export class DiscordUserDao
+{
+    static async getUserById(id: string): Promise<DiscordUserEntity>
+    {
         const result = await getManager().findOne(DiscordUserEntity, {
             select: ['id', 'name', 'experience'],
-            where: { id }
+            where: { id },
         });
 
-        if (!result) return null;
+        if(!result) return null;
 
         return result;
     }
 
-    static async getUserByName(name: string): Promise<DiscordUserEntity> {
+    static async getUserByName(name: string): Promise<DiscordUserEntity>
+    {
         const result = await getManager().findOne(DiscordUserEntity, {
-            where: { name }
-        })
+            where: { name },
+        });
 
-        if (!result) return null;
+        if(!result) return null;
 
         return result;
     }

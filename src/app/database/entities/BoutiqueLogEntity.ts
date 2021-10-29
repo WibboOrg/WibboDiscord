@@ -1,27 +1,34 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    JoinColumn,
+} from 'typeorm';
 import { UserEntity } from './UserEntity';
 
 @Entity('cms_boutique_logs')
-export class BoutiqueLogEntity {
-    @PrimaryGeneratedColumn({ name: 'id' })
-    id: number;
+export class BoutiqueLogEntity
+{
+  @PrimaryGeneratedColumn({ name: 'id' })
+      id: number;
 
-    @Column({ name: 'userid' })
-    userId: number;
+  @Column({ name: 'userid' })
+      userId: number;
 
-    @Column({ name: 'date' })
-    date: number;
+  @Column({ name: 'date' })
+      date: number;
 
-    @Column({ name: 'prix' })
-    prix: number;
+  @Column({ name: 'prix' })
+      prix: number;
 
-    @Column({ name: 'achat' })
-    achat: string;
+  @Column({ name: 'achat' })
+      achat: string;
 
-    @Column({ name: 'type' })
-    type: number;
+  @Column({ name: 'type' })
+      type: number;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn({ name: 'userid' })
-    user: UserEntity;
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'userid' })
+      user: UserEntity;
 }

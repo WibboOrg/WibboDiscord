@@ -3,26 +3,34 @@ import { Command } from '../Command';
 import { RolesString } from '../RolesString';
 import { Network } from '../../../network/Network';
 
-export class AutoGameCommand extends Command {
-    constructor() {
-        const permissions: PermissionResolvable[] = ["ADMINISTRATOR"];
-        const roles: RolesString[] = ["Administrateur", "Gestion"];
+export class AutoGameCommand extends Command
+{
+    constructor()
+    {
+        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
+        const roles: RolesString[] = ['Administrateur', 'Gestion'];
 
-        super(permissions, roles, "autogame");
+        super(permissions, roles, 'autogame');
     }
 
-    async parse(message: Message, parts: string[]) {
-        if (!parts.length) return;
+    async parse(message: Message, parts: string[])
+    {
+        if(!parts.length) return;
 
         const flag = parts[0] == 'true';
 
-        try {
+        try
+        {
             await Network.sendMessage('autogame', flag ? '1' : '0');
 
-            message.reply(`L'animation de Jack & Daisy vient d'être ${(flag) ? 'activée' : 'désactivée'}`);
+            message.reply(
+                `L'animation de Jack & Daisy vient d'être ${
+                    flag ? 'activée' : 'désactivée'
+                }`
+            );
         }
-
-        catch (e) {
+        catch (e)
+        {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
     }

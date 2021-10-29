@@ -3,42 +3,59 @@ import { App } from '../../../App';
 import { ChatLogDao } from '../../../database/daos/ChatLogDao';
 import { ChatLogEntity } from '../../../database/entities/ChatLogEntity';
 
-export class ChatLog extends Log {
-    constructor(seconds: number) {
+export class ChatLog extends Log
+{
+    constructor(seconds: number)
+    {
         super(seconds);
     }
 
-    async onInit() {
+    async onInit()
+    {
         this.lastId = await ChatLogDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
 
-    async onDispose() {
+    async onDispose()
+    {
         clearInterval(this.runInterval);
     }
 
-    async onRun() {
-        try {
-            if (this.lastId == -1) this.lastId = await ChatLogDao.getLastId();
-
-            else {
+    async onRun()
+    {
+        try
+        {
+            if(this.lastId == -1) this.lastId = await ChatLogDao.getLastId();
+            else
+            {
                 const results = await ChatLogDao.loadLastLog(this.lastId);
                 this.rawLogs(results);
             }
         }
-
-        catch (err) { console.log(err); }
+        catch (err)
+        {
+            console.log(err);
+        }
     }
 
-    rawLogs(rows: ChatLogEntity[]) {
-        if (!rows) return;
+    rawLogs(rows: ChatLogEntity[])
+    {
+        if(!rows) return;
 
-        if (!rows.length) return;
+        if(!rows.length) return;
 
-        let message = "";
-        for (const row of rows) {
-            message += "**" + row.userName + "** à " + this.getTime(row.timestamp) + ": `" + row.message + "`\n";
+        let message = '';
+        for(const row of rows)
+        {
+            message +=
+        '**' +
+        row.userName +
+        '** à ' +
+        this.getTime(row.timestamp) +
+        ': `' +
+        row.message +
+        '`\n';
 
             this.lastId = row.id;
         }

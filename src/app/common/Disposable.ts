@@ -1,11 +1,13 @@
-export abstract class Disposable {
+export abstract class Disposable
+{
     protected isLoaded: boolean;
     protected isLoading: boolean;
 
     protected isDisposed: boolean;
     protected isDisposing: boolean;
 
-    constructor() {
+    constructor()
+    {
         this.isLoaded = false;
         this.isLoading = false;
 
@@ -13,8 +15,9 @@ export abstract class Disposable {
         this.isDisposing = false;
     }
 
-    async init(): Promise<void> {
-        if (this.isLoaded || this.isLoading || this.isDisposing) return;
+    async init(): Promise<void>
+    {
+        if(this.isLoaded || this.isLoading || this.isDisposing) return;
 
         this.isLoading = true;
 
@@ -25,8 +28,9 @@ export abstract class Disposable {
         this.isDisposed = false;
     }
 
-    async dispose(): Promise<void> {
-        if (this.isDisposed || this.isDisposing || this.isLoading) return;
+    async dispose(): Promise<void>
+    {
+        if(this.isDisposed || this.isDisposing || this.isLoading) return;
 
         this.isDisposing = true;
 
@@ -37,7 +41,7 @@ export abstract class Disposable {
         this.isLoaded = false;
     }
 
-    protected abstract onInit(): Promise<void>;
+  protected abstract onInit(): Promise<void>;
 
-    protected abstract onDispose(): Promise<void>;
+  protected abstract onDispose(): Promise<void>;
 }

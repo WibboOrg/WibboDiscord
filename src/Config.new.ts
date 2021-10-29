@@ -1,5 +1,4 @@
-export const Config =
-{
+export const Config = {
     database: {
         type: 'mariadb',
         host: '127.0.0.1',
@@ -11,7 +10,7 @@ export const Config =
         synchronize: false,
         logging: false,
         logger: 'file',
-        debug: false
+        debug: false,
     },
     discord: {
         token: '',
@@ -22,11 +21,11 @@ export const Config =
         communGuildId: '',
         commandSalonId: '',
         checkLog: true,
-        activityOnlineUser: false
+        activityOnlineUser: false,
     },
     serverMus: {
         enable: false,
         ip: '',
-        port: 30001
-    }
-}
+        port: 30001,
+    },
+};

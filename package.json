@@ -22,8 +22,14 @@
     "@types/cli-color": "^2.0.1",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.4",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "concurrently": "^6.3.0",
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
     "ts-node": "^10.4.0"
   },
   "scripts": {
@@ -31,7 +37,8 @@
     "devjs": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/Main.js\"",
     "dev": "ts-node-dev --respawn --transpile-only src/Main.ts",
     "start": "node ./dist/Main.js",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint \"**/*.{ts,tsx}\" --fix"
   },
   "author": "",
   "license": "ISC"

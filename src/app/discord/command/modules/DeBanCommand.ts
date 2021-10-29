@@ -5,33 +5,41 @@ import { UserDao } from '../../../database/daos/UserDao';
 import { BanDao } from '../../../database/daos/BanDao';
 import dayjs from 'dayjs';
 
-export class DeBanCommand extends Command {
-    constructor() {
-        const permissions: PermissionResolvable[] = ["ADMINISTRATOR"];
-        const roles: RolesString[] = ["Administrateur", "Modérateur", "Gestion"];
+export class DeBanCommand extends Command
+{
+    constructor()
+    {
+        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
+        const roles: RolesString[] = ['Administrateur', 'Modérateur', 'Gestion'];
 
-        super(permissions, roles, "deban");
+        super(permissions, roles, 'deban');
     }
 
-    async parse(message: Message, parts: string[]) {
-        if (!parts.length) return;
+    async parse(message: Message, parts: string[])
+    {
+        if(!parts.length) return;
 
         const username = parts[0];
 
         const row = await UserDao.getUserByName(username);
 
-        if (!row) { message.reply(`L'utilisateur ${username} n'existe pas !`); return; }
+        if(!row)
+        {
+            message.reply(`L'utilisateur ${username} n'existe pas !`);
+            return;
+        }
 
         const timestamp = dayjs().unix();
 
-        try {
+        try
+        {
             BanDao.expireBan(row.name, row.ipLast, timestamp);
             UserDao.updateBan(row.name, false);
 
             message.reply(`L'utilisateur ${username} a été débanni (Compte + IP)`);
         }
-
-        catch (e) {
+        catch (e)
+        {
             message.reply(`Une erreur s'est produite: ${e}`);
         }
     }
