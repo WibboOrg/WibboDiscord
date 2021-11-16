@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('cmdlogs')
+@Entity('log_command')
 export class CmdLogEntity
 {
   @PrimaryGeneratedColumn({ name: 'id' })

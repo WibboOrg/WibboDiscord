@@ -46,7 +46,7 @@ export class CommandManager extends Manager
         this.registerCommand(new AutoGameCommand());
         this.registerCommand(new SetNicknameCommand());
         this.registerCommand(new KickCommand());
-    // this.registerCommand(new YoutubeCommand());
+        // this.registerCommand(new YoutubeCommand());
     }
 
     async onDispose()
@@ -71,16 +71,10 @@ export class CommandManager extends Manager
     {
         if(message.member.permissions.has('ADMINISTRATOR')) return true;
 
-        if(
-            Config.discord.commandSalonId != '' &&
-      message.channel.id !== Config.discord.commandSalonId
-        )
+        if(Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId)
             return false;
 
-        if(
-            Config.discord.commandSalonId == '' &&
-      !command.hasPermissionsAndRoles(message.member)
-        )
+        if(Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member))
             return false;
 
         return true;

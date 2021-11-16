@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from './UserEntity';
 
-@Entity('logs_login')
+@Entity('log_login')
 export class LogLoginEntity
 {
   @PrimaryGeneratedColumn({ name: 'id' })

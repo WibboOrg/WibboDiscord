@@ -40,17 +40,13 @@ export class App
             }
 
             if(Config.database.entities)
-                Config.database.entities.push(
-                    join(__dirname, '/database/entities/*Entity.*')
-                );
+                Config.database.entities.push(join(__dirname, '/database/entities/*Entity.*'));
 
             App.INSTANCE.timestampStarted = Date.now();
 
             App.INSTANCE.logger.log('Starting WibboDiscord');
 
-            App.INSTANCE.database = await createConnection(
-        Config.database as MysqlConnectionOptions
-            );
+            App.INSTANCE.database = await createConnection(Config.database as MysqlConnectionOptions);
             App.INSTANCE.discordBot = new DiscordBot();
         }
         catch (err)
@@ -67,9 +63,7 @@ export class App
         {
             await App.INSTANCE.discordBot.init();
 
-            App.INSTANCE.logger.log(
-                `Started in ${Date.now() - App.INSTANCE.timestampStarted}ms`
-            );
+            App.INSTANCE.logger.log(`Started in ${Date.now() - App.INSTANCE.timestampStarted}ms`);
         }
         catch (err)
         {

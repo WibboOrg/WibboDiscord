@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from './UserEntity';
 
-@Entity('cms_boutique_logs')
+@Entity('log_shop')
 export class BoutiqueLogEntity
 {
   @PrimaryGeneratedColumn({ name: 'id' })

@@ -36,16 +36,11 @@ export class Logger
         if(this.printLogger)
         {
             const d = new Date();
-            const timeNow =
-        `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`.replace(
-            /(^|\D)(\d)(?!\d)/g,
-            '$10$2'
-        );
+            const timeNow =`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`.replace(/(^|\D)(\d)(?!\d)/g, '$10$2');
 
             process.stdout.write(`[Logger] ${color(`${timeNow}`)} `);
             this.context && process.stdout.write(clc.cyan(`[${this.context}] `));
-            this.contextInstance &&
-        process.stdout.write(clc.blackBright(`[${this.contextInstance}] `));
+            this.contextInstance && process.stdout.write(clc.blackBright(`[${this.contextInstance}] `));
             process.stdout.write(color(message));
 
             this.printTimestamp();
@@ -57,9 +52,7 @@ export class Logger
     {
         const now = Date.now();
 
-        process.stdout.write(
-            clc.blackBright(` +${now - Logger.lastTimestamp || 0}ms`)
-        );
+        process.stdout.write(clc.blackBright(` +${now - Logger.lastTimestamp || 0}ms`));
 
         Logger.lastTimestamp = now;
     }

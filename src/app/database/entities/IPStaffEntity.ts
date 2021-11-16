@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('staff_ip')
+@Entity('cms_staff_protect')
 export class IPStaffEntity
 {
   @PrimaryGeneratedColumn({ name: 'id' })

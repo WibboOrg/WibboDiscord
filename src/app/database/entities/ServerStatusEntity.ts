@@ -1,6 +1,6 @@
 import { PrimaryColumn, Entity } from 'typeorm';
 
-@Entity('server_status')
+@Entity('emulator_status')
 export class ServerStatusEntity
 {
   @PrimaryColumn({ name: 'users_online' })

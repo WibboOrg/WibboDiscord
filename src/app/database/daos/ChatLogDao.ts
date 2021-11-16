@@ -26,7 +26,7 @@ export class ChatLogDao
                 'chatlog.timestamp',
             ])
             .where(
-                'chatlog.id > :lastId AND chatlog.user_id IN (SELECT id FROM users WHERE online = "1" AND account_created > UNIX_TIMESTAMP() - 7200)',
+                'chatlog.id > :lastId AND chatlog.user_id IN (SELECT id FROM user WHERE online = "1" AND account_created > UNIX_TIMESTAMP() - 7200)',
                 { lastId }
             )
             .getMany();

@@ -6,22 +6,15 @@ export default class WelcomeService
 {
     async run()
     {
-        const guild = App.INSTANCE.discordBot.client.guilds.cache.find(
-            (x) => x.id == Config.discord.staffGuildId
-        );
+        const guild = App.INSTANCE.discordBot.client.guilds.cache.find((x) => x.id == Config.discord.staffGuildId);
 
         if(!guild) return;
 
-        const welcomeChannel = guild.channels.cache.find(
-            (ch) => ch.name === 'bienvenue'
-        );
+        const welcomeChannel = guild.channels.cache.find((ch) => ch.name === 'bienvenue');
 
         if(!welcomeChannel) return;
 
-        if(
-            !((welcomeChannel): welcomeChannel is TextChannel =>
-                welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel)
-        )
+        if(!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel))
             return;
 
         const message = await welcomeChannel.messages.cache.first();

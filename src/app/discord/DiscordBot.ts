@@ -75,6 +75,7 @@ export class DiscordBot extends Manager
         this.client.on('messageUpdate', this.onBotMessageUpdate.bind(this));
         this.client.on('guildMemberAdd', this.onBotMemberAdd.bind(this));
         this.client.on('guildMemberRemove', this.onBotMemberRemove.bind(this));
+
         this.client.on('error', console.error);
 
         this.client.user.setActivity(Config.discord.activity, {
@@ -82,10 +83,7 @@ export class DiscordBot extends Manager
         });
 
         if(Config.discord.activityOnlineUser)
-            this.timerUpdateOnline = setInterval(
-                () => this.onUpdateActivity(),
-                10 * 1000
-            );
+            this.timerUpdateOnline = setInterval(() => this.onUpdateActivity(), 10 * 1000);
 
         const welcomeService = new WelcomeService();
         welcomeService.run();
@@ -139,7 +137,7 @@ export class DiscordBot extends Manager
 
         // if (!user) return;
 
-    // await user.onMessage(message);
+        // await user.onMessage(message);
     }
 
     getGuildMemberFromCommuById(id: number): GuildMember
@@ -157,22 +155,15 @@ export class DiscordBot extends Manager
     {
         try
         {
-            const guild = this.client.guilds.cache.find(
-                (x) => x.id == Config.discord.staffGuildId
-            );
+            const guild = this.client.guilds.cache.find((x) => x.id == Config.discord.staffGuildId);
 
             if(!guild) return;
 
-            const logChannel = guild.channels.cache.find(
-                (ch) => ch.name === channelName
-            );
+            const logChannel = guild.channels.cache.find((ch) => ch.name === channelName);
 
             if(!logChannel) return;
 
-            if(
-                !((logChannel): logChannel is TextChannel =>
-                    logChannel.type === 'GUILD_TEXT')(logChannel)
-            )
+            if(!((logChannel): logChannel is TextChannel => logChannel.type === 'GUILD_TEXT')(logChannel))
                 return;
 
             logChannel.send(message);

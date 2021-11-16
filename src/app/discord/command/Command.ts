@@ -25,12 +25,12 @@ export abstract class Command
     {
         return (
             member.permissions.has(this.permissions) ||
-      member.roles.cache.some((role) => this.roles.includes(role.name))
+            member.roles.cache.some((role) => this.roles.includes(role.name))
         );
     }
 
     async parse(message: Message, parts: string[]): Promise<void>
     {
-    //Nothing
+        //Nothing
     }
 }
