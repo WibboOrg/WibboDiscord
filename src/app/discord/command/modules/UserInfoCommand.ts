@@ -43,6 +43,7 @@ export class UserInfoCommand extends Command
             .addField('Pays', row.ipCountry ? row.ipCountry : 'Non localisé')
             .addField('Statut', row.online == 1 ? 'En ligne' : 'Hors ligne')
             .addField('Crée le', dayjs.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm'))
+            .addField('Dernière connexion', dayjs.unix(row.lastOnline).format('DD/MM/YYYY à hh:mm'))
             .setAuthor(row.name)
             .setThumbnail(
                 `https://cdn.wibbo.me/habbo-imaging/avatarimage?figure=${row.look}&action=wav&direction=3&head_direction=4&size=s`
