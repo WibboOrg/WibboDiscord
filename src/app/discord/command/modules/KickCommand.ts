@@ -18,8 +18,6 @@ export class KickCommand extends Command
 
         const username = parts.join(' ');
 
-        //if (!username || username.length < 3) { message.reply("Choisissez un nouveau nom"); return; }
-
         const user = message.mentions.users.first();
 
         if(!user)
@@ -37,6 +35,6 @@ export class KickCommand extends Command
         }
 
         guildMember.kick(username);
-        message.channel.send(`${username} vient d'être exclu du Discord !`); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+        message.channel.send(`${username} vient d'être exclu du Discord !`);
     }
 }
