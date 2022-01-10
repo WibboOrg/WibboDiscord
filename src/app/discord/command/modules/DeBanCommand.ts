@@ -10,7 +10,7 @@ export class DeBanCommand extends Command
     constructor()
     {
         const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = ['Administrateur', 'Modérateur', 'Gestion'];
+        const roles: RolesString[] = [];
 
         super(permissions, roles, 'deban');
     }

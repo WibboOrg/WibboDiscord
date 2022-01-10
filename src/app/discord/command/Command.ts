@@ -31,6 +31,6 @@ export abstract class Command
 
     async parse(message: Message, parts: string[]): Promise<void>
     {
-        //Nothing
+        return;
     }
 }

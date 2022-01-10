@@ -20,10 +20,7 @@ export class SayBotCommand extends Command
 
         if(!msgChannel) return;
 
-        if(
-            !((msgChannel): msgChannel is TextChannel =>
-                msgChannel.type === 'GUILD_TEXT')(msgChannel)
-        )
+        if(!((msgChannel): msgChannel is TextChannel => msgChannel.type === 'GUILD_TEXT')(msgChannel))
             return;
 
         msgChannel.send(msgText);

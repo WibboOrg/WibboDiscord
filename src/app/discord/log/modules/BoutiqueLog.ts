@@ -48,14 +48,7 @@ export class BoutiqueLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message +=
-        '**' +
-        row.user.name +
-        '** à ' +
-        this.getTime(row.date) +
-        ': `' +
-        row.achat +
-        '`\n';
+            message += '**' +  row.user.name + '** à ' + this.getTime(row.date) + ': `' + row.achat + '`\n';
 
             this.lastId = row.id;
         }
