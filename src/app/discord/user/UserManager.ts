@@ -17,7 +17,7 @@ export class UserManager extends Manager
 
     protected async onInit(): Promise<void>
     {
-    //Nothing
+        //Nothing
     }
 
     protected async onDispose(): Promise<void>

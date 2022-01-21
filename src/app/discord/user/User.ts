@@ -21,12 +21,12 @@ export class User extends Manager
 
     protected async onInit(): Promise<void>
     {
-    //Nothing
+        //Nothing
     }
 
     protected async onDispose(): Promise<void>
     {
-    //Nothing
+        //Nothing
     }
 
     async onMessage(message: Message)
@@ -43,7 +43,7 @@ export class User extends Manager
 
         this.entity.experience += 1;
 
-    // await getManager().save(this.entity);
+        // await getManager().save(this.entity);
     }
 
     get id(): string

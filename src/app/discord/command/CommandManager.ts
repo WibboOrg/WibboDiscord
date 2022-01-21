@@ -17,7 +17,6 @@ import { AutoGameCommand } from './modules/AutoGameCommand';
 import { SetNicknameCommand } from './modules/SetNicknameCommand';
 import { KickCommand } from './modules/KickCommand';
 import { Config } from '../../../Config';
-// import { YoutubeCommand } from './modules/YoutubeCommand';
 
 export class CommandManager extends Manager
 {
@@ -46,7 +45,6 @@ export class CommandManager extends Manager
         this.registerCommand(new AutoGameCommand());
         this.registerCommand(new SetNicknameCommand());
         this.registerCommand(new KickCommand());
-        // this.registerCommand(new YoutubeCommand());
     }
 
     async onDispose()
@@ -88,9 +86,7 @@ export class CommandManager extends Manager
 
         if(!message.content.startsWith(Config.discord.prefixCmd)) return false;
 
-        const parts = message.content
-            .substring(Config.discord.prefixCmd.length)
-            .split(' ');
+        const parts = message.content.substring(Config.discord.prefixCmd.length).split(' ');
 
         if(!parts.length) return false;
 

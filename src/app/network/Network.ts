@@ -9,9 +9,7 @@ export class Network
         {
             if(!Config.serverMus.enable) reject('MusSocket désactivé');
 
-            const message = `${commande}${Network.chr(1)}${data.join(
-                Network.chr(1)
-            )}`;
+            const message = `${commande}${Network.chr(1)}${data.join(Network.chr(1))}`;
 
             const client = new Socket();
             client.connect(Config.serverMus.port, Config.serverMus.ip);

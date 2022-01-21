@@ -166,7 +166,7 @@ export class DiscordBot extends Manager
             if(!((logChannel): logChannel is TextChannel => logChannel.type === 'GUILD_TEXT')(logChannel))
                 return;
 
-            logChannel.send(message);
+            logChannel.send({ content: message });
         }
         catch (e)
         {

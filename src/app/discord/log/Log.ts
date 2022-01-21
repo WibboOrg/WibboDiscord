@@ -32,7 +32,7 @@ export abstract class Log extends Disposable
 
     protected async onRun(): Promise<void>
     {
-    //onRun
+        //onRun
     }
 
     protected getTime(unix_timestamp: number)
