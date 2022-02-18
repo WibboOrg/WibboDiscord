@@ -2,7 +2,7 @@ import { App } from '../../App';
 import { TextChannel, MessageReaction } from 'discord.js';
 import { Config } from '../../../Config';
 
-export default class WelcomeService
+export class WelcomeHandler
 {
     async run()
     {

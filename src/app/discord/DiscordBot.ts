@@ -5,7 +5,7 @@ import { LogManager } from './log/LogManager';
 import { UserManager } from './user/UserManager';
 import { Manager } from '../common/Manager';
 import { ServerStatusDao } from '../database/daos/ServerStatusDao';
-import WelcomeService from './service/WelcomeService';
+import { WelcomeHandler } from './handler/WelcomeHandler';
 import { Config } from '../../Config';
 
 export class DiscordBot extends Manager
@@ -85,7 +85,7 @@ export class DiscordBot extends Manager
         if(Config.discord.activityOnlineUser)
             this.timerUpdateOnline = setInterval(() => this.onUpdateActivity(), 10 * 1000);
 
-        const welcomeService = new WelcomeService();
+        const welcomeService = new WelcomeHandler();
         welcomeService.run();
     }
 

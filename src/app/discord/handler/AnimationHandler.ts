@@ -2,7 +2,7 @@ import { App } from '../../App';
 import { TextChannel, MessageReaction, ReactionCollector } from 'discord.js';
 import { Config } from '../../../Config';
 
-export default class AnimationService
+export default class AnimationHandler
 {
     collector: ReactionCollector;
     messageId: string;
