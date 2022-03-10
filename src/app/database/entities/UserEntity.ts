@@ -31,7 +31,7 @@ export class UserEntity
         online: number;
 
     @Column({ name: 'is_banned' })
-        isBanned: number;
+        isBanned: string;
 
     @Column({ name: 'ip_last' })
         ipLast: string;

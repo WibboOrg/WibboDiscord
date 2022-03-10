@@ -95,7 +95,7 @@ export class UserDao
         await getManager()
             .createQueryBuilder()
             .update(UserEntity)
-            .set({ isBanned: banned ? 1 : 0 })
+            .set({ isBanned: banned ? '1' : '0' })
             .where({ name })
             .execute();
     }
