@@ -24,10 +24,7 @@ export class IPBanCommand extends Command
 
         const username = parts[0];
         let reason = parts.slice(1).join(' ');
-        reason =
-      reason == ''
-          ? 'Non respect de la Wibbo Attitude ainsi que des Conditions Générales d\'Utilisations'
-          : reason;
+        reason = reason == '' ? 'Non respect de la Wibbo Attitude ainsi que des Conditions Générales d\'Utilisations' : reason;
 
         const row = await UserDao.getUserByName(username);
 

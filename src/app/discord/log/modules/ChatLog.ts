@@ -48,14 +48,7 @@ export class ChatLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message +=
-        '**' +
-        row.userName +
-        '** à ' +
-        this.getTime(row.timestamp) +
-        ': `' +
-        row.message +
-        '`\n';
+            message += '**' + row.userName + '** à ' + this.getTime(row.timestamp) + ': `' + row.message + '`\n';
 
             this.lastId = row.id;
         }

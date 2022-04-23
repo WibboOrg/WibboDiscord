@@ -50,23 +50,9 @@ export class CmdLog extends Log
         for(const row of rows)
         {
             if(row.userName == 'WibboGame')
-                messageWibboGame +=
-          '**' +
-          row.userName +
-          '** à ' +
-          this.getTime(row.timestamp) +
-          ': `' +
-          row.extraData +
-          '`\n';
+                messageWibboGame += '**' + row.userName + '** à ' + this.getTime(row.timestamp) + ': `' + row.extraData + '`\n';
             else
-                message +=
-          '**' +
-          row.userName +
-          '** à ' +
-          this.getTime(row.timestamp) +
-          ': `' +
-          row.extraData +
-          '`\n';
+                message += '**' + row.userName + '** à ' + this.getTime(row.timestamp) + ': `' + row.extraData + '`\n';
 
             this.lastId = row.id;
         }

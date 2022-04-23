@@ -49,27 +49,9 @@ export class TradeLog extends Log
         for(const row of rows)
         {
             if(row.userOneItems.length)
-                message +=
-          '**' +
-          row.userOne.name +
-          '** (' +
-          row.userTwo.name +
-          ') à ' +
-          this.getTime(row.time) +
-          ': `' +
-          row.userOneItems +
-          '`\n';
+                message +='**' + row.userOne.name + '** (' + row.userTwo.name + ') à ' + this.getTime(row.time) + ': `' + row.userOneItems + '`\n';
             if(row.userTwoItems.length)
-                message +=
-          '**' +
-          row.userTwo.name +
-          '** (' +
-          row.userOne.name +
-          ') à ' +
-          this.getTime(row.time) +
-          ': `' +
-          row.userTwoItems +
-          '`\n';
+                message += '**' + row.userTwo.name + '** (' + row.userOne.name + ') à ' + this.getTime(row.time) + ': `' + row.userTwoItems + '`\n';
 
             this.lastId = row.id;
         }

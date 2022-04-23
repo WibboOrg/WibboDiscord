@@ -60,14 +60,7 @@ export class RegisterLog extends Log
         let messageTxt = '';
         for(const message of messages)
         {
-            messageTxt +=
-        '**' +
-        message.name +
-        '** à ' +
-        this.getTime(message.date) +
-        ': `' +
-        message.action +
-        '`\n';
+            messageTxt += '**' + message.name + '** à ' + this.getTime(message.date) + ': `' + message.action + '`\n';
         }
 
         if(messageTxt.length)

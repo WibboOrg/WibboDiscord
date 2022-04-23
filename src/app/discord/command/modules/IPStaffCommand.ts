@@ -35,9 +35,7 @@ export class IPStaffCommand extends Command
         {
             IPStaffDao.updateIPStaff(row.id, IP);
 
-            message.channel.send(
-                `La protection IP Staff de ${username} vient d'être mise à jour`
-            ); // Les IP sont confidentielles, elles ne doivent pas rester sur le flux de discussion
+            message.channel.send(`La protection IP Staff de ${username} vient d'être mise à jour`);
             message.delete();
         }
         catch (e)

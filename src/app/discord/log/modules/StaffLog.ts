@@ -49,14 +49,7 @@ export class StaffLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message +=
-        '**' +
-        row.pseudo +
-        '** à ' +
-        this.getTime(row.date) +
-        ': `' +
-        row.action +
-        '`\n';
+            message += '**' + row.pseudo + '** à ' + this.getTime(row.date) + ': `' + row.action + '`\n';
 
             this.lastId = row.id;
         }
