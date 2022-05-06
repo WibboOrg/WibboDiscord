@@ -23,7 +23,7 @@ export class AutoGameCommand extends Command
         {
             await Network.sendMessage('autogame', flag ? '1' : '0');
 
-            message.reply(`L'animation de Jack & Daisy vient d'être ${flag ? 'activée' : 'désactivée'}`);
+            message.reply(` ${flag ? 'Activation' : 'Désactivation'} des animations automatiques de Daisy & Jack ! `);
         }
         catch (e)
         {

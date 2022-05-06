@@ -32,7 +32,7 @@ export class DisconnectCommand extends Command
         {
             await Network.sendMessage('signout', row.id.toString());
 
-            message.reply(`L'utilisateur ${username} a été déconnecté`);
+            message.reply(`L'utilisateur ${username} a été déconnecté(e)`);
         }
         catch (e)
         {

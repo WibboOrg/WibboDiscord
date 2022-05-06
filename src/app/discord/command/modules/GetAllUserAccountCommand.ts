@@ -43,7 +43,7 @@ export class GetAllUserAccountCommand extends Command
             message.reply('Aucun double compte trouvé');
         }
 
-        let messageTxt = `voici les double comptes de ${row.name}:\n`;
+        let messageTxt = `voici les multicomptes de ${row.name}:\n`;
         messageTxt += '`';
         for(const row of rows)
         {

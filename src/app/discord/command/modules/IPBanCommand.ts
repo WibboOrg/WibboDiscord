@@ -58,7 +58,7 @@ export class IPBanCommand extends Command
 
             UserDao.updateBan(username, true);
 
-            message.reply(`L'utilisateur ${username} a été banni (Compte + IP)`);
+            message.reply(`L'utilisateur ${username} a été bannit (Compte + IP)`);
         }
         catch (e)
         {

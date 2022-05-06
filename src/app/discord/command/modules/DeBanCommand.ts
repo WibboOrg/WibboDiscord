@@ -36,7 +36,7 @@ export class DeBanCommand extends Command
             BanDao.expireBan(row.name, row.ipLast, timestamp);
             UserDao.updateBan(row.name, false);
 
-            message.reply(`L'utilisateur ${username} a été débanni (Compte + IP)`);
+            message.reply(`Débannissement de ${username} ! (Compte + IP)`);
         }
         catch (e)
         {

@@ -14,6 +14,6 @@ export class PingCommand extends Command
 
     async parse(message: Message, parts: string[])
     {
-        message.reply('Pong !');
+        message.reply('Pong ! On fait un ping-pong ? Bon jeu de mot non ?');
     }
 }

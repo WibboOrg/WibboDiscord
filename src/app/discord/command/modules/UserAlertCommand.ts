@@ -34,7 +34,7 @@ export class UserAlertCommand extends Command
         {
             await Network.sendMessage('useralert', row.id.toString(), msgText);
 
-            message.reply(`L'utilisateur ${username} a reçu l'alert`);
+            message.reply(`Alerte envoyé à ${username} !`);
         }
         catch (e)
         {

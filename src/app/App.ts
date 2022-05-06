@@ -26,6 +26,7 @@ export class App
             console.log('   \\  /\\  /   _| |_| |_) | |_) | |__| |');
             console.log('    \\/  \\/   |_____|____/|____/ \\____/ ');
             console.log('v1.0.0 by JasonDhose#0001');
+            console.log('CEO n developer of WibboBot !');
             console.log();
 
             if(!App.INSTANCE) App.INSTANCE = this;
@@ -34,7 +35,7 @@ export class App
 
             if(!Config)
             {
-                App.INSTANCE.logger.error('Invalid Configuration');
+                App.INSTANCE.logger.error('Erroneous configuration');
 
                 return await App.INSTANCE.dispose();
             }
@@ -44,7 +45,7 @@ export class App
 
             App.INSTANCE.timestampStarted = Date.now();
 
-            App.INSTANCE.logger.log('Starting WibboDiscord');
+            App.INSTANCE.logger.log('Launching WibboDiscord');
 
             App.INSTANCE.database = await createConnection(Config.database as MysqlConnectionOptions);
             App.INSTANCE.discordBot = new DiscordBot();
@@ -63,7 +64,7 @@ export class App
         {
             await App.INSTANCE.discordBot.init();
 
-            App.INSTANCE.logger.log(`Started in ${Date.now() - App.INSTANCE.timestampStarted}ms`);
+            App.INSTANCE.logger.log(`Started in ${Date.now() - App.INSTANCE.timestampStarted} ms`);
         }
         catch (err)
         {

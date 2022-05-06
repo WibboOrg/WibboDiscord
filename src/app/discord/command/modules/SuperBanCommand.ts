@@ -51,7 +51,7 @@ export class SuperBanCommand extends Command
 
             UserDao.updateBan(username, true);
 
-            message.reply(`L'utilisateur ${username} a été banni (Compte)`);
+            message.reply(`Superbannissement de ${username} ! (Compte)`);
         }
         catch (e)
         {

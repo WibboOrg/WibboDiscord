@@ -35,6 +35,6 @@ export class KickCommand extends Command
         }
 
         guildMember.kick(username);
-        message.channel.send(`${username} vient d'être exclu du Discord !`);
+        message.channel.send(`${username} vient d'être exclu(e) du Discord !`);
     }
 }
