@@ -3,3 +3,4 @@ dist
 src/Config.ts
 debug.log
 start.bat
+.DS_Store
