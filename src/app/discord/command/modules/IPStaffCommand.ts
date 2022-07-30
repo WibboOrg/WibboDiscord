@@ -1,6 +1,5 @@
-import { Message, PermissionResolvable } from 'discord.js';
+import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import { IPStaffDao } from '../../../database/daos/IPStaffDao';
 import { App } from '../../../App';
@@ -9,8 +8,8 @@ export class IPStaffCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = ['Administrateur', 'Gestion'];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = ['Administrateur', 'Gestion'];
 
         super(permissions, roles, 'ipstaff');
     }

@@ -1,13 +1,12 @@
-import { Message, PermissionResolvable, TextChannel } from 'discord.js';
+import { Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 
 export class KickCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = ['Administrateur'];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = ['Administrateur'];
 
         super(permissions, roles, 'kick');
     }

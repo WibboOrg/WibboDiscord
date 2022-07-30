@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, GuildMember, Intents } from 'discord.js';
+import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits } from 'discord.js';
 import { CommandManager } from './command/CommandManager';
 import { ModerationManager } from './moderation/ModerationManager';
 import { LogManager } from './log/LogManager';
@@ -23,9 +23,9 @@ export class DiscordBot extends Manager
 
         this.client = new Client({
             intents: [
-                Intents.FLAGS.GUILDS,
-                Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.GUILD_VOICE_STATES,
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildMembers
             ],
         });
         this.commandManager = new CommandManager();
@@ -94,7 +94,7 @@ export class DiscordBot extends Manager
         const onlineUser = await ServerStatusDao.getUserOnline();
 
         this.client.user.setActivity(`les ${onlineUser} Wibbo's en ligne!`, {
-            type: 'WATCHING',
+            type: ActivityType.Watching,
         });
     }
 
@@ -163,7 +163,7 @@ export class DiscordBot extends Manager
 
             if(!logChannel) return;
 
-            if(!((logChannel): logChannel is TextChannel => logChannel.type === 'GUILD_TEXT')(logChannel))
+            if(!((logChannel): logChannel is TextChannel => logChannel.type === ChannelType.GuildText)(logChannel))
                 return;
 
             logChannel.send({ content: message });

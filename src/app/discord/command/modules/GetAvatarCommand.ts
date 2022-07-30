@@ -1,13 +1,12 @@
-import { Message, PermissionResolvable, MessageEmbed } from 'discord.js';
+import { EmbedBuilder, Message, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 
 export class GetAvatarCommand extends Command
 {
     constructor()
     {
         const permissions: PermissionResolvable[] = [];
-        const roles: RolesString[] = ['everyone'];
+        const roles: string[] = ['everyone'];
 
         super(permissions, roles, 'getavatar');
     }
@@ -28,15 +27,12 @@ export class GetAvatarCommand extends Command
             return;
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor('#357EC7')
             .setTitle(`Avatar de ${user.username}`)
             .setImage(user.avatarURL())
             .setTimestamp()
-            .setFooter(
-                'WIBBO.ORG',
-                'https://cdn.discordapp.com/emojis/532140688167665664.png'
-            );
+            .setFooter({ text: 'WIBBO.ORG', iconURL: 'https://cdn.discordapp.com/emojis/532140688167665664.png' });
 
         message.channel.send({ embeds: [embed] });
     }

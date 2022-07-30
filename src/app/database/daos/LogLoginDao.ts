@@ -1,24 +1,30 @@
 import { getManager, MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { LogLoginEntity } from '../entities/LogLoginEntity';
 
 export class LogLoginDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await getManager().findOne(LogLoginEntity, {
+        const repository = App.INSTANCE.database.getRepository(LogLoginEntity);
+
+        const result = await repository.find({
             select: ['id'],
             order: { id: 'DESC' },
+            take: 1
         });
 
-        if(!result) return -1;
+        if(!result || !result.length) return -1;
 
-        return result.id;
+        return result[0].id;
     }
 
     static async loadLastLog(lastId: number): Promise<LogLoginEntity[]>
     {
-        const results = await getManager()
-            .createQueryBuilder(LogLoginEntity, 'loglogin')
+        const repository = App.INSTANCE.database.getRepository(LogLoginEntity);
+
+        const results = await repository
+            .createQueryBuilder('loglogin')
             .select([
                 'loglogin.id',
                 'loglogin.date',

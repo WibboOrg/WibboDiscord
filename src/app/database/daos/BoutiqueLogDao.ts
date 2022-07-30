@@ -1,24 +1,29 @@
 import { getManager, MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { BoutiqueLogEntity } from '../entities/BoutiqueLogEntity';
 
 export class BoutiqueLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await getManager().findOne(BoutiqueLogEntity, {
+        const repository = App.INSTANCE.database.getRepository(BoutiqueLogEntity);
+
+        const result = await repository.find({
             select: ['id'],
             order: { id: 'DESC' },
+            take: 1
         });
 
-        if(!result) return -1;
+        if(!result || !result.length) return -1;
 
-        return result.id;
+        return result[0].id;
     }
 
     static async loadLastLog(lastId: number): Promise<BoutiqueLogEntity[]>
     {
-        const results = await getManager()
-            .createQueryBuilder(BoutiqueLogEntity, 'boutique')
+        const repository = App.INSTANCE.database.getRepository(BoutiqueLogEntity);
+
+        const results = await repository.createQueryBuilder('boutique')
             .select(['boutique.id', 'boutique.date', 'boutique.achat', 'user.name'])
             .where('boutique.id > :lastId', { lastId })
             .innerJoin('boutique.user', 'user')

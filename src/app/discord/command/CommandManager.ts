@@ -1,7 +1,7 @@
 import { Command } from './Command';
 
 import { Manager } from '../../common/Manager';
-import { Message, Role } from 'discord.js';
+import { Message, PermissionFlagsBits, Role } from 'discord.js';
 import { PingCommand } from './modules/PingCommand';
 import { UserInfoCommand } from './modules/UserInfoCommand';
 import { DisconnectCommand } from './modules/DisconnectCommand';
@@ -67,7 +67,7 @@ export class CommandManager extends Manager
 
     havePermissions(message: Message, command: Command): boolean
     {
-        if(message.member.permissions.has('ADMINISTRATOR')) return true;
+        if(message.member.permissions.has(PermissionFlagsBits.Administrator)) return true;
 
         if(Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId)
             return false;

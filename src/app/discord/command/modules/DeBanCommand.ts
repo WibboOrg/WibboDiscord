@@ -1,6 +1,5 @@
-import { Message, PermissionResolvable } from 'discord.js';
+import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import { BanDao } from '../../../database/daos/BanDao';
 import dayjs from 'dayjs';
@@ -9,8 +8,8 @@ export class DeBanCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = [];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = [];
 
         super(permissions, roles, 'deban');
     }

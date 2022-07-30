@@ -1,23 +1,29 @@
 import { getManager, MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { UserEntity } from '../entities/UserEntity';
 
 export class UserDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await getManager().findOne(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const result = await repository.find({
             select: ['id'],
             order: { id: 'DESC' },
+            take: 1
         });
 
-        if(!result) return -1;
+        if(!result || !result.length) return -1;
 
-        return result.id;
+        return result[0].id;
     }
 
     static async getUserById(id: number): Promise<UserEntity>
     {
-        const result = await getManager().findOne(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const result = await repository.findOne({
             where: { id },
         });
 
@@ -28,7 +34,9 @@ export class UserDao
 
     static async getLastUsers(lastId: number): Promise<UserEntity[]>
     {
-        const results = await getManager().find(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const results = await repository.find({
             where: { id: MoreThan(lastId) },
             order: { id: 'ASC' },
             take: 5,
@@ -41,7 +49,9 @@ export class UserDao
 
     static async getUserByName(userName: string): Promise<UserEntity>
     {
-        const result = await getManager().findOne(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const result = await repository.findOne({
             where: { name: userName },
         });
 
@@ -52,7 +62,9 @@ export class UserDao
 
     static async getUserIPByName(userName: string): Promise<UserEntity>
     {
-        const result = await getManager().findOne(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const result = await repository.findOne({
             select: ['ipLast'],
             where: { name: userName },
         });
@@ -64,7 +76,9 @@ export class UserDao
 
     static async getUserIdByUsername(userName: string): Promise<UserEntity>
     {
-        const result = await getManager().findOne(UserEntity, {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        const result = await repository.findOne({
             select: ['id'],
             where: { name: userName },
         });
@@ -79,8 +93,10 @@ export class UserDao
         MachineId: string
     ): Promise<UserEntity[]>
     {
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
         MachineId = MachineId == '' ? 'empty' : MachineId;
-        const results = await getManager().find(UserEntity, {
+        const results = await repository.find({
             select: ['id', 'name'],
             where: [{ ipLast: IP }, { machineId: MachineId }],
         });
@@ -92,7 +108,9 @@ export class UserDao
 
     static async updateBan(name: string, banned: boolean)
     {
-        await getManager()
+        const repository = App.INSTANCE.database.getRepository(UserEntity);
+
+        await repository
             .createQueryBuilder()
             .update(UserEntity)
             .set({ isBanned: banned ? '1' : '0' })

@@ -1,11 +1,14 @@
 import { getManager } from 'typeorm';
+import { App } from '../../App';
 import { DiscordUserEntity } from '../entities/DiscordUserEntity';
 
 export class DiscordUserDao
 {
     static async getUserById(id: string): Promise<DiscordUserEntity>
     {
-        const result = await getManager().findOne(DiscordUserEntity, {
+        const repository = App.INSTANCE.database.getRepository(DiscordUserEntity);
+
+        const result = await repository.findOne({
             select: ['id', 'name', 'experience'],
             where: { id },
         });
@@ -17,7 +20,9 @@ export class DiscordUserDao
 
     static async getUserByName(name: string): Promise<DiscordUserEntity>
     {
-        const result = await getManager().findOne(DiscordUserEntity, {
+        const repository = App.INSTANCE.database.getRepository(DiscordUserEntity);
+
+        const result = await repository.findOne({
             where: { name },
         });
 

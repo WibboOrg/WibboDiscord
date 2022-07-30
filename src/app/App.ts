@@ -1,4 +1,4 @@
-import { Connection, createConnection } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 import { DiscordBot } from './discord/DiscordBot';
 import { Logger } from './common/utilities/Logger';
@@ -9,7 +9,7 @@ import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOpti
 export class App
 {
     timestampStarted: number;
-    database: Connection;
+    database: DataSource;
     logger: Logger;
     discordBot: DiscordBot;
 
@@ -26,7 +26,6 @@ export class App
             console.log('   \\  /\\  /   _| |_| |_) | |_) | |__| |');
             console.log('    \\/  \\/   |_____|____/|____/ \\____/ ');
             console.log('v1.0.0 by JasonDhose#0001');
-            console.log('CEO n developer of WibboBot !');
             console.log();
 
             if(!App.INSTANCE) App.INSTANCE = this;
@@ -35,19 +34,19 @@ export class App
 
             if(!Config)
             {
-                App.INSTANCE.logger.error('Erroneous configuration');
+                App.INSTANCE.logger.error('Configuration failed!');
 
                 return await App.INSTANCE.dispose();
             }
 
-            if(Config.database.entities)
-                Config.database.entities.push(join(__dirname, '/database/entities/*Entity.*'));
+            Config.database.entities.push(join(__dirname, '/database/entities/*Entity.*'));
 
             App.INSTANCE.timestampStarted = Date.now();
 
             App.INSTANCE.logger.log('Launching WibboDiscord');
 
-            App.INSTANCE.database = await createConnection(Config.database as MysqlConnectionOptions);
+            App.INSTANCE.database = new DataSource(Config.database as MysqlConnectionOptions);
+
             App.INSTANCE.discordBot = new DiscordBot();
         }
         catch (err)
@@ -62,6 +61,8 @@ export class App
     {
         try
         {
+            await App.INSTANCE.database.initialize();
+
             await App.INSTANCE.discordBot.init();
 
             App.INSTANCE.logger.log(`Started in ${Date.now() - App.INSTANCE.timestampStarted} ms`);
@@ -78,8 +79,8 @@ export class App
     {
         if(App.INSTANCE.discordBot) await App.INSTANCE.discordBot.dispose();
 
-        if(App.INSTANCE.database && App.INSTANCE.database.isConnected)
-            await App.INSTANCE.database.close();
+        if(App.INSTANCE.database && App.INSTANCE.database.isInitialized)
+            await App.INSTANCE.database.destroy();
     }
 
     async reboot()

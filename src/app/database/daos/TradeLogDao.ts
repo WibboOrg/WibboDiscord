@@ -1,36 +1,42 @@
 import { getManager, MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { TradeLogEntity } from '../entities/TradeLogEntity';
 
 export class TradeLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await getManager().findOne(TradeLogEntity, {
+        const repository = App.INSTANCE.database.getRepository(TradeLogEntity);
+
+        const result = await repository.find({
             select: ['id'],
             order: { id: 'DESC' },
+            take: 1
         });
 
-        if(!result) return -1;
+        if(!result || !result.length) return -1;
 
-        return result.id;
+        return result[0].id;
     }
 
     static async loadLastLog(lastId: number): Promise<TradeLogEntity[]>
     {
-        const results = await getManager()
-            .createQueryBuilder(TradeLogEntity, 'logs_trade')
+        const repository = App.INSTANCE.database.getRepository(TradeLogEntity);
+
+        const results = await repository
+            .createQueryBuilder('log_trade')
             .select([
-                'logs_trade.id',
-                'logs_trade.time',
-                'logs_trade.userOneItems',
-                'logs_trade.userTwoItems',
+                'log_trade.id',
+                'log_trade.time',
+                'log_trade.userOneItems',
+                'log_trade.userTwoItems',
                 'userOne.name',
                 'userTwo.name',
-                'logs_trade.roomId',
+                'log_trade.roomId',
             ])
-            .where('logs_trade.id > :lastId', { lastId })
-            .innerJoin('logs_trade.userOne', 'userOne')
-            .innerJoin('logs_trade.userTwo', 'userTwo')
+            .where('log_trade.id > :lastId', { lastId })
+            .innerJoin('log_trade.userOne', 'userOne')
+            .innerJoin('log_trade.userTwo', 'userTwo')
             .getMany();
 
         if(!results.length) return [];

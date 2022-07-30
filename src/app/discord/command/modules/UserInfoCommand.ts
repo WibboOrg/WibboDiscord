@@ -1,6 +1,5 @@
-import { Message, PermissionResolvable, MessageEmbed } from 'discord.js';
+import { Message, PermissionResolvable, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import dayjs from 'dayjs';
 import { UserEntity } from '../../../database/entities/UserEntity';
@@ -9,8 +8,8 @@ export class UserInfoCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = ['Administrateur', 'Gestion'];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = ['Administrateur', 'Gestion'];
 
         super(permissions, roles, 'userinfo', 'infouser');
     }
@@ -33,18 +32,20 @@ export class UserInfoCommand extends Command
             return;
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor('#357EC7')
             .setTitle('Information sur ' + row.name)
             .setURL('https://wibbo.org/profil/' + row.name)
-            .addField('Id', row.id.toString())
-            .addField('Mission', row.motto ? row.motto : 'Aucune mission')
-            .addField('Email', row.mail ? row.mail : 'Aucune e-mail')
-            .addField('Pays', row.ipCountry ? row.ipCountry : 'Non localisé')
-            .addField('Statut', row.online == 1 ? 'En ligne' : 'Hors-ligne')
-            .addField('Crée le', dayjs.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm'))
-            .addField('Dernière connexion', dayjs.unix(row.lastOnline).format('DD/MM/YYYY à hh:mm'))
-            .setAuthor(row.name)
+            .addFields([
+                { name: 'Id', value: row.id.toString() },
+                { name: 'Mission', value: row.motto ? row.motto : 'Aucune mission' },
+                { name: 'Email', value: row.mail ? row.mail : 'Aucune e-mail' },
+                { name: 'Pays', value: row.ipCountry ? row.ipCountry : 'Non localisé' },
+                { name: 'Statut', value: row.online == 1 ? 'En ligne' : 'Hors-ligne' },
+                { name: 'Crée le', value: dayjs.unix(row.accountCreated).format('DD/MM/YYYY à hh:mm') },
+                { name: 'Dernière connexion', value: dayjs.unix(row.lastOnline).format('DD/MM/YYYY à hh:mm') }
+            ])
+            .setAuthor({ name: row.name })
             .setThumbnail(`https://cdn.wibbo.me/habbo-imaging/avatarimage?figure=${row.look}&action=wav&direction=3&head_direction=4&size=s`);
 
         message.channel.send({ embeds: [embed] });

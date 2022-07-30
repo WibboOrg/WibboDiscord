@@ -1,13 +1,12 @@
-import { Message, PermissionResolvable, TextChannel } from 'discord.js';
+import { ChannelType, Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 
 export class SayBotCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = [];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = [];
 
         super(permissions, roles, 'say', 'saybot');
     }
@@ -20,7 +19,7 @@ export class SayBotCommand extends Command
 
         if(!msgChannel) return;
 
-        if(!((msgChannel): msgChannel is TextChannel => msgChannel.type === 'GUILD_TEXT')(msgChannel))
+        if(!((msgChannel): msgChannel is TextChannel => msgChannel.type === ChannelType.GuildText)(msgChannel))
             return;
 
         msgChannel.send(msgText);

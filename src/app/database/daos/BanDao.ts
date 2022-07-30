@@ -1,6 +1,7 @@
-import { getManager, Raw } from 'typeorm';
+import { Raw } from 'typeorm';
 import { BanEntity, BanType } from '../entities/BanEntity';
 import dayjs from 'dayjs';
+import { App } from '../../App';
 
 export class BanDao
 {
@@ -21,12 +22,16 @@ export class BanDao
         entity.addedDate = dayjs().unix();
         entity.addedBy = addedBy;
 
-        await getManager().save(entity);
+        const repository = App.INSTANCE.database.getRepository(BanEntity);
+
+        await repository.save(entity);
     }
 
     static async expireBan(username: string, ip: string, expireTime: number)
     {
-        await getManager()
+        const repository = App.INSTANCE.database.getRepository(BanEntity);
+
+        await repository
             .createQueryBuilder()
             .update(BanEntity)
             .set({ expire: expireTime })

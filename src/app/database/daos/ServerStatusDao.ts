@@ -1,11 +1,13 @@
-import { getManager, MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { ServerStatusEntity } from '../entities/ServerStatusEntity';
 
 export class ServerStatusDao
 {
     static async getUserOnline(): Promise<number>
     {
-        const result = await getManager().findOne(ServerStatusEntity);
+        const repository = App.INSTANCE.database.getRepository(ServerStatusEntity);
+
+        const result = await repository.findOne({ where: { 'id': 1 } });
 
         if(!result) return 0;
 

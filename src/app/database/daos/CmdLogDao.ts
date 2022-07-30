@@ -1,23 +1,29 @@
-import { getManager, MoreThan } from 'typeorm';
+import { MoreThan } from 'typeorm';
+import { App } from '../../App';
 import { CmdLogEntity } from '../entities/CmdLogEntity';
 
 export class CmdLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await getManager().findOne(CmdLogEntity, {
+        const repository = App.INSTANCE.database.getRepository(CmdLogEntity);
+
+        const result = await repository.find({
             select: ['id'],
             order: { id: 'DESC' },
+            take: 1
         });
 
-        if(!result) return -1;
+        if(!result || !result.length) return -1;
 
-        return result.id;
+        return result[0].id;
     }
 
     static async loadLastLog(lastId: number): Promise<CmdLogEntity[]>
     {
-        const results = await getManager().find(CmdLogEntity, {
+        const repository = App.INSTANCE.database.getRepository(CmdLogEntity);
+
+        const results = await repository.find({
             where: { id: MoreThan(lastId) },
             order: { id: 'ASC' },
             take: 5,
