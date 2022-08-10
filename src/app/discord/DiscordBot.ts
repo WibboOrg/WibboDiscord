@@ -1,4 +1,4 @@
-import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits } from 'discord.js';
+import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits, Partials } from 'discord.js';
 import { CommandManager } from './command/CommandManager';
 import { ModerationManager } from './moderation/ModerationManager';
 import { LogManager } from './log/LogManager';
@@ -24,9 +24,24 @@ export class DiscordBot extends Manager
         this.client = new Client({
             intents: [
                 GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildBans,
+                GatewayIntentBits.GuildEmojisAndStickers,
+                GatewayIntentBits.GuildIntegrations,
+                GatewayIntentBits.GuildWebhooks,
+                GatewayIntentBits.GuildInvites,
                 GatewayIntentBits.GuildVoiceStates,
-                GatewayIntentBits.GuildMembers
+                GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildMessageReactions,
+                GatewayIntentBits.GuildMessageTyping,
+                GatewayIntentBits.DirectMessages,
+                GatewayIntentBits.DirectMessageReactions,
+                GatewayIntentBits.DirectMessageTyping,
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildScheduledEvents
             ],
+            partials: [Partials.Channel, Partials.GuildMember, Partials.Message]
         });
         this.commandManager = new CommandManager();
         this.moderationManager = new ModerationManager();
@@ -125,6 +140,7 @@ export class DiscordBot extends Manager
 
     async onBotMessage(message: Message)
     {
+        console.log('message', message.content);
         if(message.author.bot) return;
 
         if(!message.guild) return;
