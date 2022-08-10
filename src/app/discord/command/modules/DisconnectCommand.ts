@@ -1,6 +1,5 @@
-import { Message, PermissionResolvable } from 'discord.js';
+import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
-import { RolesString } from '../RolesString';
 import { UserDao } from '../../../database/daos/UserDao';
 import { Network } from '../../../network/Network';
 
@@ -8,8 +7,8 @@ export class DisconnectCommand extends Command
 {
     constructor()
     {
-        const permissions: PermissionResolvable[] = ['ADMINISTRATOR'];
-        const roles: RolesString[] = ['Administrateur', 'Modérateur', 'Gestion'];
+        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
+        const roles: string[] = ['Administrateur', 'Modérateur', 'Gestion'];
 
         super(permissions, roles, 'disconnect');
     }

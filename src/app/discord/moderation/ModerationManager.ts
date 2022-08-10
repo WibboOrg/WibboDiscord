@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, Permissions } from 'discord.js';
+import { EmbedBuilder, Message, PermissionFlagsBits, Permissions } from 'discord.js';
 import { Manager } from '../../common/Manager';
 
 export class ModerationManager extends Manager
@@ -14,7 +14,7 @@ export class ModerationManager extends Manager
 
     async onInit()
     {
-        this.wordFilter.push('badword');
+        //this.wordFilter.push('badword');
     }
 
     async onDispose()
@@ -24,17 +24,17 @@ export class ModerationManager extends Manager
 
     onMessage(message: Message): boolean
     {
-        if(message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
+        if(message.member.permissions.has(PermissionFlagsBits.Administrator))
             return false;
 
         const messageText = message.content;
 
         if(this.hasBadWord(messageText))
         {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setTitle(`Avertissement pour ${message.author.username} !`)
                 .setThumbnail(message.author.avatarURL())
-                .addField('Raison', 'Mot interdit');
+                .addFields({ name: 'Raison', value: 'Mot interdit' });
 
             message.channel.send({ embeds: [embed] });
             message.delete();

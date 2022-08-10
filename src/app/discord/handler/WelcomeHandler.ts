@@ -1,5 +1,5 @@
 import { App } from '../../App';
-import { TextChannel, MessageReaction } from 'discord.js';
+import { TextChannel, MessageReaction, ChannelType } from 'discord.js';
 import { Config } from '../../../Config';
 
 export class WelcomeHandler
@@ -14,7 +14,7 @@ export class WelcomeHandler
 
         if(!welcomeChannel) return;
 
-        if(!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel))
+        if(!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === ChannelType.GuildText)(welcomeChannel))
             return;
 
         const message = await welcomeChannel.messages.cache.first();

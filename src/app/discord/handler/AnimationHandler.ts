@@ -1,5 +1,5 @@
 import { App } from '../../App';
-import { TextChannel, MessageReaction, ReactionCollector } from 'discord.js';
+import { TextChannel, MessageReaction, ReactionCollector, ChannelType } from 'discord.js';
 import { Config } from '../../../Config';
 
 export default class AnimationHandler
@@ -17,7 +17,7 @@ export default class AnimationHandler
 
         if(!welcomeChannel) return;
 
-        if(!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === 'GUILD_TEXT')(welcomeChannel))
+        if(!((welcomeChannel): welcomeChannel is TextChannel => welcomeChannel.type === ChannelType.GuildText)(welcomeChannel))
             return;
 
         const message = welcomeChannel.messages.cache.first();

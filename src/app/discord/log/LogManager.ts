@@ -9,6 +9,7 @@ import { LoginLog } from './modules/LoginLog';
 
 import { Log } from './Log';
 import { Manager } from '../../common/Manager';
+import { LootboxLog } from './modules/LootboxLog';
 
 export class LogManager extends Manager
 {
@@ -45,5 +46,6 @@ export class LogManager extends Manager
         this.logs.push(new RegisterLog(10));
         this.logs.push(new TradeLog(5));
         this.logs.push(new LoginLog(5));
+        this.logs.push(new LootboxLog(10));
     }
 }
