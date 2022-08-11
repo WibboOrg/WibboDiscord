@@ -48,10 +48,15 @@ export class LootboxLog extends Log
         let message = '';
         for(const row of rows)
         {
+            if(row.itemBase.rarityLevel === 1)
+                continue;
+
             message += '**' + row.user.name + '** à ' + this.getTime(row.timestamp) + ' (' + row.interactionType + '): `' + row.itemBase.itemName + ' ('+ this.getRarity(row.itemBase.rarityLevel) +')`\n';
 
             this.lastId = row.id;
         }
+
+        if(message === '') return;
 
         App.INSTANCE.discordBot.sendMessage(message, 'logs_lootbox');
     }

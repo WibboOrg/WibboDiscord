@@ -140,7 +140,6 @@ export class DiscordBot extends Manager
 
     async onBotMessage(message: Message)
     {
-        console.log('message', message.content);
         if(message.author.bot) return;
 
         if(!message.guild) return;
@@ -171,6 +170,8 @@ export class DiscordBot extends Manager
     {
         try
         {
+            if(message === '' || channelName === '') return;
+
             const guild = this.client.guilds.cache.find((x) => x.id == Config.discord.staffGuildId);
 
             if(!guild) return;
