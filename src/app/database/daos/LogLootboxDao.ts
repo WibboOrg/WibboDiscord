@@ -33,6 +33,7 @@ export class LogLootboxDao
                 'itemBase.itemName',
                 'itemBase.rarityLevel',
             ])
+            .where('itemBase.rarityLevel != 1')
             .where('loglootbox.id > :lastId', { lastId })
             .innerJoin('loglootbox.user', 'user')
             .innerJoin('loglootbox.itemBase', 'itemBase')
