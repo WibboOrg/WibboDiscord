@@ -32,7 +32,7 @@
     "devjs": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon dist/Main.js\"",
     "dev": "ts-node-dev --respawn --transpile-only src/Main.ts",
     "start": "node ./dist/Main.js",
-    "build": "tsc",
+    "build": "yarn clean & tsc",
     "lint": "eslint \"**/*.{ts,tsx}\" --fix"
   },
   "author": "",

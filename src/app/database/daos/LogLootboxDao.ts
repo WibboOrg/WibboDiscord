@@ -25,6 +25,8 @@ export class LogLootboxDao
 
         const results = await repository
             .createQueryBuilder('loglootbox')
+            .innerJoin('loglootbox.user', 'user')
+            .innerJoin('loglootbox.itemBase', 'itemBase')
             .select([
                 'loglootbox.id',
                 'loglootbox.interactionType',
@@ -33,10 +35,7 @@ export class LogLootboxDao
                 'itemBase.itemName',
                 'itemBase.rarityLevel',
             ])
-            .where('itemBase.rarityLevel != 1')
-            .where('loglootbox.id > :lastId', { lastId })
-            .innerJoin('loglootbox.user', 'user')
-            .innerJoin('loglootbox.itemBase', 'itemBase')
+            .where('loglootbox.id > :lastId AND itemBase.rarityLevel != 1', { lastId })
             .getMany();
 
         if(!results.length) return [];
