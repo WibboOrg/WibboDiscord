@@ -166,7 +166,7 @@ export class DiscordBot extends Manager
         return user;
     }
 
-    sendMessage(message: string, channelName: string): void
+    async sendMessage(message: string, channelName: string)
     {
         try
         {
@@ -183,7 +183,7 @@ export class DiscordBot extends Manager
             if(!((logChannel): logChannel is TextChannel => logChannel.type === ChannelType.GuildText)(logChannel))
                 return;
 
-            logChannel.send({ content: message });
+            await logChannel.send({ content: message });
         }
         catch (e)
         {
