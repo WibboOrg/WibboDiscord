@@ -20,6 +20,12 @@ export class UserInfoCommand extends Command
 
         const usernameOrId = parts[0];
 
+        if(usernameOrId === '')
+        {
+            message.reply('Veuillez mettre un no d\'utilisateur ou un ID en premier argument');
+            return;
+        }
+
         let row: UserEntity = null;
         if(this.isNumber(usernameOrId))
             row = await UserDao.getUserById(parseInt(usernameOrId));

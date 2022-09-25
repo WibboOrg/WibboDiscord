@@ -19,6 +19,12 @@ export class UserAlertCommand extends Command
 
         const username = parts[0];
 
+        if(username === '')
+        {
+            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument');
+            return;
+        }
+
         const msgText = parts.slice(1).join(' ');
 
         const row = await UserDao.getUserIdByUsername(username);

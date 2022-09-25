@@ -17,6 +17,12 @@ export class KickCommand extends Command
 
         const username = parts.join(' ');
 
+        if(username === '')
+        {
+            message.reply('Veuillez mettre un pseudo en premier argument');
+            return;
+        }
+
         const user = message.mentions.users.first();
 
         if(!user)

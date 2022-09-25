@@ -24,6 +24,12 @@ export class GetAllUserAccountCommand extends Command
 
         const username = parts[0];
 
+        if(username === '')
+        {
+            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument');
+            return;
+        }
+
         const row = await UserDao.getUserByName(username);
 
         if(!row)
