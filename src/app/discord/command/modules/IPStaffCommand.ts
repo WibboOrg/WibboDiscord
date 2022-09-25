@@ -2,7 +2,6 @@ import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
 import { UserDao } from '../../../database/daos/UserDao';
 import { IPStaffDao } from '../../../database/daos/IPStaffDao';
-import { App } from '../../../App';
 import { checkIP } from '../../../common/utilities/Utils';
 
 export class IPStaffCommand extends Command

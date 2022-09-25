@@ -1,5 +1,6 @@
 import { Disposable } from './Disposable';
 import { Logger } from './utilities/Logger';
+
 export abstract class Manager extends Disposable
 {
     logger: Logger;
