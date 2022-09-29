@@ -1,12 +1,13 @@
-import { App } from './app/App';
-import { setGlobalDispatcher, Agent } from 'undici';
-
-setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }));
+import { database } from './database/app-data-source';
+import { BoutiqueLogDao } from './database/daos/BoutiqueLogDao';
+import * as bot from './discord/bot';
 
 (async () =>
 {
-    const app = new App();
+    await database.initialize();
+    await bot.initialize();
 
-    await app.bootstrap();
-    await app.start();
+    const id = await BoutiqueLogDao.getLastId();
+
+    console.log(id);
 })();
