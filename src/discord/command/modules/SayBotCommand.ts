@@ -24,6 +24,6 @@ export class SayBotCommand extends Command
 
         msgChannel.send(msgText);
 
-        message.delete();
+        message.delete().catch();
     }
 }

@@ -53,7 +53,7 @@ export class IPStaffCommand extends Command
             IPStaffDao.updateIPStaff(row.id, IP);
 
             message.channel.send(`La protection IP de ${username} est à jour !`);
-            message.delete();
+            message.delete().catch();
         }
         catch (e)
         {
