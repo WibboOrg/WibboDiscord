@@ -3,7 +3,7 @@ import { CommandManager } from './command/CommandManager';
 import { LogManager } from './log/LogManager';
 import { ServerStatusDao } from '../database/daos/ServerStatusDao';
 import { WelcomeReaction } from './reaction/WelcomeReaction';
-import { Config } from '../Config';
+import { Config } from '../config';
 import { AnimationReaction } from './reaction/AnimationReaction';
 
 export const client = new Client({

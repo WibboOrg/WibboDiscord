@@ -1,5 +1,5 @@
 import { Socket } from 'net';
-import { Config } from '../Config';
+import { Config } from '../config';
 
 export const sendMus = (commande: string, ...data: string[]) =>
 {

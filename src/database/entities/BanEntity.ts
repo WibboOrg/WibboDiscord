@@ -32,4 +32,5 @@ export enum BanType {
     user = 'user',
     ip = 'ip',
     machine = 'machine',
+    ignoreall = 'ignoreall',
 }

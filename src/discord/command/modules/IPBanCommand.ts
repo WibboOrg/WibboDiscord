@@ -5,7 +5,6 @@ import { sendMus } from '../../../network/Network';
 import { BanDao } from '../../../database/daos/BanDao';
 import { BanType } from '../../../database/entities/BanEntity';
 import dayjs from 'dayjs';
-import { Config } from '../../../Config';
 
 export class IPBanCommand extends Command
 {

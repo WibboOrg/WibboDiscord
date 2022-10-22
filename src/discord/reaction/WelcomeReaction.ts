@@ -1,5 +1,5 @@
 import { TextChannel, MessageReaction, ChannelType } from 'discord.js';
-import { Config } from '../../Config';
+import { Config } from '../../config';
 import { client } from '../bot';
 
 export const WelcomeReaction = async () =>

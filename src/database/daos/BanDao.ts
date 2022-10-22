@@ -44,4 +44,19 @@ export class BanDao
             })
             .execute();
     }
+
+    static async expireIgnoreallBan(username: string, expireTime: number)
+    {
+        const repository = database.getRepository(BanEntity);
+
+        await repository
+            .createQueryBuilder()
+            .update(BanEntity)
+            .set({ expire: expireTime })
+            .where('banType = :typeuser AND value = :valueuser', {
+                typeuser: BanType.ignoreall,
+                valueuser: username,
+            })
+            .execute();
+    }
 }

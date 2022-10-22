@@ -12,3 +12,4 @@ export * from './SetNicknameCommand';
 export * from './SuperBanCommand';
 export * from './UserAlertCommand';
 export * from './UserInfoCommand';
+export * from './UnIgnoreallCommand';
