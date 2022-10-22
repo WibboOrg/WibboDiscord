@@ -2,8 +2,8 @@ import { Command } from './Command';
 
 import { Message, PermissionFlagsBits } from 'discord.js';
 
-import { Config } from '../../Config';
-import { PingCommand, UserInfoCommand, DisconnectCommand, GetAvatarCommand, SayBotCommand, GetAllUserAccountCommand, IPBanCommand, SuperBanCommand, DeBanCommand, UserAlertCommand, IPStaffCommand, AutoGameCommand, SetNicknameCommand, KickCommand } from './modules';
+import { Config } from '../../config';
+import { PingCommand, UserInfoCommand, DisconnectCommand, GetAvatarCommand, SayBotCommand, GetAllUserAccountCommand, IPBanCommand, SuperBanCommand, DeBanCommand, UserAlertCommand, IPStaffCommand, AutoGameCommand, SetNicknameCommand, KickCommand, UnIgnoreallCommand } from './modules';
 
 export const CommandManager = () =>
 {
@@ -22,6 +22,7 @@ export const CommandManager = () =>
         new AutoGameCommand,
         new SetNicknameCommand,
         new KickCommand,
+        new UnIgnoreallCommand,
     ];
 
     const getCommand = (nameOrAlias: string): Command =>
