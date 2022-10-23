@@ -6,6 +6,7 @@ export const Config = {
         username: 'root',
         password: '',
         database: '',
+        charset: 'utf8mb4',
         entities: [],
         synchronize: false,
         logging: false,
