@@ -1,5 +1,4 @@
 import { database } from './database/app-data-source';
-import { BoutiqueLogDao } from './database/daos/BoutiqueLogDao';
 import * as bot from './discord/bot';
 
 (async () =>
@@ -7,7 +6,5 @@ import * as bot from './discord/bot';
     await database.initialize();
     await bot.initialize();
 
-    const id = await BoutiqueLogDao.getLastId();
-
-    console.log(id);
+    console.log('Discord Bot Ready!');
 })();

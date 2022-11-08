@@ -41,13 +41,13 @@ export abstract class Log
         //onRun
     }
 
-    protected getTime(unix_timestamp: number)
+    protected getTime(timestamp: number)
     {
-        const date = new Date(unix_timestamp * 1000);
+        const date = new Date(timestamp * 1000);
         const hours = date.getHours();
-        const minutes = '0' + date.getMinutes();
-        const seconds = '0' + date.getSeconds();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
 
-        return `${hours}:${minutes.substring(-2)}:${seconds.substring(-2)}`;
+        return `${hours}:${minutes}:${seconds}`;
     }
 }
