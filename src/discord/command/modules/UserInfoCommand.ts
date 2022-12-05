@@ -30,7 +30,7 @@ export class UserInfoCommand extends Command
         if(this.isNumber(usernameOrId))
             row = await UserDao.getUserById(parseInt(usernameOrId));
 
-        if(!row) row = await UserDao.getUserByName(usernameOrId);
+        if(!row) row = await UserDao.getUserByNameOrMail(usernameOrId);
 
         if(!row)
         {

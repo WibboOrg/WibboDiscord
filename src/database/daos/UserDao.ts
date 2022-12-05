@@ -60,6 +60,19 @@ export class UserDao
         return result;
     }
 
+    static async getUserByNameOrMail(userNameOrMail: string): Promise<UserEntity>
+    {
+        const repository = database.getRepository(UserEntity);
+
+        const result = await repository.findOne({
+            where: [{ name: userNameOrMail }, { mail: userNameOrMail }],
+        });
+
+        if(!result) return null;
+
+        return result;
+    }
+
     static async getUserIPByName(userName: string): Promise<UserEntity>
     {
         const repository = database.getRepository(UserEntity);
