@@ -1,9 +1,7 @@
 import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
 import { Command } from '../Command';
 import { UserDao } from '../../../database/daos/UserDao';
-import { sendMus } from '../../../network/Network';
 import { BanDao } from '../../../database/daos/BanDao';
-import { BanType } from '../../../database/entities/BanEntity';
 import dayjs from 'dayjs';
 
 export class UnIgnoreallCommand extends Command
@@ -41,7 +39,7 @@ export class UnIgnoreallCommand extends Command
         try
         {
             BanDao.expireIgnoreallBan(
-                username,
+                row.id,
                 timestamp
             );
 

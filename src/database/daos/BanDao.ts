@@ -45,7 +45,7 @@ export class BanDao
             .execute();
     }
 
-    static async expireIgnoreallBan(username: string, expireTime: number)
+    static async expireIgnoreallBan(userId: number, expireTime: number)
     {
         const repository = database.getRepository(BanEntity);
 
@@ -55,7 +55,7 @@ export class BanDao
             .set({ expire: expireTime })
             .where('banType = :typeuser AND value = :valueuser', {
                 typeuser: BanType.ignoreall,
-                valueuser: username,
+                valueuser: userId,
             })
             .execute();
     }
