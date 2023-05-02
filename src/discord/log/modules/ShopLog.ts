@@ -1,9 +1,9 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
-import { BoutiqueLogDao } from '../../../database/daos/BoutiqueLogDao';
-import { BoutiqueLogEntity } from '../../../database/entities/BoutiqueLogEntity';
+import { LogShopDao } from '../../../database/daos/LogShopDao';
+import { LogShopEntity } from '../../../database/entities/LogShopEntity';
 
-export class BoutiqueLog extends Log
+export class ShopLog extends Log
 {
     constructor(seconds: number = 10)
     {
@@ -12,7 +12,7 @@ export class BoutiqueLog extends Log
 
     async onInit()
     {
-        this.lastId = await BoutiqueLogDao.getLastId();
+        this.lastId = await LogShopDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
@@ -26,10 +26,10 @@ export class BoutiqueLog extends Log
     {
         try
         {
-            if(this.lastId == -1) this.lastId = await BoutiqueLogDao.getLastId();
+            if(this.lastId == -1) this.lastId = await LogShopDao.getLastId();
             else
             {
-                const results = await BoutiqueLogDao.loadLastLog(this.lastId);
+                const results = await LogShopDao.loadLastLog(this.lastId);
                 this.rawLogs(results);
             }
         }
@@ -39,7 +39,7 @@ export class BoutiqueLog extends Log
         }
     }
 
-    rawLogs(rows: BoutiqueLogEntity[])
+    rawLogs(rows: LogShopEntity[])
     {
         if(!rows) return;
 
@@ -48,7 +48,7 @@ export class BoutiqueLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message += '**' +  row.user.name + '** à ' + this.getTime(row.date) + ': `' + row.achat + '`\n';
+            message += '**' +  row.user.name + '** à ' + this.getTime(row.date) + ': `' + row.content + '`\n';
 
             this.lastId = row.id;
         }

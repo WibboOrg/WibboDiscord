@@ -8,27 +8,27 @@ import {
 import { UserEntity } from './UserEntity';
 
 @Entity('log_shop')
-export class BoutiqueLogEntity
+export class LogShopEntity
 {
     @PrimaryGeneratedColumn({ name: 'id' })
         id: number;
 
-    @Column({ name: 'userid' })
+    @Column({ name: 'user_id' })
         userId: number;
 
     @Column({ name: 'date' })
         date: number;
 
-    @Column({ name: 'prix' })
-        prix: number;
+    @Column({ name: 'price' })
+        price: number;
 
-    @Column({ name: 'achat' })
-        achat: string;
+    @Column({ name: 'content' })
+        content: string;
 
     @Column({ name: 'type' })
         type: number;
 
     @ManyToOne(() => UserEntity)
-    @JoinColumn({ name: 'userid' })
+    @JoinColumn({ name: 'user_id' })
         user: UserEntity;
 }

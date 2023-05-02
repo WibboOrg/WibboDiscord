@@ -1,6 +1,6 @@
 import { CmdLog } from './modules/CmdLog';
 import { ChatPubLog } from './modules/ChatPubLog';
-import { BoutiqueLog } from './modules/BoutiqueLog';
+import { ShopLog } from './modules/ShopLog';
 import { StaffLog } from './modules/StaffLog';
 import { ChatLog } from './modules/ChatLog';
 import { RegisterLog } from './modules/RegisterLog';
@@ -19,7 +19,7 @@ export const LogManager = async () =>
     const logs: Log[] = [
         new CmdLog(5),
         new ChatPubLog(),
-        new BoutiqueLog(),
+        new ShopLog(),
         new StaffLog(),
         new ChatLog(5),
         new RegisterLog(),

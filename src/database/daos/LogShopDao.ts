@@ -1,11 +1,11 @@
 import { database } from '../app-data-source';
-import { BoutiqueLogEntity } from '../entities/BoutiqueLogEntity';
+import { LogShopEntity } from '../entities/LogShopEntity';
 
-export class BoutiqueLogDao
+export class LogShopDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(BoutiqueLogEntity);
+        const repository = database.getRepository(LogShopEntity);
 
         const result = await repository.find({
             select: ['id'],
@@ -18,12 +18,12 @@ export class BoutiqueLogDao
         return result[0].id;
     }
 
-    static async loadLastLog(lastId: number): Promise<BoutiqueLogEntity[]>
+    static async loadLastLog(lastId: number): Promise<LogShopEntity[]>
     {
-        const repository = database.getRepository(BoutiqueLogEntity);
+        const repository = database.getRepository(LogShopEntity);
 
         const results = await repository.createQueryBuilder('boutique')
-            .select(['boutique.id', 'boutique.date', 'boutique.achat', 'user.name'])
+            .select(['boutique.id', 'boutique.date', 'boutique.content', 'user.name'])
             .where('boutique.id > :lastId', { lastId })
             .innerJoin('boutique.user', 'user')
             .getMany();
