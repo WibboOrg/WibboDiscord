@@ -23,7 +23,7 @@ export class LogShopDao
         const repository = database.getRepository(LogShopEntity);
 
         const results = await repository.createQueryBuilder('boutique')
-            .select(['boutique.id', 'boutique.date', 'boutique.content', 'user.name'])
+            .select(['boutique.id', 'boutique.date', 'boutique.content', 'boutique.price', 'user.name'])
             .where('boutique.id > :lastId', { lastId })
             .innerJoin('boutique.user', 'user')
             .getMany();

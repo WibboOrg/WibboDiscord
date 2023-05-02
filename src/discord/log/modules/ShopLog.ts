@@ -48,7 +48,7 @@ export class ShopLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message += '**' +  row.user.name + '** à ' + this.getTime(row.date) + ': `' + row.content + '`\n';
+            message += '**' +  row.user.name + '** à ' + this.getTime(row.date) + ': `' + row.content + ' (' + row.price + ' LTC)`\n';
 
             this.lastId = row.id;
         }
