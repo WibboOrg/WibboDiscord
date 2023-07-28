@@ -1,33 +1,36 @@
-import { MoreThan } from 'typeorm';
-import { database } from '../app-data-source';
-import { CmdLogEntity } from '../entities/CmdLogEntity';
+import { prisma } from '../prisma-client';
 
 export class CmdLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(CmdLogEntity);
+        const result = await prisma.logCommand.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<CmdLogEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(CmdLogEntity);
-
-        const results = await repository.find({
-            where: { id: MoreThan(lastId) },
-            order: { id: 'ASC' },
-            take: 5,
-        });
+        const results = await prisma.logCommand.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
+        })
 
         if(!results.length) return [];
 

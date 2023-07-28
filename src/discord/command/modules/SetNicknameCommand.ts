@@ -31,7 +31,11 @@ export class SetNicknameCommand extends Command
             return;
         }
 
-        const guildMember = message.guild.members.cache.get(user.id);
+        const guild = message.guild;
+
+        if (!guild) return;
+
+        const guildMember = guild.members.cache.get(user.id);
 
         if(!guildMember)
         {

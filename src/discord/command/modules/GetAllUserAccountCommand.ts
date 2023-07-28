@@ -39,8 +39,8 @@ export class GetAllUserAccountCommand extends Command
         }
 
         const rows = await UserDao.getAllUsersByIpOrMachineId(
-            row.ipLast,
-            row.machineId
+            row.ipLast!,
+            row.machineId!
         );
 
         if(!rows)
@@ -48,11 +48,11 @@ export class GetAllUserAccountCommand extends Command
             message.reply('Aucun double compte trouvé');
         }
 
-        let messageTxt = `voici les multicomptes de ${row.name}:\n`;
+        let messageTxt = `voici les multicomptes de ${row.username}:\n`;
         messageTxt += '`';
         for(const row of rows)
         {
-            messageTxt += row.name + ' ';
+            messageTxt += row.username + ' ';
         }
         messageTxt += '`';
 

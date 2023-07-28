@@ -1,39 +1,43 @@
-import { database } from '../app-data-source';
-import { LogLoginEntity } from '../entities/LogLoginEntity';
+import { prisma } from '../prisma-client';
 
 export class LogLoginDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(LogLoginEntity);
+        const result = await prisma.logLogin.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<LogLoginEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(LogLoginEntity);
-
-        const results = await repository
-            .createQueryBuilder('loglogin')
-            .select([
-                'loglogin.id',
-                'loglogin.date',
-                'loglogin.ip',
-                'loglogin.userAgent',
-                'user.name',
-            ])
-            .where('loglogin.id > :lastId', { lastId })
-            .innerJoin('loglogin.user', 'user')
-            .getMany();
+        const results = await prisma.logLogin.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            select: {
+                id: true,
+                date: true,
+                ip: true,
+                userAgent: true,
+                user: {
+                    select: {
+                        username: true
+                    }
+                }
+            }
+        })
 
         if(!results.length) return [];
 

@@ -6,14 +6,14 @@ import { ChatLog } from './modules/ChatLog';
 import { RegisterLog } from './modules/RegisterLog';
 import { TradeLog } from './modules/TradeLog';
 import { LoginLog } from './modules/LoginLog';
+import { SlotMachineLog } from './modules/SlotMachineLog';
 
 import { Log } from './Log';
 import { LootboxLog } from './modules/LootboxLog';
-import { Config } from '../../config';
-
+    
 export const LogManager = async () =>
 {
-    if(!Config.discord.checkLog)
+    if(!process.env.DISCORD_CHECK_LOG)
         return;
 
     const logs: Log[] = [
@@ -25,7 +25,8 @@ export const LogManager = async () =>
         new RegisterLog(),
         new TradeLog(5),
         new LoginLog(5),
-        new LootboxLog()
+        new LootboxLog(),
+        new SlotMachineLog()
     ];
 
     for(const log of logs) await log.init();

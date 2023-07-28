@@ -38,8 +38,8 @@ export class DeBanCommand extends Command
 
         try
         {
-            BanDao.expireBan(row.name, row.ipLast, timestamp);
-            UserDao.updateBan(row.name, false);
+            BanDao.expireBan(row.username, row.ipLast!, timestamp);
+            UserDao.updateBan(row.username, false);
 
             message.reply(`Débannissement de ${username} ! (Compte + IP)`);
         }

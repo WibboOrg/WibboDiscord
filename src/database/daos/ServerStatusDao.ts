@@ -1,13 +1,10 @@
-import { ServerStatusEntity } from '../entities/ServerStatusEntity';
-import { database } from '../app-data-source';
+import { prisma } from '../prisma-client';
 
 export class ServerStatusDao
 {
     static async getUserOnline(): Promise<number>
     {
-        const repository = database.getRepository(ServerStatusEntity);
-
-        const result = await repository.findOne({ where: { 'id': 1 } });
+        const result = await prisma.emulatorStatus.findFirst();
 
         if(!result) return 0;
 

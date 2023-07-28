@@ -1,8 +1,6 @@
 import { Command } from './Command';
-
 import { Message, PermissionFlagsBits } from 'discord.js';
 
-import { Config } from '../../config';
 import { PingCommand, UserInfoCommand, DisconnectCommand, GetAvatarCommand, SayBotCommand, GetAllUserAccountCommand, IPBanCommand, SuperBanCommand, DeBanCommand, UserAlertCommand, IPStaffCommand, AutoGameCommand, SetNicknameCommand, KickCommand, UnIgnoreallCommand } from './modules';
 
 export const CommandManager = () =>
@@ -25,7 +23,7 @@ export const CommandManager = () =>
         new UnIgnoreallCommand,
     ];
 
-    const getCommand = (nameOrAlias: string): Command =>
+    const getCommand = (nameOrAlias: string): Command | null =>
     {
         for(const command of commands)
             if(command.aliases.indexOf(nameOrAlias) !== -1) return command;
@@ -35,12 +33,14 @@ export const CommandManager = () =>
 
     const havePermissions = (message: Message, command: Command): boolean =>
     {
+        if (!message.member) return false;
+        
         if(message.member.permissions.has(PermissionFlagsBits.Administrator)) return true;
 
-        if(Config.discord.commandSalonId != '' && message.channel.id !== Config.discord.commandSalonId)
+        if(process.env.DISCORD_COMMAND_SALON_ID != '' && message.channel.id !== process.env.DISCORD_COMMAND_SALON_ID)
             return false;
 
-        if(Config.discord.commandSalonId == '' && !command.hasPermissionsAndRoles(message.member))
+        if(process.env.DISCORD_COMMAND_SALON_ID == '' && !command.hasPermissionsAndRoles(message.member))
             return false;
 
         return true;
@@ -48,9 +48,9 @@ export const CommandManager = () =>
 
     const onMessage = (message: Message): boolean =>
     {
-        if(!message.content.startsWith(Config.discord.prefixCmd)) return false;
+        if(!message.content.startsWith(process.env.DISCORD_PREFIX_CMD!)) return false;
 
-        const parts = message.content.substring(Config.discord.prefixCmd.length).split(' ');
+        const parts = message.content.substring(process.env.DISCORD_PREFIX_CMD!.length).split(' ');
 
         if(!parts.length) return false;
 

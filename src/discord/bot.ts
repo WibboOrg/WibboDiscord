@@ -1,16 +1,14 @@
-import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits, Partials } from 'discord.js';
+import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits, Partials, PartialMessage, PartialGuildMember } from 'discord.js';
 import { CommandManager } from './command/CommandManager';
 import { LogManager } from './log/LogManager';
 import { ServerStatusDao } from '../database/daos/ServerStatusDao';
 import { WelcomeReaction } from './reaction/WelcomeReaction';
-import { Config } from '../config';
 import { AnimationReaction } from './reaction/AnimationReaction';
 
 export const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildBans,
         GatewayIntentBits.GuildEmojisAndStickers,
         GatewayIntentBits.GuildIntegrations,
         GatewayIntentBits.GuildWebhooks,
@@ -29,22 +27,20 @@ export const client = new Client({
     partials: [Partials.Channel, Partials.GuildMember, Partials.Message]
 });
 
-let commandManager = null;
+const commandManager = CommandManager();
+const logManager = LogManager();
+const animationHandler = AnimationReaction();
+const welcomeHandler = WelcomeReaction();
 
 export const initialize = async () =>
 {
     await loadClient();
-
-    commandManager = CommandManager();
-    const logManager = LogManager();
-    const animationHandler = AnimationReaction();
-    const welcomeHandler = WelcomeReaction();
 };
 
 
 const loadClient = async () =>
 {
-    const isConnected = await client.login(Config.discord.token);
+    const isConnected = await client.login(process.env.DISCORD_TOKEN);
 
     if(!isConnected)
     {
@@ -64,11 +60,11 @@ const loadClient = async () =>
 
     client.on('error', console.error);
 
-    client.user.setActivity(Config.discord.activity, {
-        type: Config.discord.type,
+    client.user?.setActivity(process.env.DISCORD_ACTIVITY!, {
+        type: parseInt(process.env.DISCORD_TYPE!),
     });
 
-    if(Config.discord.activityOnlineUser)
+    if(process.env.DISCORD_ACTIVITY_ONLINE_USER)
         setInterval(() => onUpdateActivity(), 10 * 1000);
 };
 
@@ -76,14 +72,14 @@ const onUpdateActivity = async () =>
 {
     const onlineUser = await ServerStatusDao.getUserOnline();
 
-    client.user.setActivity(`les ${onlineUser} Wibbo's en ligne!`, {
+    client.user?.setActivity(`les ${onlineUser} joueur's en ligne!`, {
         type: ActivityType.Watching,
     });
 };
 
-const onBotMessageUpdate = (oldMessage: Message, newMessage: Message) =>
+const onBotMessageUpdate = (oldMessage: Message | PartialMessage, newMessage: Message | PartialMessage) =>
 {
-    if(newMessage.author.bot) return;
+    if(!newMessage.author || newMessage.author.bot) return;
 
     if(!newMessage.guild) return;
 };
@@ -96,7 +92,7 @@ const onBotMemberAdd = (member: GuildMember) =>
     );
 };
 
-const onBotMemberRemove = (member: GuildMember) =>
+const onBotMemberRemove = (member: GuildMember | PartialGuildMember) =>
 {
     sendMessage(
         `${member.user} vient de nous quitter. Nous sommes actuellement ${member.guild.memberCount} membre!`,
@@ -121,7 +117,7 @@ export const sendMessage = async (message: string, channelName: string) =>
     {
         if(message === '' || channelName === '') return;
 
-        const guild = client.guilds.cache.find((x) => x.id == Config.discord.staffGuildId);
+        const guild = client.guilds.cache.find((x) => x.id == process.env.DISCORD_STAFF_GUILD_ID);
 
         if(!guild) return;
 

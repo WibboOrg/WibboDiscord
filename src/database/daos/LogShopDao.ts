@@ -1,32 +1,47 @@
-import { database } from '../app-data-source';
-import { LogShopEntity } from '../entities/LogShopEntity';
+import { prisma } from '../prisma-client';
 
 export class LogShopDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(LogShopEntity);
+        const result = await prisma.logShop.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<LogShopEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(LogShopEntity);
-
-        const results = await repository.createQueryBuilder('boutique')
-            .select(['boutique.id', 'boutique.date', 'boutique.content', 'boutique.price', 'user.name'])
-            .where('boutique.id > :lastId', { lastId })
-            .innerJoin('boutique.user', 'user')
-            .getMany();
+        const results = await prisma.logShop.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            select: {
+                id: true,
+                date: true,
+                content: true,
+                price: true,
+                user: {
+                    select: {
+                        username: true
+                    }
+                }
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
+        })
 
         if(!results.length) return [];
 

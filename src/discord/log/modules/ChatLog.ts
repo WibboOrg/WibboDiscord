@@ -1,7 +1,6 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
 import { ChatLogDao } from '../../../database/daos/ChatLogDao';
-import { ChatLogEntity } from '../../../database/entities/ChatLogEntity';
 
 export class ChatLog extends Log
 {
@@ -29,8 +28,7 @@ export class ChatLog extends Log
             if(this.lastId == -1) this.lastId = await ChatLogDao.getLastId();
             else
             {
-                const results = await ChatLogDao.loadLastLog(this.lastId);
-                this.rawLogs(results);
+                await this.rawLogs();
             }
         }
         catch (err)
@@ -39,8 +37,10 @@ export class ChatLog extends Log
         }
     }
 
-    rawLogs(rows: ChatLogEntity[])
+    async rawLogs()
     {
+        const rows = await ChatLogDao.loadLastLog(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;

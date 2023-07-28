@@ -1,62 +1,55 @@
-import { BanEntity, BanType } from '../entities/BanEntity';
 import dayjs from 'dayjs';
-import { database } from '../app-data-source';
+import { prisma } from '../prisma-client';
+import { BanBantype } from 'wibboprisma';
 
-export class BanDao
-{
+export class BanDao {
     static async insertBan(
-        type: BanType,
+        type: BanBantype,
         value: string,
         reason: string,
         expire: number,
         addedBy: string
-    )
-    {
-        const entity = new BanEntity();
-
-        entity.banType = type;
-        entity.value = value;
-        entity.reason = reason;
-        entity.expire = expire;
-        entity.addedDate = dayjs().unix();
-        entity.addedBy = addedBy;
-
-        const repository = database.getRepository(BanEntity);
-
-        await repository.save(entity);
+    ) {
+        await prisma.ban.create({
+            data: {
+                bantype: type,
+                value: value,
+                reason: reason,
+                expire: expire,
+                addedDate: dayjs().unix(),
+                addedBy: addedBy
+            }
+        });
     }
 
-    static async expireBan(username: string, ip: string, expireTime: number)
-    {
-        const repository = database.getRepository(BanEntity);
-
-        await repository
-            .createQueryBuilder()
-            .update(BanEntity)
-            .set({ expire: expireTime })
-            .where('banType = :typeuser AND value = :valueuser', {
-                typeuser: BanType.user,
-                valueuser: username,
-            })
-            .orWhere('banType = :typeip AND value = :valueip', {
-                typeip: BanType.ip,
-                valueip: ip,
-            })
-            .execute();
+    static async expireBan(username: string, ip: string, expireTime: number) {
+        await prisma.ban.updateMany({
+            where: {
+                OR: [{
+                    value: ip,
+                    bantype: BanBantype.ip
+                },
+                {
+                    value: username,
+                    bantype: BanBantype.user
+                }
+                ],
+            },
+            data: {
+                expire: expireTime
+            }
+        });
     }
 
-    static async expireIgnoreallBan(userId: number, expireTime: number)
-    {
-        const repository = database.getRepository(BanEntity);
-
-        await repository
-            .createQueryBuilder()
-            .update(BanEntity)
-            .set({ expire: expireTime })
-            .where('banType = :typeuser AND value = :valueuser', {
-                typeuser: BanType.ignoreall,
-                valueuser: userId,
-            })
-            .execute();
+    static async expireIgnoreallBan(userId: number, expireTime: number) {
+        await prisma.ban.updateMany({
+            where: {
+                value: userId.toString(),
+                bantype: BanBantype.ignoreall
+            },
+            data: {
+                expire: expireTime
+            }
+        });
     }
 }

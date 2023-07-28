@@ -1,8 +1,8 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
-import { LogShopDao } from '../../../database/daos/LogShopDao';
+import { LogSlotMachineDao } from '../../../database/daos/LogSlotMachineDao';
 
-export class ShopLog extends Log
+export class SlotMachineLog extends Log
 {
     constructor(seconds: number = 10)
     {
@@ -11,7 +11,7 @@ export class ShopLog extends Log
 
     async onInit()
     {
-        this.lastId = await LogShopDao.getLastId();
+        this.lastId = await LogSlotMachineDao.getLastId();
 
         this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
     }
@@ -25,7 +25,7 @@ export class ShopLog extends Log
     {
         try
         {
-            if(this.lastId == -1) this.lastId = await LogShopDao.getLastId();
+            if(this.lastId == -1) this.lastId = await LogSlotMachineDao.getLastId();
             else await this.rawLogs();
         }
         catch (err)
@@ -36,7 +36,7 @@ export class ShopLog extends Log
 
     async rawLogs()
     {
-        const rows = await LogShopDao.loadLastLog(this.lastId);
+        const rows = await LogSlotMachineDao.loadLastLog(this.lastId);
 
         if(!rows) return;
 
@@ -45,11 +45,11 @@ export class ShopLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message += '**' +  row.user.username + '** à ' + this.getTime(row.date) + ': `' + row.content + ' (' + row.price + ' LTC)`\n';
+            message += '**' +  row.user.username + '** à ' + this.getTime(row.date) + ': `' + (row.isWin ? "Gagnée" : "Perdu") + ' (' + row.amount + ' Points)`\n';
 
             this.lastId = row.id;
         }
 
-        sendMessage(message, 'logs_boutique');
+        sendMessage(message, 'logs_slotmachine');
     }
 }

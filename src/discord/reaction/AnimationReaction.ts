@@ -1,10 +1,9 @@
 import { TextChannel, MessageReaction, ReactionCollector, ChannelType } from 'discord.js';
-import { Config } from '../../config';
 import { client } from '../bot';
 
 export const AnimationReaction = () =>
 {
-    const guild = client.guilds.cache.find((x) => x.id == Config.discord.staffGuildId);
+    const guild = client.guilds.cache.find((x) => x.id == process.env.DISCORD_STAFF_GUILD_ID);
 
     if(!guild) return;
 
@@ -24,11 +23,15 @@ export const AnimationReaction = () =>
     const collector = message.createReactionCollector();
     collector.on('collect', (reaction: MessageReaction) =>
     {
-        if(reaction.users.cache.last().id === messageId) return;
+        const lastUser = reaction.users.cache.last();
 
-        const member = client.guilds.cache
-            .find((x) => x.id == Config.discord.communGuildId)
-            .members.cache.find((x) => x.id == reaction.users.cache.last().id);
+        if(!lastUser || lastUser.id === messageId) return;
+
+        const guild = client.guilds.cache.find((x) => x.id == process.env.DISCORD_COMMUN_GUILD_ID!);
+
+        if (!guild) return;
+            
+        const member = guild.members.cache.find((x) => x.id == lastUser.id);
 
         if(!member) return;
 

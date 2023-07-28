@@ -1,16 +1,15 @@
 import { Socket } from 'net';
-import { Config } from '../config';
 
 export const sendMus = (commande: string, ...data: string[]) =>
 {
     return new Promise(function (resolve, reject)
     {
-        if(!Config.serverMus.enable) reject('MusSocket désactivé');
+        if(!process.env.SERVER_MUS_ENABLE) reject('MusSocket désactivé');
 
         const message = `${commande}${chr(1)}${data.join(chr(1))}`;
 
         const socket = new Socket();
-        socket.connect(Config.serverMus.port, Config.serverMus.ip);
+        socket.connect(parseInt(process.env.SERVER_MUS_PORT!));
 
         socket.on('connect', () =>
         {

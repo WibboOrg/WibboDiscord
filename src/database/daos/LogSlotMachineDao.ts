@@ -1,17 +1,17 @@
 import { prisma } from '../prisma-client';
 
-export class ChatLogDao
+export class LogSlotMachineDao
 {
     static async getLastId(): Promise<number>
     {
-        const result = await prisma.logChat.findFirst({
+        const result = await prisma.logSlotmachine.findFirst({
             select: {
-                id: true,
+                id: true
             },
             orderBy: {
-                id: 'desc',
+                id: 'desc'
             }
-        });
+        })
 
         if(!result) return -1;
 
@@ -20,24 +20,27 @@ export class ChatLogDao
 
     static async loadLastLog(lastId: number)
     {
-        const results = await prisma.logChat.findMany({
+        const results = await prisma.logSlotmachine.findMany({
             where: {
                 id: {
                     gt: lastId
                 },
-                user: {
-                    online: true,
-                    accountCreated: {
-                        gt: new Date().getTime() - 7200
-                    }
-                }
             },
             select: {
                 id: true,
-                userName: true,
-                message: true,
-                timestamp: true
+                date: true,
+                isWin: true,
+                amount: true,
+                user: {
+                    select: {
+                        username: true
+                    }
+                }
             },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
         })
 
         if(!results.length) return [];

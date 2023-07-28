@@ -1,33 +1,42 @@
-import { MoreThan } from 'typeorm';
-import { database } from '../app-data-source';
-import { ChatPubLogEntity } from '../entities/ChatPubLogEntity';
+import { prisma } from '../prisma-client';
 
 export class ChatPubLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(ChatPubLogEntity);
+        const result = await prisma.logChatPub.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<ChatPubLogEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(ChatPubLogEntity);
-
-        const results = await repository.find({
-            where: { id: MoreThan(lastId) },
-            order: { id: 'ASC' },
+        const results = await prisma.logChatPub.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            orderBy: {
+                id: 'asc'
+            },
             take: 5,
-        });
+            select: {
+                id: true,
+                userName: true,
+                message: true,
+                timestamp: true
+            },
+        })
 
         if(!results.length) return [];
 

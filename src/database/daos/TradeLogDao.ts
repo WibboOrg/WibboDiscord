@@ -1,42 +1,52 @@
-import { database } from '../app-data-source';
-import { TradeLogEntity } from '../entities/TradeLogEntity';
+import { prisma } from '../prisma-client';
 
 export class TradeLogDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(TradeLogEntity);
+        const result = await prisma.logTrade.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<TradeLogEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(TradeLogEntity);
-
-        const results = await repository
-            .createQueryBuilder('log_trade')
-            .select([
-                'log_trade.id',
-                'log_trade.time',
-                'log_trade.userOneItems',
-                'log_trade.userTwoItems',
-                'userOne.name',
-                'userTwo.name',
-                'log_trade.roomId',
-            ])
-            .where('log_trade.id > :lastId', { lastId })
-            .innerJoin('log_trade.userOne', 'userOne')
-            .innerJoin('log_trade.userTwo', 'userTwo')
-            .getMany();
+        const results = await prisma.logTrade.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            select: {
+                id: true,
+                time: true,
+                userOneItems: true,
+                userTwoItems: true,
+                userOneTrade: {
+                    select: {
+                        username: true
+                    }
+                },
+                userTwoTrade: {
+                    select: {
+                        username: true
+                    }
+                }
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
+        })
 
         if(!results.length) return [];
 

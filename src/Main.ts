@@ -1,9 +1,10 @@
-import { database } from './database/app-data-source';
 import * as bot from './discord/bot';
+import dotenv from 'dotenv';
 
 (async () =>
 {
-    await database.initialize();
+    dotenv.config();
+
     await bot.initialize();
 
     console.log('Discord Bot Ready!');

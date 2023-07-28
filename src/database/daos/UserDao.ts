@@ -1,100 +1,101 @@
-import {  MoreThan } from 'typeorm';
-import { database } from '../app-data-source';
-import { UserEntity } from '../entities/UserEntity';
+import { prisma } from '../prisma-client';
 
 export class UserDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(UserEntity);
+        const result = await prisma.user.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async getUserById(id: number): Promise<UserEntity>
+    static async getUserById(id: number)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const result = await repository.findOne({
-            where: { id },
-        });
+        const result = await prisma.user.findFirst({
+            where: { id }
+        })
 
         if(!result) return null;
 
         return result;
     }
 
-    static async getLastUsers(lastId: number): Promise<UserEntity[]>
+    static async getLastUsers(lastId: number)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const results = await repository.find({
-            where: { id: MoreThan(lastId) },
-            order: { id: 'ASC' },
-            take: 5,
-        });
+        const results = await prisma.user.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
+        })
 
         if(!results.length) return [];
 
         return results;
     }
 
-    static async getUserByName(userName: string): Promise<UserEntity>
+    static async getUserByName(userName: string)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const result = await repository.findOne({
-            where: { name: userName },
-        });
+        const result = await prisma.user.findFirst({
+            where: { username: userName }
+        })
 
         if(!result) return null;
 
         return result;
     }
 
-    static async getUserByNameOrMail(userNameOrMail: string): Promise<UserEntity>
+    static async getUserByNameOrMail(userNameOrMail: string)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const result = await repository.findOne({
-            where: [{ name: userNameOrMail }, { mail: userNameOrMail }],
-        });
+        const result = await prisma.user.findFirst({
+            where: {
+                OR: [{ username: userNameOrMail }, { mail: userNameOrMail }]
+            }
+        })
 
         if(!result) return null;
 
         return result;
     }
 
-    static async getUserIPByName(userName: string): Promise<UserEntity>
+    static async getUserIPByName(userName: string)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const result = await repository.findOne({
-            select: ['ipLast'],
-            where: { name: userName },
-        });
+        const result = await prisma.user.findFirst({
+            where: {
+                username: userName
+            },
+            select: {
+                ipLast: true
+            }
+        })
 
         if(!result) return null;
 
         return result;
     }
 
-    static async getUserIdByUsername(userName: string): Promise<UserEntity>
+    static async getUserIdByUsername(userName: string)
     {
-        const repository = database.getRepository(UserEntity);
-
-        const result = await repository.findOne({
-            select: ['id'],
-            where: { name: userName },
-        });
+        const result = await prisma.user.findFirst({
+            where: { username: userName },
+            select: {
+                id: true
+            }
+        })
 
         if(!result) return null;
 
@@ -103,16 +104,20 @@ export class UserDao
 
     static async getAllUsersByIpOrMachineId(
         IP: string,
-        MachineId: string
-    ): Promise<UserEntity[]>
+        MachineId: string | undefined
+    )
     {
-        const repository = database.getRepository(UserEntity);
+        MachineId = MachineId == '' ? undefined : MachineId;
 
-        MachineId = MachineId == '' ? 'empty' : MachineId;
-        const results = await repository.find({
-            select: ['id', 'name'],
-            where: [{ ipLast: IP }, { machineId: MachineId }],
-        });
+        const results = await prisma.user.findMany({
+            where: {
+                OR: [{ ipLast: IP }, { machineId: MachineId }]
+            },
+            select: {
+                id: true,
+                username: true
+            }
+        })
 
         if(!results) return [];
 
@@ -121,13 +126,9 @@ export class UserDao
 
     static async updateBan(name: string, banned: boolean)
     {
-        const repository = database.getRepository(UserEntity);
-
-        await repository
-            .createQueryBuilder()
-            .update(UserEntity)
-            .set({ isBanned: banned ? '1' : '0' })
-            .where({ name })
-            .execute();
+        await prisma.user.update({
+            where: { username: name },
+            data: { isBanned: banned }
+        })
     }
 }

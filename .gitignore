@@ -1,8 +1,8 @@
 node_modules
 dist
-src/Config.ts
 debug.log
 start.bat
 .DS_Store
 yarn-error.log
 yarn.lock
+.env

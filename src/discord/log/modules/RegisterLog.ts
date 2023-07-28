@@ -1,7 +1,6 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
 import { UserDao } from '../../../database/daos/UserDao';
-import { UserEntity } from '../../../database/entities/UserEntity';
 
 export class RegisterLog extends Log
 {
@@ -27,11 +26,7 @@ export class RegisterLog extends Log
         try
         {
             if(this.lastId == -1) this.lastId = await UserDao.getLastId();
-            else
-            {
-                const results = await UserDao.getLastUsers(this.lastId);
-                this.rawLogs(results);
-            }
+            else await this.rawLogs();
         }
         catch (err)
         {
@@ -39,37 +34,23 @@ export class RegisterLog extends Log
         }
     }
 
-    rawLogs(rows: UserEntity[]): void
+    async rawLogs()
     {
+        const rows = await UserDao.getLastUsers(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;
 
-        const messages: MessageLog[] = [];
+        let messageTxt = '';
         for(const row of rows)
         {
+            messageTxt += '**' + row.username + '** à ' + this.getTime(row.accountCreated) + ': `' + row.ipcountry || '' + '`\n';
+            
             this.lastId = row.id;
-
-            messages.push({
-                name: row.name,
-                date: row.accountCreated,
-                action: row.ipCountry,
-            });
-        }
-
-        let messageTxt = '';
-        for(const message of messages)
-        {
-            messageTxt += '**' + message.name + '** à ' + this.getTime(message.date) + ': `' + message.action + '`\n';
         }
 
         if(messageTxt.length)
             sendMessage(messageTxt, 'logs_inscription');
     }
-}
-
-interface MessageLog {
-  name: string;
-  date: number;
-  action: string;
 }

@@ -1,20 +1,13 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "outDir": "dist",
-      "target": "es6",
-      "strict": false,
-      "removeComments": true,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "strictNullChecks": false
-    },
-    "include": [
-      "src/**/*"
-    ],
-    "exclude": [
-      "node_modules"
-    ],
+	"compilerOptions": {
+	  "target": "ES6",
+	  "module": "CommonJS",
+	  "rootDir": "./src",
+	  "outDir": "./dist",
+	  "strict": true,
+	  "esModuleInterop": true,
+	  "skipLibCheck": true,
+	  "forceConsistentCasingInFileNames": true,
+	},
+	"exclude": ["node_modules"]
   }

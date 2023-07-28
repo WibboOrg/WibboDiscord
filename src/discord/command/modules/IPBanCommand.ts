@@ -3,8 +3,8 @@ import { Command } from '../Command';
 import { UserDao } from '../../../database/daos/UserDao';
 import { sendMus } from '../../../network/Network';
 import { BanDao } from '../../../database/daos/BanDao';
-import { BanType } from '../../../database/entities/BanEntity';
 import dayjs from 'dayjs';
+import { BanBantype } from 'wibboprisma';
 
 export class IPBanCommand extends Command
 {
@@ -29,7 +29,7 @@ export class IPBanCommand extends Command
         }
 
         let reason = parts.slice(1).join(' ');
-        reason = reason == '' ? 'Non respect de la Wibbo Attitude ainsi que des Conditions Générales d\'Utilisations' : reason;
+        reason = reason == '' ? 'Non respect des Conditions Générales d\'Utilisations' : reason;
 
         const row = await UserDao.getUserByName(username);
 
@@ -46,15 +46,15 @@ export class IPBanCommand extends Command
             await sendMus('signout', row.id.toString());
 
             BanDao.insertBan(
-                BanType.ip,
-                row.ipLast,
+                BanBantype.ip,
+                row.ipLast || '',
                 reason,
                 timestamp,
                 message.author.username
             );
             BanDao.insertBan(
-                BanType.user,
-                row.name,
+                BanBantype.user,
+                row.username,
                 reason,
                 timestamp,
                 message.author.username

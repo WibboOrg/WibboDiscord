@@ -1,7 +1,6 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
 import { LogLoginDao } from '../../../database/daos/LogLoginDao';
-import { LogLoginEntity } from '../../../database/entities/LogLoginEntity';
 
 export class LoginLog extends Log
 {
@@ -27,11 +26,7 @@ export class LoginLog extends Log
         try
         {
             if(this.lastId == -1) this.lastId = await LogLoginDao.getLastId();
-            else
-            {
-                const results = await LogLoginDao.loadLastLog(this.lastId);
-                this.rawLogs(results);
-            }
+            else await this.rawLogs();
         }
         catch (err)
         {
@@ -39,8 +34,10 @@ export class LoginLog extends Log
         }
     }
 
-    rawLogs(rows: LogLoginEntity[])
+    async rawLogs()
     {
+        const rows = await LogLoginDao.loadLastLog(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;
@@ -48,10 +45,7 @@ export class LoginLog extends Log
         let message = '';
         for(const row of rows)
         {
-            const userIP = row.ip.substring(0, 6);
-
-            // message += "**" + row.user.name + "** à " + this.getTime(row.date) + ": `" + row.userAgent + " (" + userIP + "...)`\n";
-            message += '**' + row.user.name + '** à ' + this.getTime(row.date) + '\n';
+            message += '**' + row.user.username + '** à ' + this.getTime(row.date) + '\n';
 
             this.lastId = row.id;
         }

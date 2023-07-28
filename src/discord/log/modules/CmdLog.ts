@@ -1,6 +1,5 @@
 import { Log } from '../Log';
 import { CmdLogDao } from '../../../database/daos/CmdLogDao';
-import { CmdLogEntity } from '../../../database/entities/CmdLogEntity';
 import { sendMessage } from '../../bot';
 
 export class CmdLog extends Log
@@ -27,11 +26,7 @@ export class CmdLog extends Log
         try
         {
             if(this.lastId == -1) this.lastId = await CmdLogDao.getLastId();
-            else
-            {
-                const results = await CmdLogDao.loadLastLog(this.lastId);
-                this.rawLogs(results);
-            }
+            else await this.rawLogs();
         }
         catch (err)
         {
@@ -39,8 +34,10 @@ export class CmdLog extends Log
         }
     }
 
-    rawLogs(rows: CmdLogEntity[]): void
+    async rawLogs()
     {
+        const rows = await CmdLogDao.loadLastLog(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;

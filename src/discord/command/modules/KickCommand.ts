@@ -31,6 +31,13 @@ export class KickCommand extends Command
             return;
         }
 
+        const guild = message.guild;
+
+        if (!guild)
+        {
+            return;
+        }
+
         const guildMember = message.guild.members.cache.get(user.id);
 
         if(!guildMember)

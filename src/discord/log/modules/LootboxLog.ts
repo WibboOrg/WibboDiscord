@@ -1,7 +1,6 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
 import { LogLootboxDao } from '../../../database/daos/LogLootboxDao';
-import { LogLootboxEntity } from '../../../database/entities/LogLootboxEntity';
 
 export class LootboxLog extends Log
 {
@@ -27,11 +26,7 @@ export class LootboxLog extends Log
         try
         {
             if(this.lastId == -1) this.lastId = await LogLootboxDao.getLastId();
-            else
-            {
-                const results = await LogLootboxDao.loadLastLog(this.lastId);
-                this.rawLogs(results);
-            }
+            else await this.rawLogs();
         }
         catch (err)
         {
@@ -39,8 +34,10 @@ export class LootboxLog extends Log
         }
     }
 
-    rawLogs(rows: LogLootboxEntity[])
+    async rawLogs()
     {
+        const rows = await LogLootboxDao.loadLastLog(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;
@@ -48,7 +45,7 @@ export class LootboxLog extends Log
         let message = '';
         for(const row of rows)
         {
-            message += '**' + row.user.name + '** à ' + this.getTime(row.timestamp) + ' (' + row.interactionType + '): `' + row.itemBase.itemName + ' ('+ this.getRarity(row.itemBase.rarityLevel) +')`\n';
+            message += '**' + row.user.username + '** à ' + this.getTime(row.timestamp) + ' (' + row.interactionType + '): `' + row.itemBase.itemName + ' ('+ this.getRarity(row.itemBase.rarityLevel) +')`\n';
 
             this.lastId = row.id;
         }

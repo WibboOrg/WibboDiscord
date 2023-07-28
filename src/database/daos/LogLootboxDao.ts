@@ -1,41 +1,57 @@
-import { database } from '../app-data-source';
-import { LogLootboxEntity } from '../entities/LogLootboxEntity';
+import { prisma } from '../prisma-client';
 
 export class LogLootboxDao
 {
     static async getLastId(): Promise<number>
     {
-        const repository = database.getRepository(LogLootboxEntity);
+        const result = await prisma.logLootbox.findFirst({
+            select: {
+                id: true
+            },
+            orderBy: {
+                id: 'desc'
+            }
+        })
 
-        const result = await repository.find({
-            select: ['id'],
-            order: { id: 'DESC' },
-            take: 1
-        });
+        if(!result) return -1;
 
-        if(!result || !result.length) return -1;
-
-        return result[0].id;
+        return result.id;
     }
 
-    static async loadLastLog(lastId: number): Promise<LogLootboxEntity[]>
+    static async loadLastLog(lastId: number)
     {
-        const repository = database.getRepository(LogLootboxEntity);
-
-        const results = await repository
-            .createQueryBuilder('loglootbox')
-            .innerJoin('loglootbox.user', 'user')
-            .innerJoin('loglootbox.itemBase', 'itemBase')
-            .select([
-                'loglootbox.id',
-                'loglootbox.interactionType',
-                'loglootbox.timestamp',
-                'user.name',
-                'itemBase.itemName',
-                'itemBase.rarityLevel',
-            ])
-            .where('loglootbox.id > :lastId AND itemBase.rarityLevel != 1', { lastId })
-            .getMany();
+        const results = await prisma.logLootbox.findMany({
+            where: {
+                id: {
+                    gt: lastId
+                },
+                itemBase: {
+                    rarityLevel: {
+                        not: 1
+                    }
+                }
+            },
+            select: {
+                id: true,
+                interactionType: true,
+                timestamp: true,
+                user: {
+                    select: {
+                        username: true
+                    }
+                },
+                itemBase: {
+                    select: {
+                        itemName: true,
+                        rarityLevel: true
+                    }
+                }
+            },
+            orderBy: {
+                id: 'asc'
+            },
+            take: 5
+        })
 
         if(!results.length) return [];
 

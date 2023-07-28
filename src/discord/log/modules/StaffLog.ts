@@ -1,7 +1,6 @@
 import { Log } from '../Log';
 import { sendMessage } from '../../bot';
 import { StaffLogDao } from '../../../database/daos/StaffLogDao';
-import { StaffLogEntity } from '../../../database/entities/StaffLogEntity';
 
 export class StaffLog extends Log
 {
@@ -27,12 +26,7 @@ export class StaffLog extends Log
         try
         {
             if(this.lastId == -1) this.lastId = await StaffLogDao.getLastId();
-            else
-            {
-                const results = await StaffLogDao.loadLastLog(this.lastId);
-
-                this.rawLogs(results);
-            }
+            else await this.rawLogs();
         }
         catch (err)
         {
@@ -40,8 +34,10 @@ export class StaffLog extends Log
         }
     }
 
-    rawLogs(rows: StaffLogEntity[])
+    async rawLogs()
     {
+        const rows = await StaffLogDao.loadLastLog(this.lastId);
+
         if(!rows) return;
 
         if(!rows.length) return;
