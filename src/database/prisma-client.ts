@@ -1,3 +1,7 @@
-import { PrismaClient } from 'wibboprisma'
+import { PrismaClient, createContext } from 'wibboprisma'
 
-export const prisma = new PrismaClient()
+export let prisma: PrismaClient = null;
+
+export const initPrisma = async () => {
+  prisma = (await createContext({})).prisma;
+}

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { prisma } from '../prisma-client';
 
 export class ChatLogDao
@@ -26,9 +27,8 @@ export class ChatLogDao
                     gt: lastId
                 },
                 user: {
-                    online: true,
                     accountCreated: {
-                        gt: new Date().getTime() - 7200
+                        gt: dayjs().subtract(2, 'hour').unix()
                     }
                 }
             },

@@ -45,7 +45,7 @@ export class RegisterLog extends Log
         let messageTxt = '';
         for(const row of rows)
         {
-            messageTxt += '**' + row.username + '** à ' + this.getTime(row.accountCreated) + ': `' + row.ipcountry || '' + '`\n';
+            messageTxt += '**' + row.username + '** à ' + this.getTime(row.accountCreated) + ': `' + (row.ipcountry || '') + '`\n';
             
             this.lastId = row.id;
         }

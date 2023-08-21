@@ -13,7 +13,7 @@ import { LootboxLog } from './modules/LootboxLog';
     
 export const LogManager = async () =>
 {
-    if(!process.env.DISCORD_CHECK_LOG)
+    if(process.env.DISCORD_CHECK_LOG !== "true")
         return;
 
     const logs: Log[] = [
@@ -29,5 +29,7 @@ export const LogManager = async () =>
         new SlotMachineLog()
     ];
 
-    for(const log of logs) await log.init();
+    for (const log of logs) await log.init();
+    
+    console.log('Logs initialized!');
 };

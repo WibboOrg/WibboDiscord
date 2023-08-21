@@ -28,13 +28,14 @@ export const client = new Client({
 });
 
 const commandManager = CommandManager();
-const logManager = LogManager();
-const animationHandler = AnimationReaction();
-const welcomeHandler = WelcomeReaction();
 
 export const initialize = async () =>
 {
     await loadClient();
+
+    const logManager = LogManager();
+    // const animationHandler = AnimationReaction();
+    // const welcomeHandler = WelcomeReaction();
 };
 
 
@@ -64,7 +65,7 @@ const loadClient = async () =>
         type: parseInt(process.env.DISCORD_TYPE!),
     });
 
-    if(process.env.DISCORD_ACTIVITY_ONLINE_USER)
+    if(process.env.DISCORD_ACTIVITY_ONLINE_USER === "true")
         setInterval(() => onUpdateActivity(), 10 * 1000);
 };
 

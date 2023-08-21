@@ -4,12 +4,12 @@ export const sendMus = (commande: string, ...data: string[]) =>
 {
     return new Promise(function (resolve, reject)
     {
-        if(!process.env.SERVER_MUS_ENABLE) reject('MusSocket désactivé');
+        if(process.env.SERVER_MUS_ENABLE !== "true") reject('MusSocket désactivé');
 
         const message = `${commande}${chr(1)}${data.join(chr(1))}`;
 
         const socket = new Socket();
-        socket.connect(parseInt(process.env.SERVER_MUS_PORT!));
+        socket.connect(parseInt(process.env.SERVER_MUS_PORT!), process.env.SERVER_MUS_HOST!);
 
         socket.on('connect', () =>
         {
