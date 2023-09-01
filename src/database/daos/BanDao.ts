@@ -27,11 +27,11 @@ export class BanDao {
             where: {
                 OR: [{
                     value: ip,
-                    bantype: BanBantype.ip
+                    bantype: 'ip'
                 },
                 {
                     value: username,
-                    bantype: BanBantype.user
+                    bantype: 'user'
                 }
                 ],
             },
@@ -45,7 +45,7 @@ export class BanDao {
         await prisma.ban.updateMany({
             where: {
                 value: userId.toString(),
-                bantype: BanBantype.ignoreall
+                bantype: 'ignoreall'
             },
             data: {
                 expire: expireTime

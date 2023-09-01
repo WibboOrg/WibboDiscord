@@ -46,14 +46,14 @@ export class IPBanCommand extends Command
             await sendMus('signout', row.id.toString());
 
             BanDao.insertBan(
-                BanBantype.ip,
+                'ip',
                 row.ipLast || '',
                 reason,
                 timestamp,
                 message.author.username
             );
             BanDao.insertBan(
-                BanBantype.user,
+                'user',
                 row.username,
                 reason,
                 timestamp,

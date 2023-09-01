@@ -45,7 +45,7 @@ export class SuperBanCommand extends Command
             await sendMus('signout', row.id.toString());
 
             BanDao.insertBan(
-                BanBantype.user,
+                'user',
                 row.username,
                 reason,
                 timestamp,
