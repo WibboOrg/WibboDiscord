@@ -1,56 +1,28 @@
-import { Log } from '../Log';
-import { sendMessage } from '../../bot';
-import { UserDao } from '../../../database/daos/UserDao';
+import { UserDao } from '../../../database/daos/UserDao'
+import { getTime } from '../../utils'
+import { ILog } from '../../types'
 
-export class RegisterLog extends Log
-{
-    constructor(seconds: number = 10)
-    {
-        super(seconds);
-    }
+export default {
+    seconds: 5,
+    channelName: 'logs_inscription',
+    getLastId: async () => await UserDao.getLastId(),
 
-    async onInit()
-    {
-        this.lastId = await UserDao.getLastId();
+    rawLogs: async (lastId: number) => {
+        const rows = await UserDao.getLastUsers(lastId)
 
-        this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
-    }
+        if(!rows) return
 
-    async onDispose()
-    {
-        clearInterval(this.runInterval);
-    }
+        if(!rows.length) return
 
-    async onRun()
-    {
-        try
-        {
-            if(this.lastId == -1) this.lastId = await UserDao.getLastId();
-            else await this.rawLogs();
-        }
-        catch (err)
-        {
-            console.log(err);
-        }
-    }
-
-    async rawLogs()
-    {
-        const rows = await UserDao.getLastUsers(this.lastId);
-
-        if(!rows) return;
-
-        if(!rows.length) return;
-
-        let messageTxt = '';
+        let message = ''
         for(const row of rows)
         {
-            messageTxt += '**' + row.username + '** à ' + this.getTime(row.accountCreated) + ': `' + (row.ipcountry || '') + '`\n';
+            message += '**' + row.username + '** à ' + getTime(row.accountCreated) + ': `' + (row.ipcountry || '') + '`\n'
             
-            this.lastId = row.id;
+            if (row.id > lastId)
+                lastId = row.id
         }
 
-        if(messageTxt.length)
-            sendMessage(messageTxt, 'logs_inscription');
+        return { message, lastId }
     }
-}
+} satisfies ILog

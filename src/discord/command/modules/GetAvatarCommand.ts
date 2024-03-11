@@ -1,30 +1,25 @@
-import { EmbedBuilder, Message, PermissionResolvable } from 'discord.js';
-import { Command } from '../Command';
+import { EmbedBuilder, Message } from 'discord.js'
+import { ICommand } from '../../types'
 
-export class GetAvatarCommand extends Command
-{
-    constructor()
+export default {
+    name: 'getavatar',
+    permissions: [],
+    roles: ['everyone'],
+
+    parse: async (message: Message, parts: string[]) =>
     {
-        const permissions: PermissionResolvable[] = [];
-        const roles: string[] = ['everyone'];
-
-        super(permissions, roles, 'getavatar');
-    }
-
-    async parse(message: Message, parts: string[])
-    {
-        const user = message.mentions.users.first();
+        const user = message.mentions.users.first()
 
         if(!user)
         {
-            message.reply('Veuillez mentionner un utilisateur.');
-            return;
+            message.reply('Veuillez mentionner un utilisateur.')
+            return
         }
 
         if(!user.avatarURL())
         {
-            message.reply('Cet utilisateur n\'a pas d\'avatar.');
-            return;
+            message.reply('Cet utilisateur n\'a pas d\'avatar.')
+            return
         }
 
         const embed = new EmbedBuilder()
@@ -33,6 +28,6 @@ export class GetAvatarCommand extends Command
             .setImage(user.avatarURL())
             .setTimestamp()
 
-        message.channel.send({ embeds: [embed] });
+        message.channel.send({ embeds: [embed] })
     }
-}
+} satisfies ICommand

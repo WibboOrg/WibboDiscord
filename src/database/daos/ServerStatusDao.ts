@@ -1,13 +1,13 @@
-import { prisma } from '../prisma-client';
+import { prisma } from '../prisma-client'
 
 export class ServerStatusDao
 {
     static async getUserOnline(): Promise<number>
     {
-        const result = await prisma.emulatorStatus.findFirst();
+        const result = await prisma.emulatorStatus.findFirst()
 
-        if(!result) return 0;
+        if(!result) return 0
 
-        return result.usersOnline;
+        return result.usersOnline
     }
 }

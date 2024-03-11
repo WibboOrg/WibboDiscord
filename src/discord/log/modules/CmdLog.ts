@@ -1,62 +1,31 @@
-import { Log } from '../Log';
-import { CmdLogDao } from '../../../database/daos/CmdLogDao';
-import { sendMessage } from '../../bot';
+import { CmdLogDao } from '../../../database/daos/CmdLogDao'
+import { ILog } from '../../types'
+import { getTime } from '../../utils'
 
-export class CmdLog extends Log
-{
-    constructor(seconds: number = 10)
-    {
-        super(seconds);
-    }
+export default {
+    seconds: 5,
+    channelName: 'logs_commands',
+    getLastId: async () => await CmdLogDao.getLastId(),
 
-    async onInit()
-    {
-        this.lastId = await CmdLogDao.getLastId();
+    rawLogs: async (lastId: number) => {
+        const rows = await CmdLogDao.loadLastLog(lastId)
 
-        this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
-    }
+        if(!rows) return
 
-    async onDispose()
-    {
-        clearInterval(this.runInterval);
-    }
+        if(!rows.length) return
 
-    async onRun()
-    {
-        try
-        {
-            if(this.lastId == -1) this.lastId = await CmdLogDao.getLastId();
-            else await this.rawLogs();
-        }
-        catch (err)
-        {
-            console.log(err);
-        }
-    }
-
-    async rawLogs()
-    {
-        const rows = await CmdLogDao.loadLastLog(this.lastId);
-
-        if(!rows) return;
-
-        if(!rows.length) return;
-
-        let message = '';
-        let messageWibboGame = '';
+        let message = ''
         for(const row of rows)
         {
             if(row.userName == 'WibboGame')
-                messageWibboGame += '**' + row.userName + '** à ' + this.getTime(row.timestamp) + ': `' + row.extraData + '`\n';
-            else
-                message += '**' + row.userName + '** à ' + this.getTime(row.timestamp) + ': `' + row.extraData + '`\n';
+                continue
 
-            this.lastId = row.id;
+            message += '**' + row.userName + '** à ' + getTime(row.timestamp) + ': `' + row.extraData + '`\n'
+
+            if (row.id > lastId)
+                lastId = row.id
         }
 
-        if(message !== '')
-            sendMessage(message, 'logs_commands');
-        if(messageWibboGame !== '')
-            sendMessage(messageWibboGame, 'logs_wibbogame');
+        return { message, lastId }
     }
-}
+} satisfies ILog

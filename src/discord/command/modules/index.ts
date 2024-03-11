@@ -1,15 +1,15 @@
-export * from './AutoGameCommand';
-export * from './DeBanCommand';
-export * from './DisconnectCommand';
-export * from './GetAllUserAccountCommand';
-export * from './GetAvatarCommand';
-export * from './IPBanCommand';
-export * from './IPStaffCommand';
-export * from './KickCommand';
-export * from './PingCommand';
-export * from './SayBotCommand';
-export * from './SetNicknameCommand';
-export * from './SuperBanCommand';
-export * from './UserAlertCommand';
-export * from './UserInfoCommand';
-export * from './UnIgnoreallCommand';
+export { default as AutoGame } from './AutoGameCommand'
+export { default as DeBan } from './DeBanCommand'
+export { default as Disconnect } from './DisconnectCommand'
+export { default as GetAllUserAccount } from './GetAllUserAccountCommand'
+export { default as GetAvatar } from './GetAvatarCommand'
+export { default as IPBan } from './IPBanCommand'
+export { default as IPStaff } from './IPStaffCommand'
+export { default as Kick } from './KickCommand'
+export { default as Ping } from './PingCommand'
+export { default as SayBot } from './SayBotCommand'
+export { default as SetNickname } from './SetNicknameCommand'
+export { default as SuperBan } from './SuperBanCommand'
+export { default as UserAlert } from './UserAlertCommand'
+export { default as UserInfo } from './UserInfoCommand'
+export { default as UnIgnoreall } from './UnIgnoreallCommand'

@@ -1,52 +1,46 @@
-import { Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js';
-import { Command } from '../Command';
+import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
+import { ICommand } from '../../types'
 
-export class KickCommand extends Command
-{
-    constructor()
-    {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = ['Administrateur'];
+export default {
+    name: 'kick',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: ['Administrateur'],
 
-        super(permissions, roles, 'kick');
-    }
+    parse: async (message: Message, parts: string[]) => {
+        parts.splice(0, 1)
 
-    async parse(message: Message, parts: string[])
-    {
-        parts.splice(0, 1);
-
-        const username = parts.join(' ');
+        const username = parts.join(' ')
 
         if(username === '')
         {
-            message.reply('Veuillez mettre un pseudo en premier argument');
-            return;
+            message.reply('Veuillez mettre un pseudo en premier argument')
+            return
         }
 
-        const user = message.mentions.users.first();
+        const user = message.mentions.users.first()
 
         if(!user)
         {
-            message.reply('Veuillez mentionner l\'utilisateur');
-            return;
+            message.reply('Veuillez mentionner l\'utilisateur')
+            return
         }
 
-        const guild = message.guild;
+        const guild = message.guild
 
         if (!guild)
         {
-            return;
+            return
         }
 
-        const guildMember = message.guild.members.cache.get(user.id);
+        const guildMember = message.guild.members.cache.get(user.id)
 
         if(!guildMember)
         {
-            message.reply('Cet utilisateur n\'existe pas');
-            return;
+            message.reply('Cet utilisateur n\'existe pas')
+            return
         }
 
-        guildMember.kick(username);
-        message.channel.send(`${username} vient d'être exclu(e) du Discord !`);
+        guildMember.kick(username)
+        message.channel.send(`${username} vient d'être exclu(e) du Discord !`)
     }
-}
+} satisfies ICommand

@@ -1,47 +1,41 @@
-import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
-import { Command } from '../Command';
-import { UserDao } from '../../../database/daos/UserDao';
-import { sendMus } from '../../../network/Network';
+import { Message, PermissionFlagsBits } from 'discord.js'
+import { UserDao } from '../../../database/daos/UserDao'
+import { sendMus } from '../../../network/Network'
+import { ICommand } from '../../types'
 
-export class DisconnectCommand extends Command
-{
-    constructor()
-    {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = ['Administrateur', 'Modérateur', 'Gestion'];
+export default {
+    name: 'disconnect',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: ['Administrateur', 'Modérateur', 'Gestion'],
 
-        super(permissions, roles, 'disconnect');
-    }
+    parse: async (message: Message, parts: string[]) => {
+        if(!parts.length) return
 
-    async parse(message: Message, parts: string[])
-    {
-        if(!parts.length) return;
-
-        const username = parts[0];
+        const username = parts[0]
 
         if(username === '')
         {
-            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument');
-            return;
+            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument')
+            return
         }
 
-        const row = await UserDao.getUserIdByUsername(username);
+        const row = await UserDao.getUserIdByUsername(username)
 
         if(!row)
         {
-            message.reply(`L'utilisateur ${username} n'existe pas !`);
-            return;
+            message.reply(`L'utilisateur ${username} n'existe pas !`)
+            return
         }
 
         try
         {
-            await sendMus('signout', row.id.toString());
+            await sendMus('signout', row.id.toString())
 
-            message.reply(`L'utilisateur ${username} a été déconnecté(e)`);
+            message.reply(`L'utilisateur ${username} a été déconnecté(e)`)
         }
         catch (e)
         {
-            message.reply(`Une erreur s'est produite: ${e}`);
+            message.reply(`Une erreur s'est produite: ${e}`)
         }
     }
-}
+} satisfies ICommand

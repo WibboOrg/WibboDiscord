@@ -1,4 +1,4 @@
-import { prisma } from '../prisma-client';
+import { prisma } from '../prisma-client'
 
 export class UserDao
 {
@@ -13,9 +13,9 @@ export class UserDao
             }
         })
 
-        if(!result) return -1;
+        if(!result) return -1
 
-        return result.id;
+        return result.id
     }
 
     static async getUserById(id: number)
@@ -24,9 +24,9 @@ export class UserDao
             where: { id }
         })
 
-        if(!result) return null;
+        if(!result) return null
 
-        return result;
+        return result
     }
 
     static async getLastUsers(lastId: number)
@@ -43,9 +43,9 @@ export class UserDao
             take: 5
         })
 
-        if(!results.length) return [];
+        if(!results.length) return []
 
-        return results;
+        return results
     }
 
     static async getUserByName(userName: string)
@@ -54,9 +54,9 @@ export class UserDao
             where: { username: userName }
         })
 
-        if(!result) return null;
+        if(!result) return null
 
-        return result;
+        return result
     }
 
     static async getUserByNameOrMail(userNameOrMail: string)
@@ -67,9 +67,9 @@ export class UserDao
             }
         })
 
-        if(!result) return null;
+        if(!result) return null
 
-        return result;
+        return result
     }
 
     static async getUserIPByName(userName: string)
@@ -83,9 +83,9 @@ export class UserDao
             }
         })
 
-        if(!result) return null;
+        if(!result) return null
 
-        return result;
+        return result
     }
 
     static async getUserIdByUsername(userName: string)
@@ -97,21 +97,18 @@ export class UserDao
             }
         })
 
-        if(!result) return null;
+        if(!result) return null
 
-        return result;
+        return result
     }
 
-    static async getAllUsersByIpOrMachineId(
+    static async getAllUsersByIp(
         IP: string,
-        MachineId: string | undefined
     )
     {
-        MachineId = MachineId == '' ? undefined : MachineId;
-
         const results = await prisma.user.findMany({
             where: {
-                OR: [{ ipLast: IP }, { machineId: MachineId }]
+               ipLast: IP
             },
             select: {
                 id: true,
@@ -119,9 +116,9 @@ export class UserDao
             }
         })
 
-        if(!results) return [];
+        if(!results) return []
 
-        return results;
+        return results
     }
 
     static async updateBan(name: string, banned: boolean)

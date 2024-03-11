@@ -1,11 +1,9 @@
-import * as bot from './discord/bot';
-import dotenv from 'dotenv';
+import 'dotenv/config'
+import * as bot from './discord/bot'
 
 (async () =>
 {
-    dotenv.config();
+    await bot.initialize()
 
-    await bot.initialize();
-
-    console.log('Discord Bot Ready!');
-})();
+    console.log('Discord Bot Ready!')
+})()

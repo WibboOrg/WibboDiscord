@@ -1,55 +1,28 @@
-import { Log } from '../Log';
-import { sendMessage } from '../../bot';
-import { LogLoginDao } from '../../../database/daos/LogLoginDao';
+import { LogLoginDao } from '../../../database/daos/LogLoginDao'
+import { getTime } from '../../utils'
+import { ILog } from '../../types'
 
-export class LoginLog extends Log
-{
-    constructor(seconds: number = 10)
-    {
-        super(seconds);
-    }
+export default {
+    seconds: 10,
+    channelName: 'logs_connexion',
+    getLastId: async () => await LogLoginDao.getLastId(),
 
-    async onInit()
-    {
-        this.lastId = await LogLoginDao.getLastId();
+    rawLogs: async (lastId: number) => {
+        const rows = await LogLoginDao.loadLastLog(lastId)
 
-        this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
-    }
+        if(!rows) return
 
-    async onDispose()
-    {
-        clearInterval(this.runInterval);
-    }
+        if(!rows.length) return
 
-    async onRun()
-    {
-        try
-        {
-            if(this.lastId == -1) this.lastId = await LogLoginDao.getLastId();
-            else await this.rawLogs();
-        }
-        catch (err)
-        {
-            console.log(err);
-        }
-    }
-
-    async rawLogs()
-    {
-        const rows = await LogLoginDao.loadLastLog(this.lastId);
-
-        if(!rows) return;
-
-        if(!rows.length) return;
-
-        let message = '';
+        let message = ''
         for(const row of rows)
         {
-            message += '**' + row.user.username + '** à ' + this.getTime(row.date) + '\n';
+            message += '**' + row.user.username + '** à ' + getTime(row.date) + '\n'
 
-            this.lastId = row.id;
+            if (row.id > lastId)
+                lastId = row.id
         }
 
-        sendMessage(message, 'logs_connexion');
+        return { message, lastId }
     }
-}
+} satisfies ILog

@@ -1,14 +1,14 @@
-import { ChatPubLogDao } from '../../../database/daos/ChatPubLogDao'
+import { CmdLogDao } from '../../../database/daos/CmdLogDao'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 10,
-    channelName: 'logs_chats',
-    getLastId: async () => await ChatPubLogDao.getLastId(),
+    channelName: 'logs_wibbogame',
+    getLastId: async () => await CmdLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await ChatPubLogDao.loadLastLog(lastId)
+        const rows = await CmdLogDao.loadLastLog(lastId)
 
         if(!rows) return
 
@@ -17,7 +17,8 @@ export default {
         let message = ''
         for(const row of rows)
         {
-            message += '**' + row.userName + '** à ' + getTime(row.timestamp) + ': `' + row.message + '`\n'
+            if(row.userName == 'WibboGame')
+                message += '**' + row.userName + '** à ' + getTime(row.timestamp) + ': `' + row.extraData + '`\n'
 
             if (row.id > lastId)
                 lastId = row.id

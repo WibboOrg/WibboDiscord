@@ -1,48 +1,41 @@
-import { Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js';
-import { Command } from '../Command';
+import { Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js'
+import { ICommand } from '../../types'
 
-export class SetNicknameCommand extends Command
-{
-    constructor()
-    {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = ['Administrateur'];
+export default {
+    name: 'setnickname',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: ['Administrateur'],
+    parse: async (message: Message, parts: string[]) => {
+        parts.splice(0, 1)
 
-        super(permissions, roles, 'setnickname');
-    }
-
-    async parse(message: Message, parts: string[])
-    {
-        parts.splice(0, 1);
-
-        const username = parts.join(' ');
+        const username = parts.join(' ')
 
         if(!username || username.length < 3)
         {
-            message.reply('Choisissez un nouveau nom');
-            return;
+            message.reply('Choisissez un nouveau nom')
+            return
         }
 
-        const user = message.mentions.users.first();
+        const user = message.mentions.users.first()
 
         if(!user)
         {
-            message.reply('Veuillez mentionner l\'utilisateur');
-            return;
+            message.reply('Veuillez mentionner l\'utilisateur')
+            return
         }
 
-        const guild = message.guild;
+        const guild = message.guild
 
-        if (!guild) return;
+        if (!guild) return
 
-        const guildMember = guild.members.cache.get(user.id);
+        const guildMember = guild.members.cache.get(user.id)
 
         if(!guildMember)
         {
-            message.reply('Cet utilisateur n\'existe pas');
-            return;
+            message.reply('Cet utilisateur n\'existe pas')
+            return
         }
 
-        guildMember.setNickname(username);
+        guildMember.setNickname(username)
     }
-}
+} satisfies ICommand

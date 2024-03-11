@@ -1,29 +1,23 @@
-import { ChannelType, Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js';
-import { Command } from '../Command';
+import { ChannelType, Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js'
+import { ICommand } from '../../types'
 
-export class SayBotCommand extends Command
-{
-    constructor()
-    {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = [];
+export default {
+    name: 'saybot',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: [],
 
-        super(permissions, roles, 'say', 'saybot');
-    }
+    parse: async (message: Message, parts: string[]) => {
+        const msgText = parts.join(' ')
 
-    async parse(message: Message, parts: string[])
-    {
-        const msgText = parts.join(' ');
+        const msgChannel = message.channel
 
-        const msgChannel = message.channel;
-
-        if(!msgChannel) return;
+        if(!msgChannel) return
 
         if(!((msgChannel): msgChannel is TextChannel => msgChannel.type === ChannelType.GuildText)(msgChannel))
-            return;
+            return
 
-        msgChannel.send(msgText);
+        msgChannel.send(msgText)
 
-        message.delete().catch();
+        message.delete().catch()
     }
-}
+} satisfies ICommand

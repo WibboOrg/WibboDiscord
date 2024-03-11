@@ -1,61 +1,49 @@
-import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js';
-import { Command } from '../Command';
-import { UserDao } from '../../../database/daos/UserDao';
+import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
+import { UserDao } from '../../../database/daos/UserDao'
+import { ICommand } from '../../types'
 
-export class GetAllUserAccountCommand extends Command
-{
-    constructor()
+export default {
+    name: 'getuseraccount',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: [],
+
+    parse: async (message: Message, parts: string[]) =>
     {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = [];
+        if(!parts.length) return
 
-        super(
-            permissions,
-            roles,
-            'getuseraccount',
-            'doublecompte',
-            'alluseracount'
-        );
-    }
-
-    async parse(message: Message, parts: string[])
-    {
-        if(!parts.length) return;
-
-        const username = parts[0];
+        const username = parts[0]
 
         if(username === '')
         {
-            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument');
-            return;
+            message.reply('Veuillez mettre un nom d\'utilisateur en premier argument')
+            return
         }
 
-        const row = await UserDao.getUserByName(username);
+        const row = await UserDao.getUserByName(username)
 
         if(!row)
         {
-            message.reply(`L'utilisateur ${username} n'existe pas !`);
-            return;
+            message.reply(`L'utilisateur ${username} n'existe pas !`)
+            return
         }
 
-        const rows = await UserDao.getAllUsersByIpOrMachineId(
-            row.ipLast!,
-            row.machineId!
-        );
+        const rows = await UserDao.getAllUsersByIp(
+            row.ipLast!
+        )
 
         if(!rows)
         {
-            message.reply('Aucun double compte trouvé');
+            message.reply('Aucun double compte trouvé')
         }
 
-        let messageTxt = `voici les multicomptes de ${row.username}:\n`;
-        messageTxt += '`';
+        let messageTxt = `voici les multicomptes de ${row.username}:\n`
+        messageTxt += '`'
         for(const row of rows)
         {
-            messageTxt += row.username + ' ';
+            messageTxt += row.username + ' '
         }
-        messageTxt += '`';
+        messageTxt += '`'
 
-        message.channel.send(messageTxt);
+        message.channel.send(messageTxt)
     }
-}
+} satisfies ICommand

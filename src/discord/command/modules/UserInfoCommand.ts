@@ -1,40 +1,36 @@
-import { Message, PermissionResolvable, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import { Command } from '../Command';
-import { UserDao } from '../../../database/daos/UserDao';
-import dayjs from 'dayjs';
+import { Message, EmbedBuilder, PermissionFlagsBits } from 'discord.js'
+import { UserDao } from '../../../database/daos/UserDao'
+import dayjs from 'dayjs'
+import { isNumber } from '../../utils'
+import { User } from 'wibboprisma'
+import { ICommand } from '../../types'
 
-export class UserInfoCommand extends Command
-{
-    constructor()
-    {
-        const permissions: PermissionResolvable[] = [PermissionFlagsBits.Administrator];
-        const roles: string[] = ['Administrateur', 'Gestion'];
+export default {
+    name: 'userinfo',
+    permissions: [PermissionFlagsBits.Administrator],
+    roles: ['Administrateur', 'Gestion'],
 
-        super(permissions, roles, 'userinfo', 'infouser');
-    }
+    parse: async (message: Message, parts: string[]) => {
+        if(!parts.length) return
 
-    async parse(message: Message, parts: string[])
-    {
-        if(!parts.length) return;
-
-        const usernameOrId = parts[0];
+        const usernameOrId = parts[0]
 
         if(usernameOrId === '')
         {
-            message.reply('Veuillez mettre un no d\'utilisateur ou un ID en premier argument');
-            return;
+            message.reply('Veuillez mettre un no d\'utilisateur ou un ID en premier argument')
+            return
         }
 
-        let row;
-        if(this.isNumber(usernameOrId))
-            row = await UserDao.getUserById(parseInt(usernameOrId));
+        let row: User | null = null
+        if(isNumber(usernameOrId))
+            row = await UserDao.getUserById(parseInt(usernameOrId))
 
-        if(!row) row = await UserDao.getUserByNameOrMail(usernameOrId);
+        if(!row) row = await UserDao.getUserByNameOrMail(usernameOrId)
 
         if(!row)
         {
-            message.reply(`L'utilisateur ${usernameOrId} n'existe pas !`);
-            return;
+            message.reply(`L'utilisateur ${usernameOrId} n'existe pas !`)
+            return
         }
 
         const embed = new EmbedBuilder()
@@ -51,13 +47,8 @@ export class UserInfoCommand extends Command
                 { name: 'Dernière connexion', value: dayjs.unix(row.lastOnline).format('DD/MM/YYYY à hh:mm') }
             ])
             .setAuthor({ name: row.username })
-            .setThumbnail(`https://imaging.wibbo.org/?figure=${row.look}&action=wav&direction=3&head_direction=4&size=s`);
+            .setThumbnail(`https://imaging.wibbo.org/?figure=${row.look}&action=wav&direction=3&head_direction=4&size=s`)
 
-        message.channel.send({ embeds: [embed] });
+        message.channel.send({ embeds: [embed] })
     }
-
-    isNumber(value: string | number): boolean
-    {
-        return value != null && value !== '' && !isNaN(Number(value.toString()));
-    }
-}
+} satisfies ICommand

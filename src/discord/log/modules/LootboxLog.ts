@@ -1,74 +1,44 @@
-import { Log } from '../Log';
-import { sendMessage } from '../../bot';
-import { LogLootboxDao } from '../../../database/daos/LogLootboxDao';
+import { LogLootboxDao } from '../../../database/daos/LogLootboxDao'
+import { getTime } from '../../utils'
+import { ILog } from '../../types'
 
-export class LootboxLog extends Log
-{
-    constructor(seconds: number = 10)
-    {
-        super(seconds);
-    }
+export default {
+    seconds: 10,
+    channelName: 'logs_lootbox',
+    getLastId: async () => await LogLootboxDao.getLastId(),
 
-    async onInit()
-    {
-        this.lastId = await LogLootboxDao.getLastId();
+    rawLogs: async (lastId: number) => {
+        const rows = await LogLootboxDao.loadLastLog(lastId)
 
-        this.runInterval = setInterval(() => this.run(), this.seconds * 1000);
-    }
+        if(!rows) return
 
-    async onDispose()
-    {
-        clearInterval(this.runInterval);
-    }
+        if(!rows.length) return
 
-    async onRun()
-    {
-        try
-        {
-            if(this.lastId == -1) this.lastId = await LogLootboxDao.getLastId();
-            else await this.rawLogs();
-        }
-        catch (err)
-        {
-            console.log(err);
-        }
-    }
-
-    async rawLogs()
-    {
-        const rows = await LogLootboxDao.loadLastLog(this.lastId);
-
-        if(!rows) return;
-
-        if(!rows.length) return;
-
-        let message = '';
+        let message = ''
         for(const row of rows)
         {
-            message += '**' + row.user.username + '** à ' + this.getTime(row.timestamp) + ' (' + row.interactionType + '): `' + row.itemBase.itemName + ' ('+ this.getRarity(row.itemBase.rarityLevel) +')`\n';
+            message += '**' + row.user.username + '** à ' + getTime(row.timestamp) + ' (' + row.interactionType + '): `' + row.itemBase.itemName + ' ('+ getRarity(row.itemBase.rarityLevel) +')`\n'
 
-            this.lastId = row.id;
+            if (row.id > lastId)
+                lastId = row.id
         }
 
-        if(message === '') return;
-
-        sendMessage(message, 'logs_lootbox');
+        return { message, lastId }
     }
+} satisfies ILog
 
-    getRarity(rarity: number): string
+const getRarity = (rarity: number): string => {
+    switch(rarity)
     {
-        switch(rarity)
-        {
-            case 1:
-                return 'Basique';
-            case 2:
-                return 'Commun';
-            case 3:
-                return 'Epic';
-            case 4:
-                return 'Légendaire';
-            default:
-                return 'Rare';
-        }
+        case 1:
+            return 'Basique'
+        case 2:
+            return 'Commun'
+        case 3:
+            return 'Epic'
+        case 4:
+            return 'Légendaire'
+        default:
+            return 'Rare'
     }
 }

@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
-import { prisma } from '../prisma-client';
-import { BanBantype } from 'wibboprisma';
+import dayjs from 'dayjs'
+import { prisma } from '../prisma-client'
+import { BanBantype } from 'wibboprisma'
 
 export class BanDao {
     static async insertBan(
@@ -19,26 +19,18 @@ export class BanDao {
                 addedDate: dayjs().unix(),
                 addedBy: addedBy
             }
-        });
+        })
     }
 
     static async expireBan(username: string, ip: string, expireTime: number) {
         await prisma.ban.updateMany({
             where: {
-                OR: [{
-                    value: ip,
-                    bantype: 'ip'
-                },
-                {
-                    value: username,
-                    bantype: 'user'
-                }
-                ],
+                OR: [{ value: ip, bantype: 'ip' }, { value: username, bantype: 'user' }],
             },
             data: {
                 expire: expireTime
             }
-        });
+        })
     }
 
     static async expireIgnoreallBan(userId: number, expireTime: number) {
@@ -50,6 +42,6 @@ export class BanDao {
             data: {
                 expire: expireTime
             }
-        });
+        })
     }
 }

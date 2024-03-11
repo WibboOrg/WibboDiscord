@@ -1,26 +1,33 @@
 {
   "name": "wibbo-discord",
+  "type": "module",
   "version": "1.0.0",
   "description": "Wibbo Discord Bot",
-  "main": "./src/Main.ts",
+  "main": "./src/main.ts",
   "dependencies": {
-    "dayjs": "^1.11.9",
-    "discord.js": "^14.12.1",
-    "dotenv": "^16.3.1",
+    "dayjs": "^1.11.10",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
     "net": "^1.0.2",
-    "wibboprisma": "link:..\\WibboPrisma"
+    "wibboprisma": "../WibboPrisma"
   },
   "devDependencies": {
-    "@types/node": "^18.17.0",
+    "@types/node": "^20.11.1",
+    "esbuild": "^0.20.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.4.2"
   },
   "scripts": {
-    "clean": "rimraf dist/*",
-    "dev": "ts-node src/main.ts",
+    "dev": "ts-node-dev src/main.ts",
     "start": "node ./dist/main.js",
-    "build": "yarn clean & tsc"
+    "clean": "rm -rf ./dist",
+    "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --minify --outfile=dist/main.js --format=esm",
+    "build": "yarn clean && yarn esbuild && yarn build-nodemodules",
+    "build-nodemodules": "copy package.json ./dist && copy yarn.lock ./dist && cd ./dist && yarn workspaces focus --production"
   },
   "author": "JasonDhose",
-  "license": "ISC"
+  "license": "ISC",
+  "resolutions": {
+    "wibboprisma": "portal:/F:/laragon/www/WibboPrisma"
+  }
 }

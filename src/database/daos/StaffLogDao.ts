@@ -1,4 +1,4 @@
-import { prisma } from '../prisma-client';
+import { prisma } from '../prisma-client'
 
 export class StaffLogDao
 {
@@ -13,9 +13,9 @@ export class StaffLogDao
             }
         })
 
-        if(!result) return -1;
+        if(!result) return -1
 
-        return result.id;
+        return result.id
     }
 
     static async loadLastLog(lastId: number)
@@ -32,8 +32,8 @@ export class StaffLogDao
             take: 5
         })
 
-        if(!results.length) return [];
+        if(!results.length) return []
 
-        return results;
+        return results
     }
 }

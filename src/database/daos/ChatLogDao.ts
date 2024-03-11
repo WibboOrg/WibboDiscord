@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
-import { prisma } from '../prisma-client';
+import dayjs from 'dayjs'
+import { prisma } from '../prisma-client'
 
 export class ChatLogDao
 {
@@ -12,11 +12,11 @@ export class ChatLogDao
             orderBy: {
                 id: 'desc',
             }
-        });
+        })
 
-        if(!result) return -1;
+        if(!result) return -1
 
-        return result.id;
+        return result.id
     }
 
     static async loadLastLog(lastId: number)
@@ -40,8 +40,8 @@ export class ChatLogDao
             },
         })
 
-        if(!results.length) return [];
+        if(!results.length) return []
 
-        return results;
+        return results
     }
 }
