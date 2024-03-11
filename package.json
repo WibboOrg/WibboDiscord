@@ -1,6 +1,6 @@
 {
   "name": "wibbo-discord",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "Wibbo Discord Bot",
   "main": "./src/main.ts",
@@ -19,10 +19,10 @@
   },
   "scripts": {
     "dev": "ts-node-dev src/main.ts",
+    "build": "yarn clean && yarn esbuild && yarn build-nodemodules",
     "start": "node ./dist/main.mjs",
     "clean": "rm -rf ./dist",
-    "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --minify --outfile=dist/main.mjs --format=esm",
-    "build": "yarn clean && yarn esbuild && yarn build-nodemodules",
+    "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --outfile=dist/main.mjs --format=esm",
     "build-nodemodules": "copy package.json ./dist && copy yarn.lock ./dist && cd ./dist && yarn workspaces focus --production"
   },
   "author": "JasonDhose",
