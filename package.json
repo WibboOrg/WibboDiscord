@@ -19,9 +19,9 @@
   },
   "scripts": {
     "dev": "ts-node-dev src/main.ts",
-    "start": "node ./dist/main.js",
+    "start": "node ./dist/main.mjs",
     "clean": "rm -rf ./dist",
-    "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --minify --outfile=dist/main.js --format=esm",
+    "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --minify --outfile=dist/main.mjs --format=esm",
     "build": "yarn clean && yarn esbuild && yarn build-nodemodules",
     "build-nodemodules": "copy package.json ./dist && copy yarn.lock ./dist && cd ./dist && yarn workspaces focus --production"
   },
