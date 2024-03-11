@@ -4,7 +4,7 @@ import { getTime } from '../../utils'
 
 export default {
     seconds: 10,
-    channelName: 'logs_chats',
+    channelName: 'logs_pubs',
     getLastId: async () => await ChatPubLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
