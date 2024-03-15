@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { prisma } from '../prisma-client'
-import { BanBantype } from 'wibboprisma'
+import { BanBantype } from '@wibbo/prisma'
 
 export class BanDao {
     static async insertBan(

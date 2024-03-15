@@ -2,7 +2,7 @@ import { Message, EmbedBuilder, PermissionFlagsBits } from 'discord.js'
 import { UserDao } from '../../../database/daos/UserDao'
 import dayjs from 'dayjs'
 import { isNumber } from '../../utils'
-import { User } from 'wibboprisma'
+import { User } from '@wibbo/prisma'
 import { ICommand } from '../../types'
 
 export default {
