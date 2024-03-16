@@ -15,11 +15,8 @@ export default {
         if(!rows.length) return
 
         let message = ''
-        for(const row of rows)
+        for(const row of rows.filter(x => x.userName !== 'WibboGame'))
         {
-            if(row.userName == 'WibboGame')
-                continue
-
             message += '**' + row.userName + '** à ' + getTime(row.timestamp) + ': `' + row.extraData + '`\n'
 
             if (row.id > lastId)

@@ -23,7 +23,7 @@
     "start": "node ./dist/main.mjs",
     "clean": "rm -rf ./dist",
     "esbuild": "esbuild src/main.ts --bundle --platform=node --packages=external --outfile=dist/main.mjs --format=esm",
-    "build-nodemodules": "cp -r package.json ./dist && cd ./dist && npm install --production"
+    "build-nodemodules": "cp -r package.json ./dist && cd ./dist && npm install --omit=dev"
   },
   "author": "JasonDhose",
   "license": "ISC"

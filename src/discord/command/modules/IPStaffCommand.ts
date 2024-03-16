@@ -1,7 +1,7 @@
 import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
 import { UserDao } from '../../../database/daos/UserDao'
 import { IPStaffDao } from '../../../database/daos/IPStaffDao'
-import { checkIP } from '../../utils'
+import { validateIPAddress } from '../../utils'
 import { ICommand } from '../../types'
 
 export default {
@@ -21,7 +21,9 @@ export default {
 
         const IP = parts[1]
 
-        if(!checkIP(IP))
+        var isValidIP = validateIPAddress(IP)
+
+        if(!isValidIP)
         {
             message.reply('Veuillez mettre une IP en deuxième argument')
             return
