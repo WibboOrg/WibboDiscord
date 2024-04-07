@@ -10,12 +10,10 @@ export default {
     rawLogs: async (lastId: number) => {
         const rows = await CmdLogDao.loadLastLog(lastId)
 
-        if(!rows) return
-
-        if(!rows.length) return
+        if(!rows || !rows.length) return
 
         let message = ''
-        for(const row of rows.filter(x => x.userName !== 'WibboGame'))
+        for(const row of rows)
         {
             message += '**' + row.userName + '** à ' + getTime(row.timestamp) + ': `' + row.extraData + '`\n'
 

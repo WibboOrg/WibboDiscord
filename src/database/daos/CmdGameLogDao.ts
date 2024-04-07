@@ -1,7 +1,7 @@
 import { prisma } from '../prisma-client'
 import {  } from '@wibbo/prisma'
 
-export class CmdLogDao
+export class CmdGameLogDao
 {
     static async getLastId(): Promise<number>
     {
@@ -10,9 +10,7 @@ export class CmdLogDao
                 id: true
             },
             where: {
-                NOT: {
-                    userName: 'WibboGame'
-                }
+                userName: 'WibboGame'
             },
             orderBy: {
                 id: 'desc'
@@ -30,11 +28,9 @@ export class CmdLogDao
             where: {
                 AND: {
                     id: {
-                        gt: lastId,
+                        gt: lastId
                     },
-                    userName: {
-                        not: 'WibboGame'
-                    }
+                    userName: 'WibboGame'
                 }
             },
             orderBy: {

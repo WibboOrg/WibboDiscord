@@ -27,7 +27,7 @@ export class LogLootboxDao
                 },
                 itemBase: {
                     rarityLevel: {
-                        not: 1
+                        gt: 1
                     }
                 }
             },
