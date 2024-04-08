@@ -23,7 +23,7 @@ export default {
 
         if(!row)
         {
-            message.reply(`L'utilisateur ${username} n'existe pas !`)
+            message.reply(`L'utilisateur : ${username} n'existe pas !`)
             return
         }
 
@@ -34,7 +34,7 @@ export default {
             BanDao.expireBan(row.username, row.ipLast!, timestamp)
             UserDao.updateBan(row.username, false)
 
-            message.reply(`Débannissement de ${username} ! (Compte + IP)`)
+            message.reply(`Débannissement générale de ${username} !`)
         }
         catch (e)
         {

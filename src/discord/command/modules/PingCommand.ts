@@ -6,6 +6,7 @@ export default {
     permissions: [],
     roles: ['everyone'],
     parse: async (message: Message, parts: string[]) => {
-        message.reply('Pong ! On fait un ping-pong ?')
+        message.reply('Pong !')
+        message.reply('Alors on se fait ce ping-pong ?')
     }
 } satisfies ICommand
