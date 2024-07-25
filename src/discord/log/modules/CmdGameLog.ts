@@ -1,14 +1,14 @@
-import { CmdGameLogDao } from '../../../database/daos/CmdGameLogDao'
+import { cmdGameLogDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 10,
     channelName: 'logs_wibbogame',
-    getLastId: async () => await CmdGameLogDao.getLastId(),
+    getLastId: async () => await cmdGameLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await CmdGameLogDao.loadLastLog(lastId)
+        const rows = await cmdGameLogDao.loadLastLog(lastId)
 
         if(!rows) return
 

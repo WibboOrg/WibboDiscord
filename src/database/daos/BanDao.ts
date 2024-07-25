@@ -2,8 +2,8 @@ import dayjs from 'dayjs'
 import { prisma } from '../prisma-client'
 import { BanBantype } from '@wibbo/prisma'
 
-export class BanDao {
-    static async insertBan(
+export const banDao = {
+    async insertBan(
         type: BanBantype,
         value: string,
         reason: string,
@@ -20,9 +20,8 @@ export class BanDao {
                 addedBy: addedBy
             }
         })
-    }
-
-    static async expireBan(username: string, ip: string, expireTime: number) {
+    },
+    async expireBan(username: string, ip: string, expireTime: number) {
         await prisma.ban.updateMany({
             where: {
                 OR: [{ value: ip, bantype: 'ip' }, { value: username, bantype: 'user' }],
@@ -31,9 +30,8 @@ export class BanDao {
                 expire: expireTime
             }
         })
-    }
-
-    static async expireIgnoreallBan(userId: number, expireTime: number) {
+    },
+    async expireIgnoreallBan(userId: number, expireTime: number) {
         await prisma.ban.updateMany({
             where: {
                 value: userId.toString(),

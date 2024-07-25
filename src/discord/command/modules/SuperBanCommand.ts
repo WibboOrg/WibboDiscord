@@ -1,7 +1,6 @@
-import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
+import { Message, PermissionFlagsBits } from 'discord.js'
+import { userDao, banDao } from '../../../database/daos'
 import { sendMus } from '../../../network/Network'
-import { BanDao } from '../../../database/daos/BanDao'
 import dayjs from 'dayjs'
 import { ICommand } from '../../types'
 
@@ -23,7 +22,7 @@ export default {
             return
         }
 
-        const row = await UserDao.getUserByName(username)
+        const row = await userDao.getUserByName(username)
 
         if(!row)
         {
@@ -37,7 +36,7 @@ export default {
         {
             await sendMus('signout', row.id.toString())
 
-            BanDao.insertBan(
+            banDao.insertBan(
                 'user',
                 row.username,
                 reason,
@@ -45,7 +44,7 @@ export default {
                 message.author.username
             )
 
-            UserDao.updateBan(username, true)
+            userDao.updateBan(username, true)
 
             message.reply(`Superbannissement de ${username} ! (Compte)`)
         }

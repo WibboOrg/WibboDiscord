@@ -1,14 +1,14 @@
-import { LogLootboxDao } from '../../../database/daos/LogLootboxDao'
+import { logLootboxDao } from '../../../database/daos'
 import { getTime } from '../../utils'
 import { ILog } from '../../types'
 
 export default {
     seconds: 10,
     channelName: 'logs_lootbox',
-    getLastId: async () => await LogLootboxDao.getLastId(),
+    getLastId: async () => await logLootboxDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await LogLootboxDao.loadLastLog(lastId)
+        const rows = await logLootboxDao.loadLastLog(lastId)
 
         if(!rows) return
 

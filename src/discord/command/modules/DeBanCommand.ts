@@ -1,6 +1,5 @@
 import { Message, PermissionFlagsBits } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
-import { BanDao } from '../../../database/daos/BanDao'
+import { userDao, banDao } from '../../../database/daos'
 import dayjs from 'dayjs'
 import { ICommand } from '../../types'
 
@@ -19,7 +18,7 @@ export default {
             return
         }
 
-        const row = await UserDao.getUserByName(username)
+        const row = await userDao.getUserByName(username)
 
         if(!row)
         {
@@ -31,8 +30,8 @@ export default {
 
         try
         {
-            BanDao.expireBan(row.username, row.ipLast!, timestamp)
-            UserDao.updateBan(row.username, false)
+            banDao.expireBan(row.username, row.ipLast!, timestamp)
+            userDao.updateBan(row.username, false)
 
             message.reply(`Débannissement générale de ${username} !`)
         }

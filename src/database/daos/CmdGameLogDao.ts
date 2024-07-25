@@ -1,9 +1,8 @@
 import { prisma } from '../prisma-client'
 import {  } from '@wibbo/prisma'
 
-export class CmdGameLogDao
-{
-    static async getLastId(): Promise<number>
+export const cmdGameLogDao = {
+    async getLastId(): Promise<number>
     {
         const result = await prisma.logCommand.findFirst({
             select: {
@@ -20,9 +19,8 @@ export class CmdGameLogDao
         if(!result) return -1
 
         return result.id
-    }
-
-    static async loadLastLog(lastId: number)
+    },
+    async loadLastLog(lastId: number)
     {
         const results = await prisma.logCommand.findMany({
             where: {

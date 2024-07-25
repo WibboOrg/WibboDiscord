@@ -1,4 +1,4 @@
-import { ChannelType, Message, PermissionFlagsBits, PermissionResolvable, TextChannel } from 'discord.js'
+import { ChannelType, Message, PermissionFlagsBits, TextChannel } from 'discord.js'
 import { ICommand } from '../../types'
 
 export default {

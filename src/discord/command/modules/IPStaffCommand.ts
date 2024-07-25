@@ -1,6 +1,5 @@
 import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
-import { IPStaffDao } from '../../../database/daos/IPStaffDao'
+import { userDao, ipStaffDao } from '../../../database/daos'
 import { validateIPAddress } from '../../utils'
 import { ICommand } from '../../types'
 
@@ -29,7 +28,7 @@ export default {
             return
         }
 
-        const row = await UserDao.getUserIdByUsername(username)
+        const row = await userDao.getUserIdByUsername(username)
 
         if(!row)
         {
@@ -39,7 +38,7 @@ export default {
 
         try
         {
-            IPStaffDao.updateIPStaff(row.id, IP)
+            ipStaffDao.updateIPStaff(row.id, IP)
 
             message.channel.send(`La protection IP de ${username} est à jour !`)
             message.delete().catch()

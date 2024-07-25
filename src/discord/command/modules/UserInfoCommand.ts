@@ -1,5 +1,5 @@
 import { Message, EmbedBuilder, PermissionFlagsBits } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
+import { userDao } from '../../../database/daos'
 import dayjs from 'dayjs'
 import { isNumber } from '../../utils'
 import { User } from '@wibbo/prisma'
@@ -23,9 +23,9 @@ export default {
 
         let row: User | null = null
         if(isNumber(usernameOrId))
-            row = await UserDao.getUserById(parseInt(usernameOrId))
+            row = await userDao.getUserById(parseInt(usernameOrId))
 
-        if(!row) row = await UserDao.getUserByNameOrMail(usernameOrId)
+        if(!row) row = await userDao.getUserByNameOrMail(usernameOrId)
 
         if(!row)
         {

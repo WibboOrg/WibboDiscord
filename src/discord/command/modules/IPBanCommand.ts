@@ -1,7 +1,6 @@
 import { Message, PermissionFlagsBits } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
+import { userDao, banDao } from '../../../database/daos'
 import { sendMus } from '../../../network/Network'
-import { BanDao } from '../../../database/daos/BanDao'
 import dayjs from 'dayjs'
 import { ICommand } from '../../types'
 
@@ -24,7 +23,7 @@ export default {
         let reason = parts.slice(1).join(' ')
         reason = reason == '' ? 'Non respect des Conditions Générales d\'Utilisations' : reason
 
-        const row = await UserDao.getUserByName(username)
+        const row = await userDao.getUserByName(username)
 
         if(!row)
         {
@@ -38,14 +37,14 @@ export default {
         {
             await sendMus('signout', row.id.toString())
 
-            BanDao.insertBan(
+            banDao.insertBan(
                 'ip',
                 row.ipLast || '',
                 reason,
                 timestamp,
                 message.author.username
             )
-            BanDao.insertBan(
+            banDao.insertBan(
                 'user',
                 row.username,
                 reason,
@@ -53,7 +52,7 @@ export default {
                 message.author.username
             )
 
-            UserDao.updateBan(username, true)
+            userDao.updateBan(username, true)
 
             message.reply(`L'utilisateur ${username} a été bannit (Compte + IP)`)
         }

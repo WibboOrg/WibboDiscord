@@ -1,5 +1,5 @@
-import { Message, PermissionFlagsBits, PermissionResolvable } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
+import { Message, PermissionFlagsBits } from 'discord.js'
+import { userDao } from '../../../database/daos'
 import { ICommand } from '../../types'
 
 export default {
@@ -19,7 +19,7 @@ export default {
             return
         }
 
-        const row = await UserDao.getUserByName(username)
+        const row = await userDao.getUserByName(username)
 
         if(!row)
         {
@@ -27,7 +27,7 @@ export default {
             return
         }
 
-        const rows = await UserDao.getAllUsersByIp(
+        const rows = await userDao.getAllUsersByIp(
             row.ipLast!
         )
 

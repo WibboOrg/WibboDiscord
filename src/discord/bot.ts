@@ -1,7 +1,7 @@
 import { Client, TextChannel, Message, GuildMember, ActivityType, ChannelType, GatewayIntentBits, Partials, PartialMessage, PartialGuildMember } from 'discord.js'
 import { CommandManager } from './command/CommandManager'
 import { LogManager } from './log/LogManager'
-import { ServerStatusDao } from '../database/daos/ServerStatusDao'
+import { serverStatusDao } from '../database/daos'
 
 const client = new Client({
     intents: [
@@ -61,7 +61,7 @@ const loadClient = async () => {
 }
 
 const onUpdateActivity = async () => {
-    const onlineUser = await ServerStatusDao.getUserOnline()
+    const onlineUser = await serverStatusDao.getUserOnline()
 
     client.user?.setActivity(`les ${onlineUser} joueur's en ligne!`, {
         type: ActivityType.Watching,

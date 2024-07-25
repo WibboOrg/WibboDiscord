@@ -1,14 +1,14 @@
-import { CmdLogDao } from '../../../database/daos/CmdLogDao'
+import { cmdLogDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 5,
     channelName: 'logs_commands',
-    getLastId: async () => await CmdLogDao.getLastId(),
+    getLastId: async () => await cmdLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await CmdLogDao.loadLastLog(lastId)
+        const rows = await cmdLogDao.loadLastLog(lastId)
 
         if(!rows || !rows.length) return
 

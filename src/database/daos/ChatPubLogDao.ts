@@ -1,8 +1,7 @@
 import { prisma } from '../prisma-client'
 
-export class ChatPubLogDao
-{
-    static async getLastId(): Promise<number>
+export const chatPubLogDao = {
+    async getLastId(): Promise<number>
     {
         const result = await prisma.logChatPub.findFirst({
             select: {
@@ -16,9 +15,8 @@ export class ChatPubLogDao
         if(!result) return -1
 
         return result.id
-    }
-
-    static async loadLastLog(lastId: number)
+    },
+    async loadLastLog(lastId: number)
     {
         const results = await prisma.logChatPub.findMany({
             where: {

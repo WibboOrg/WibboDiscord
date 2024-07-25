@@ -1,9 +1,8 @@
 import dayjs from 'dayjs'
 import { prisma } from '../prisma-client'
 
-export class ChatLogDao
-{
-    static async getLastId(): Promise<number>
+export const chatLogDao = {
+    async getLastId(): Promise<number>
     {
         const result = await prisma.logChat.findFirst({
             select: {
@@ -17,9 +16,8 @@ export class ChatLogDao
         if(!result) return -1
 
         return result.id
-    }
-
-    static async loadLastLog(lastId: number)
+    },
+    async loadLastLog(lastId: number)
     {
         const results = await prisma.logChat.findMany({
             where: {

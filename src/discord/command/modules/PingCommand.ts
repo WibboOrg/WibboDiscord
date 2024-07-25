@@ -1,4 +1,4 @@
-import { Message, PermissionResolvable } from 'discord.js'
+import { Message } from 'discord.js'
 import { ICommand } from '../../types'
 
 export default {

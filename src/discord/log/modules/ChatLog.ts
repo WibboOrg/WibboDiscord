@@ -1,13 +1,13 @@
-import { ChatLogDao } from '../../../database/daos/ChatLogDao'
+import { chatLogDao } from '../../../database/daos/ChatLogDao'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 5,
     channelName: 'logs_chats',
-    getLastId: async () => await ChatLogDao.getLastId(),
+    getLastId: async () => await chatLogDao.getLastId(),
     rawLogs: async (lastId: number) => {
-        const rows = await ChatLogDao.loadLastLog(lastId)
+        const rows = await chatLogDao.loadLastLog(lastId)
 
         if(!rows) return
 

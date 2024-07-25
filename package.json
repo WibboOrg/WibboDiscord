@@ -5,17 +5,17 @@
   "description": "Wibbo Discord Bot",
   "main": "./src/main.ts",
   "dependencies": {
-    "dayjs": "^1.11.10",
-    "discord.js": "^14.14.1",
+    "dayjs": "^1.11.12",
+    "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "net": "^1.0.2",
     "@wibbo/prisma": "../WibboPrisma"
   },
   "devDependencies": {
-    "@types/node": "^20.11.1",
-    "esbuild": "^0.20.1",
+    "@types/node": "^20.14.12",
+    "esbuild": "^0.23.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.4.2"
+    "typescript": "^5.5.4"
   },
   "scripts": {
     "dev": "ts-node-dev src/main.ts",

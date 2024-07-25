@@ -1,14 +1,14 @@
-import { LogLoginDao } from '../../../database/daos/LogLoginDao'
+import { logLoginDao } from '../../../database/daos'
 import { getTime } from '../../utils'
 import { ILog } from '../../types'
 
 export default {
     seconds: 10,
     channelName: 'logs_connexion',
-    getLastId: async () => await LogLoginDao.getLastId(),
+    getLastId: async () => await logLoginDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await LogLoginDao.loadLastLog(lastId)
+        const rows = await logLoginDao.loadLastLog(lastId)
 
         if(!rows) return
 

@@ -1,5 +1,5 @@
 import { Message, PermissionFlagsBits } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
+import { userDao } from '../../../database/daos'
 import { sendMus } from '../../../network/Network'
 import { ICommand } from '../../types'
 
@@ -21,7 +21,7 @@ export default {
 
         const msgText = parts.slice(1).join(' ')
 
-        const row = await UserDao.getUserIdByUsername(username)
+        const row = await userDao.getUserIdByUsername(username)
 
         if(!row)
         {

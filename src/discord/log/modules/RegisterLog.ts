@@ -1,14 +1,14 @@
-import { UserDao } from '../../../database/daos/UserDao'
+import { userDao } from '../../../database/daos'
 import { getTime } from '../../utils'
 import { ILog } from '../../types'
 
 export default {
     seconds: 5,
     channelName: 'logs_inscription',
-    getLastId: async () => await UserDao.getLastId(),
+    getLastId: async () => await userDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await UserDao.getLastUsers(lastId)
+        const rows = await userDao.getLastUsers(lastId)
 
         if(!rows) return
 

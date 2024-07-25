@@ -1,8 +1,7 @@
 import { prisma } from '../prisma-client'
 
-export class LogLoginDao
-{
-    static async getLastId(): Promise<number>
+export const logLoginDao = {
+    async getLastId(): Promise<number>
     {
         const result = await prisma.logLogin.findFirst({
             select: {
@@ -16,9 +15,8 @@ export class LogLoginDao
         if(!result) return -1
 
         return result.id
-    }
-
-    static async loadLastLog(lastId: number)
+    },
+    async loadLastLog(lastId: number)
     {
         const results = await prisma.logLogin.findMany({
             where: {

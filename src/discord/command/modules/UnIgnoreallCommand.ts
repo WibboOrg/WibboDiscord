@@ -1,6 +1,5 @@
 import { Message, PermissionFlagsBits } from 'discord.js'
-import { UserDao } from '../../../database/daos/UserDao'
-import { BanDao } from '../../../database/daos/BanDao'
+import { userDao, banDao } from '../../../database/daos'
 import dayjs from 'dayjs'
 import { ICommand } from '../../types'
 
@@ -20,7 +19,7 @@ export default {
             return
         }
 
-        const row = await UserDao.getUserByName(username)
+        const row = await userDao.getUserByName(username)
 
         if(!row)
         {
@@ -32,7 +31,7 @@ export default {
 
         try
         {
-            BanDao.expireIgnoreallBan(
+            banDao.expireIgnoreallBan(
                 row.id,
                 timestamp
             )

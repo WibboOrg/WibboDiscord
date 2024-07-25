@@ -1,8 +1,8 @@
 import { prisma } from '../prisma-client'
 
-export class UserDao
+export const userDao =
 {
-    static async getLastId(): Promise<number>
+    async getLastId(): Promise<number>
     {
         const result = await prisma.user.findFirst({
             select: {
@@ -16,9 +16,8 @@ export class UserDao
         if(!result) return -1
 
         return result.id
-    }
-
-    static async getUserById(id: number)
+    },
+    async getUserById(id: number)
     {
         const result = await prisma.user.findFirst({
             where: { id }
@@ -27,9 +26,8 @@ export class UserDao
         if(!result) return null
 
         return result
-    }
-
-    static async getLastUsers(lastId: number)
+    },
+    async getLastUsers(lastId: number)
     {
         const results = await prisma.user.findMany({
             where: {
@@ -46,9 +44,8 @@ export class UserDao
         if(!results.length) return []
 
         return results
-    }
-
-    static async getUserByName(userName: string)
+    },
+    async getUserByName(userName: string)
     {
         const result = await prisma.user.findFirst({
             where: { username: userName }
@@ -57,9 +54,8 @@ export class UserDao
         if(!result) return null
 
         return result
-    }
-
-    static async getUserByNameOrMail(userNameOrMail: string)
+    },
+    async getUserByNameOrMail(userNameOrMail: string)
     {
         const result = await prisma.user.findFirst({
             where: {
@@ -70,9 +66,8 @@ export class UserDao
         if(!result) return null
 
         return result
-    }
-
-    static async getUserIPByName(userName: string)
+    },
+    async getUserIPByName(userName: string)
     {
         const result = await prisma.user.findFirst({
             where: {
@@ -86,9 +81,8 @@ export class UserDao
         if(!result) return null
 
         return result
-    }
-
-    static async getUserIdByUsername(userName: string)
+    },
+    async getUserIdByUsername(userName: string)
     {
         const result = await prisma.user.findFirst({
             where: { username: userName },
@@ -100,9 +94,8 @@ export class UserDao
         if(!result) return null
 
         return result
-    }
-
-    static async getAllUsersByIp(
+    },
+    async getAllUsersByIp(
         IP: string,
     )
     {
@@ -119,9 +112,8 @@ export class UserDao
         if(!results) return []
 
         return results
-    }
-
-    static async updateBan(name: string, banned: boolean)
+    },
+    async updateBan(name: string, banned: boolean)
     {
         await prisma.user.update({
             where: { username: name },

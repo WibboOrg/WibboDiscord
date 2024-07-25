@@ -1,14 +1,14 @@
-import { TradeLogDao } from '../../../database/daos/TradeLogDao'
+import { tradeLogDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 5,
     channelName: 'logs_troc',
-    getLastId: async () => await TradeLogDao.getLastId(),
+    getLastId: async () => await tradeLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await TradeLogDao.loadLastLog(lastId)
+        const rows = await tradeLogDao.loadLastLog(lastId)
 
         if(!rows) return
 

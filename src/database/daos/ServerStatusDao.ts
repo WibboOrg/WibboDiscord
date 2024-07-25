@@ -1,8 +1,7 @@
 import { prisma } from '../prisma-client'
 
-export class ServerStatusDao
-{
-    static async getUserOnline(): Promise<number>
+export const serverStatusDao = {
+    async getUserOnline(): Promise<number>
     {
         const result = await prisma.emulatorStatus.findFirst()
 

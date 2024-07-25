@@ -1,14 +1,14 @@
-import { StaffLogDao } from '../../../database/daos/StaffLogDao'
+import { staffLogDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 10,
     channelName: 'logs_administration',
-    getLastId: async () => await StaffLogDao.getLastId(),
+    getLastId: async () => await staffLogDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await StaffLogDao.loadLastLog(lastId)
+        const rows = await staffLogDao.loadLastLog(lastId)
 
         if(!rows) return
 

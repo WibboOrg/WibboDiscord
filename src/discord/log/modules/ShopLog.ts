@@ -1,14 +1,14 @@
-import { LogShopDao } from '../../../database/daos/LogShopDao'
+import { logShopDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
 export default {
     seconds: 10,
     channelName: 'logs_boutique',
-    getLastId: async () => LogShopDao.getLastId(),
+    getLastId: async () => logShopDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await LogShopDao.loadLastLog(lastId)
+        const rows = await logShopDao.loadLastLog(lastId)
 
         if(!rows) return
 

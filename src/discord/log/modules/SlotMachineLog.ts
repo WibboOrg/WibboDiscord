@@ -1,14 +1,14 @@
-import { LogSlotMachineDao } from '../../../database/daos/LogSlotMachineDao'
+import { logSlotMachineDao } from '../../../database/daos'
 import { getTime } from '../../utils'
 import { ILog } from '../../types'
 
 export default {
     seconds: 10,
     channelName: 'logs_slotmachine',
-    getLastId: async () => await LogSlotMachineDao.getLastId(),
+    getLastId: async () => await logSlotMachineDao.getLastId(),
 
     rawLogs: async (lastId: number) => {
-        const rows = await LogSlotMachineDao.loadLastLog(lastId)
+        const rows = await logSlotMachineDao.loadLastLog(lastId)
 
         if(!rows) return
 
