@@ -1,4 +1,4 @@
-import { chatLogDao } from '../../../database/daos/ChatLogDao'
+import { chatLogDao } from '../../../database/daos'
 import { ILog } from '../../types'
 import { getTime } from '../../utils'
 
