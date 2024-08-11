@@ -33,7 +33,7 @@ export default {
             banDao.expireBan(row.username, row.ipLast!, timestamp)
             userDao.updateBan(row.username, false)
 
-            message.reply(`Débannissement générale de ${username} !`)
+            message.reply(`Débannissement de ${username} !`)
         }
         catch (e)
         {

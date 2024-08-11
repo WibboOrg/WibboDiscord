@@ -8,5 +8,7 @@ export default {
     parse: async (message: Message, parts: string[]) => {
         message.reply('Pong !')
         message.reply('Alors on se fait ce ping-pong ?')
+        message.reply('Répondez-moi?')
+        message.reply('Né(e) pour faire chier le monde')
     }
 } satisfies ICommand
